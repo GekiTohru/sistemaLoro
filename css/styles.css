@@ -1,0 +1,163 @@
+#logo{
+    width: 250px;
+    height: 125px;
+}
+
+#hola{
+    color: blue;
+}
+
+#accesorios {
+    text-align: center; /* Centra el contenido del div */
+    width: 170px;
+  }
+  
+  #accesorios label {
+    display: flex;
+  }
+  #accesorios input[type="checkbox"] {
+    cursor: pointer; /* Cambia el cursor para indicar que se puede hacer clic */
+  }
+  
+  #accesorios input[type="checkbox"] {
+    margin: 0; /* Quita el margen para que no se desplace el checkbox */
+    display: inline-block; /* Muestra el checkbox junto al texto */
+    width: 17px; /* Establece un ancho fijo para el checkbox */
+    height: 17px; /* Establece un alto fijo para el checkbox */
+  }
+  
+  #accesorios input[type="checkbox"] + label {
+    margin-left: 5px; /* Agrega un espacio entre el checkbox y el texto */
+  }
+  
+  /* Estilos generales */
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+header {
+  background-color: greenyellow;
+  color: #fff;
+  padding: 10px 0;
+  text-align: center;
+}
+
+.users-table {
+  width: 80%;
+  margin: 20px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.users-form {
+  text-align: center;
+}
+
+.users-form h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Estilos para el formulario */
+.users-form form {
+  display: inline-block;
+  text-align: left;
+  margin: 0 auto;
+  width: 90%; /* Ajusta el ancho del formulario */
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.users-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+.users-form input[type="text"],
+.users-form input[type="date"],
+.users-form select,
+.users-form input[type="email"],
+.users-form input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+/* Estilos para los checkboxes */
+.users-form label input[type="checkbox"] {
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+/* Estilos para el botón */
+.users-form input[type="submit"] {
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+}
+
+.users-form input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+/* Estilos para el select */
+.users-form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.users-form select::-ms-expand {
+  display: none;
+}
+
+.users-form select:focus {
+  outline: none;
+  border-color: #4CAF50;
+}
+
+.inputs {
+  width: 150px;
+  margin: 10px;
+}
+.inputs input[type="text"], .inputs select {
+  display: inline-block;
+  width: 150px; /* ajusta el ancho según sea necesario */
+  margin-right: 10px;
+}
+
+.accesorioscheck label {
+  /* estilos para los labels */
+  display: block;
+  margin-bottom: 25px;
+  width: 250px;
+}
+
+
+.accesorioscheck input[type="checkbox"] {
+  /* estilos para los inputs de tipo checkbox */
+  margin-right: 10px;
+}
+
+.nopoint{
+  pointer-events: none;
+}
