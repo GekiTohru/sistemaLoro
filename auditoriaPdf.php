@@ -15,7 +15,10 @@ INNER JOIN cargo_ruta ON personal.id_cargoruta = cargo_ruta.id_cargoruta
 INNER JOIN area ON personal.id_area = area.id_area
 WHERE telefonos.id_telefono = $id_telefono";
 
+
+
 $query = mysqli_query($conexion, $sql);
+
 $telefonos = [];
 while ($row = mysqli_fetch_assoc($query)) {
   $telefonos[] = $row;
@@ -37,6 +40,8 @@ foreach ($usuariosPorTelefono as $idTelefono => $usuarios) {
       return $row['id'] == $idTelefono;
     }));
     $asignadoA = implode('/', $usuarios);
+
+$apps = explode(',', $row['app_conf']); // explode convierte la cadena en un arreglo
 
 $pdf = new FPDF();
 $pdf->AddPage();
@@ -82,49 +87,64 @@ $pdf->SetLineWidth(0.5);
 $pdf->Cell(30, 10, 'Accesorios', 1, 0, 'L', true);
 $pdf->Cell(50, 10, 'ESTADO', 1, 0, 'C', true);
 $pdf->Cell(10, 10, '', 0);
-$pdf->Cell(50, 10, 'APPS', 1, 0, 'C', true);
-$pdf->Cell(50, 10, 'INSTALADAS', 1, 1, 'C', true);
-
+$pdf->Cell(50, 10, 'APPS INSTALADAS', 1, 1, 'C', true);
+//f (isset($row['forro']) && $row['forro'] != '') {
+ // $pdf->Cell(30, 10, 'Forro', 1, 0, 'L');
+  //$pdf->Cell(50, 10, $row['forro'], 1, 0, 'C');
+//}
 // Data
+foreach ($apps as $app) {
+  switch ($app) {
+      case 'whatsapp':
+          $pdf->SetX(100);
+          $pdf->Cell(50, 10, 'WHATSAPP', 1, 1, 'C');
+          break;
+      case 'gmail':
+          $pdf->SetX(100);
+          $pdf->Cell(50, 10, 'GMAIL', 1, 1, 'C');
+          break;
+      case 'adn':
+          $pdf->SetX(100);
+          $pdf->Cell(50, 10, 'ADN', 1, 1, 'C');
+          break;
+      case 'facebook':
+          $pdf->SetX(100);
+          $pdf->Cell(50, 10, 'FACEBOOK', 1, 1, 'C');
+          break;
+      case 'instagram':
+          $pdf->SetX(100);
+          $pdf->Cell(50, 10, 'INSTAGRAM', 1, 1, 'C');
+          break;
+      case 'netflix':
+          $pdf->SetX(100);
+          $pdf->Cell(50, 10, 'NETFLIX', 1, 1, 'C');
+          break;
+      case 'youtube':
+          $pdf->SetX(100);
+          $pdf->Cell(50, 10, 'YOUTUBE', 1, 1, 'C');
+          break;
+  }
+}
+
+$pdf->SetX(10);
+$pdf->SetY(100);
 $pdf->Cell(30, 10, 'Forro', 1, 0, 'L');
-$pdf->Cell(50, 10, $row['forro'], 1, 0, 'C');
-$pdf->Cell(10, 10, '', 0);
-$pdf->Cell(50, 10, 'WHATSAPP', 1, 0, 'C');
-$pdf->Cell(50, 10, 'Buen estado', 1, 1, 'C');
+$pdf->Cell(50, 10, $row['forro'], 1, 1, 'C');
 
 $pdf->Cell(30, 10, 'Vidrio Templado', 1, 0, 'L');
-$pdf->Cell(50, 10, $row['vidrio'], 1, 0, 'C');
-$pdf->Cell(10, 10, '', 0);
-$pdf->Cell(50, 10, 'GMAIL', 1, 0, 'C');
-$pdf->Cell(50, 10, 'Buen estado', 1, 1, 'C');
+$pdf->Cell(50, 10, $row['vidrio'], 1, 1, 'C');
 
 $pdf->Cell(30, 10, 'Cargador', 1, 0, 'L');
-$pdf->Cell(50, 10, $row['cargador'], 1, 0, 'C');
-$pdf->Cell(10, 10, '', 0);
-$pdf->Cell(50, 10, 'FACEBOOK', 1, 0, 'C');
-$pdf->Cell(50, 10, 'Buen estado', 1, 1, 'C');
+$pdf->Cell(50, 10, $row['cargador'], 1, 1, 'C');
 
 $pdf->Cell(30, 10, 'Cable USB', 1, 0, 'L');
-$pdf->Cell(50, 10, $row['cable_usb'], 1, 0, 'C');
-$pdf->Cell(10, 10, '', 0);
-$pdf->Cell(50, 10, 'INSTAGRAM', 1, 0, 'C');
-$pdf->Cell(50, 10, 'Buen estado', 1, 1, 'C');
+$pdf->Cell(50, 10, $row['cable_usb'], 1, 1, 'C');
 
 $pdf->Cell(30, 10, iconv('UTF-8', 'ISO-8859-1', 'Cámara'), 1, 0, 'L');
-$pdf->Cell(50, 10, $row['camara'], 1, 0, 'C');
-$pdf->Cell(10, 10, '', 0);
-$pdf->Cell(50, 10, 'NETFLIX', 1, 0, 'C');
-$pdf->Cell(50, 10, 'Buen estado', 1, 1, 'C');
+$pdf->Cell(50, 10, $row['camara'], 1, 1, 'C');
 
 $pdf->Cell(30, 10, 'Adaptador', 1, 0, 'L');
-$pdf->Cell(50, 10, $row['adaptador'], 1, 0, 'C');
-$pdf->Cell(10, 10, '', 0);
-$pdf->Cell(50, 10, 'YOUTUBE', 1, 0, 'C');
-$pdf->Cell(50, 10, 'Buen estado', 1, 1, 'C');
-
-$pdf->Cell(90, 10, '', 0);
-$pdf->Cell(50, 10, 'OTRO', 1, 0, 'C');
-$pdf->Cell(50, 10, 'Buen estado', 1, 1, 'C');
+$pdf->Cell(50, 10, $row['adaptador'], 1, 1, 'C');
 
 $pdf->Ln(5);
 $pdf->SetFont('Arial', 'B', 10);
@@ -132,17 +152,26 @@ $pdf->Cell(20, 10, 'Configuraciones', 0, 0, 'L');
 $pdf->Ln(10);
 $pdf->SetFont('Arial', '', 10);
 $pdf->Cell(35, 10, iconv('UTF-8', 'ISO-8859-1', 'Ubicación'), 1, 0, 'C');
-$pdf->Cell(20, 10, iconv('UTF-8', 'ISO-8859-1', 'Sí'), 1, 1, 'C');
+if (isset($apps) && in_array('ubicacion', $apps)) {
+  $pdf->Cell(20, 10, iconv('UTF-8', 'ISO-8859-1', 'Activo'), 1, 1, 'C');
+} else {
+  $pdf->Cell(20, 10, iconv('UTF-8', 'ISO-8859-1', 'Inactivo'), 1, 1, 'C');
+}
 $pdf->Cell(35, 10, 'Tema por defecto', 1, 0, 'C');
-$pdf->Cell(20, 10, iconv('UTF-8', 'ISO-8859-1', 'Sí'), 1, 1, 'C');
+if (isset($apps) && in_array('tema por defecto', $apps)) {
+  $pdf->Cell(20, 10, iconv('UTF-8', 'ISO-8859-1', 'Sí'), 1, 1, 'C');
+}else{
+  $pdf->Cell(20, 10, iconv('UTF-8', 'ISO-8859-1', 'No'), 1, 1, 'C');
+}
 $pdf->Cell(35, 10, 'Consumo de datos', 1, 0, 'C');
-$pdf->Cell(20, 10, iconv('UTF-8', 'ISO-8859-1', 'Sí'), 1, 1, 'C');
+$pdf->Cell(20, 10,$row['consumo_datos'], 1, 1, 'C');
 
 
 // Observations
 $pdf->Ln(10);
 $pdf->Cell(20, 10, 'Observaciones:', 0, 0, 'L');
-$pdf->Cell(60, 10, 'Accesorios en buen estado.', 0, 0, 'C');
+$pdf->SetX(36);
+$pdf->Cell(30, 10, iconv('UTF-8', 'ISO-8859-1', $row['nota']), 0, 0, 'L');
 $pdf->Ln(20);
 $pdf->SetLineWidth(0.5); // Establecer el ancho de la línea en 0.5 puntos
 $pdf->Line(10, 265, 45, 265); 

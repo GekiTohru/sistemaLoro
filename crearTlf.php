@@ -176,8 +176,20 @@ $row=mysqli_fetch_array($query3);
                 <input type="text" name="imei2" id="imei2" placeholder="Ingrese el IMEI 2" value="">
                 </div>
                 <div class="inputs">
+                <label for="imei1">IMEI ADN</label>
+                <input type="text" name="imei_adn" id="imei_adn" placeholder="Ingrese el IMEI ADN" value="">
+                </div>
+                <div class="inputs">
                 <label for="serial">Serial</label>
                 <input type="text" name="serial" id="serial" placeholder="Ingrese el serial" value="">
+                </div>
+                <div class="inputs">
+                <label for="imei1">MAC LAN</label>
+                <input type="text" name="mac_lan" id="mac_lan" placeholder="Ingrese la MAC LAN" value="">
+                </div>
+                <div class="inputs">
+                <label for="imei1">MAC WIFI</label>
+                <input type="text" name="mac_wifi" id="mac_wifi" placeholder="Ingrese la MAC WIFI" value="">
                 </div>
                 <div class="inputs">
                 <label for="numero">Número telefónico</label>
@@ -219,11 +231,7 @@ $row=mysqli_fetch_array($query3);
                 <label for="precio">Precio</label>
                 <input type="text" name="precio" id="precio" placeholder="Ingrese el precio" value="">
                 </div>
-                <div class="inputs">
-                <label for="nota">Nota</label>
-                <input type="text" name="nota" id="nota" placeholder="Ingrese una nota" value="">
-                </div>
-                <div class="inputs" style="width: 350px">
+                <div class="inputs" style="width: 225px">
                 <label for="almacenamiento-num" style="width: 200px">Almacenamiento ocupado</label>
 <input type="text" id="almacenamiento-num" style="width: 130px; margin-right: -3px" placeholder="Almacenamiento">
 <select id="unidad" style="width: 80px">
@@ -231,8 +239,21 @@ $row=mysqli_fetch_array($query3);
   <option value="MB">MB</option>
 </select>
 </div>
+<div class="inputs" style="width: 600px">
+                <label for="consumo" style="width: 200px">Consumo de datos</label>
+<input type="text" id="consumo" style="width: 130px; margin-right: -3px" placeholder="Consumo">
+<select id="unidad1" style="width: 80px">
+  <option value="GB">GB</option>
+  <option value="MB">MB</option>
+</select>
+</div>
+<div class="inputs" style="width: 600px">
+                <label for="nota">Observación</label>
+                <textarea style="width: 1000px; height: 200px" type="text" name="nota" id="nota" placeholder="Mantiene la configuración inicial." value="<?= $row0['nota']?>"></textarea>
+                </div>
 </div>
 <input type="hidden" name="almacenamiento" id="almacenamiento-hidden">
+<input type="hidden" name="consumo_datos" id="consumo-hidden">
 
 <script>
   const almacenamientoNum = document.getElementById('almacenamiento-num');
@@ -244,6 +265,19 @@ $row=mysqli_fetch_array($query3);
     const unidad = unidadSelect.value;
     const almacenamientoCompleto = `${valor} ${unidad}`;
     almacenamientoHidden.value = almacenamientoCompleto;
+  });
+</script>
+
+<script>
+  const consumo = document.getElementById('consumo');
+  const unidadSelect = document.getElementById('unidad1');
+  const consumoHidden = document.getElementById('consumo-hidden');
+
+  consumo.addEventListener('input', () => {
+    const valor = consumo.value;
+    const unidad = unidadSelect.value;
+    const consumoCompleto = `${valor} ${unidad}`;
+    consumoHidden.value = consumoCompleto;
   });
 </script>
                 <div id="statuses" style="display: flex; flex-wrap: wrap;">

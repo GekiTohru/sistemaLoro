@@ -10,8 +10,7 @@
     INNER JOIN personal ON tlf_asignado.id_personal = personal.id_personal
     INNER JOIN cargo_ruta ON personal.id_cargoruta = cargo_ruta.id_cargoruta
     INNER JOIN area ON personal.id_area = area.id_area
-    WHERE telefonos.activo = 1
-    ORDER BY `telefonos`.`id_telefono` ASC";
+    WHERE telefonos.id_telefono = $id_telefono";
 
     $sql2="SELECT * FROM modelo_marca";
     $sql3="SELECT * FROM telefonos";
@@ -22,6 +21,7 @@
     $sql8="SELECT * FROM operadora";
     $sql9="SELECT * FROM sucursal";
 
+$query0 = mysqli_query($conexion, $sql);
 $query2 = mysqli_query($conexion, $sql2);
 $query3 = mysqli_query($conexion, $sql3);
 $query4 = mysqli_query($conexion, $sql4);
@@ -30,7 +30,14 @@ $query6 = mysqli_query($conexion, $sql6);
 $query7 = mysqli_query($conexion, $sql7);
 $query8 = mysqli_query($conexion, $sql8);
 $query9 = mysqli_query($conexion, $sql9);
-$row=mysqli_fetch_array($query3);
+
+$row0 = mysqli_fetch_assoc($query0);
+$id_modelo_seleccionado = $row0['id_modelo'];
+$id_sisver_seleccionado = $row0['id_sisver'];
+$id_operadora_seleccionado = $row0['id_operadora'];
+$id_sucursal_seleccionado = $row0['id_sucursal'];
+
+$accesorios = explode(',', $row0['accesorios']);
 ?>
 <html lang="en">
 <head>
@@ -94,61 +101,19 @@ $row=mysqli_fetch_array($query3);
 </style>
         <div class="users-form">
         <h2>Editar</h2>
-            <form action="editarTlfFuncion.php" method="POST">
-                <input type="hidden" name="id_telefono" value="<?= $row['id_telefono']?>">
-                <input type="date" name="fecha_recep" value="<?= $row['fecha_recep']?>">
-                <select name="vidrio" id="vidrio">
-                <option value="BUENO">BUENO</option>
-                <option value="DAÑADO">DAÑADO</option>
-                <option value="PARTIDO">PARTIDO</option>
-                <option value="RAYADO">RAYADO</option>
-                <option value="NO TIENE">NO TIENE</option>
-                <option value="OTRO">OTRO</option>
-                </select>
-                <input type="checkbox" id="dummy" name="accesorios[]" required style="display:none">
-                <div id="accesorios">
-  <label>Seleccione los valores:</label>
-  <label><input type="checkbox" id="cabezal-cargador" name="accesorios[]" value="cabezal cargador"> Cabezal cargador</label>
-  <label><input type="checkbox" id="adaptador" name="accesorios[]" value="adaptador"> Adaptador</label>
-  <label><input type="checkbox" id="cable-usb" name="accesorios[]" value="cable usb"> Cable USB</label>
-  <label><input type="checkbox" id="forro" name="accesorios[]" value="forro"> Forro</label>
-  <label><input type="checkbox" id="vidrio-templado" name="accesorios[]" value="vidrio templado"> Vidrio templado</label>
-  <label><input type="checkbox" id="hidrogel" name="accesorios[]" value="hidrogel"> Hidrogel</label>
-  <label><input type="checkbox" id="estuche" name="accesorios[]" value="estuche"> Estuche</label>
-</div>
-                <script>
-                const checkboxes = Array.from(document.querySelectorAll('input[type="checkbox"][name="accesorios[]"]'));
-                const dummy = document.getElementById('dummy');
-
-                checkboxes.forEach((checkbox) => {
-                    checkbox.addEventListener('change', () => {
-                    if (checkboxes.some((cb) => cb.checked)) {
-                        dummy.checked = true;
-                    } else {
-                        dummy.checked = false;
-                    }
-                    });
-                });
-                </script>
-
-                <input type="submit" value="Actualizar">
-            </form>
-        </div>
-        <div class="users-form">
-        <h2>Editar</h2>
             <form id="nuevo" action="editarTlfFuncion.php" method="POST">
                 <div id="fechas" style="display: flex">
                 <div style="margin: 10px">
                 <label for="fecha_recep" style="width: 210px;">Fecha de recepción</label>
-                <input type="date" name="fecha_recep" id="fecha_recep" style="width: 200px" value="<?= $row['fecha_recep']?>">
+                <input type="date" name="fecha_recep" id="fecha_recep" style="width: 200px" value="<?= $row0['fecha_recep']?>">
                 </div>
                 <div style="margin: 10px">
-                <label for="fecha_recep" style="width: 210px">Fecha del últ. mant.</label>
-                <input type="date" name="fecha_ult_mant" id="fecha_recep" style="width: 200px" value="<?= $row['fecha_ult_mant']?>">
+                <label for="fecha_ult_mant" style="width: 210px">Fecha del últ. mant.</label>
+                <input type="date" name="fecha_ult_mant" id="fecha_ult_mant" style="width: 200px" value="<?= $row0['fecha_ult_mant']?>">
                 </div>
                 <div style="margin: 10px">
-                <label for="fecha_recep" style="width: 210px">Fecha de la última revisión</label>
-                <input type="date" name="fecha_ult_rev" id="fecha_recep" style="width: 200px" value="<?= $row['fecha_ult_rev']?>">
+                <label for="fecha_ult_rev" style="width: 210px">Fecha de la última revisión</label>
+                <input type="date" name="fecha_ult_rev" id="fecha_recep" style="width: 200px" value="<?= $row0['fecha_ult_rev']?>">
                 </div>
                 </div>
                 <div style="display: flex; flex-wrap: wrap">
@@ -156,10 +121,10 @@ $row=mysqli_fetch_array($query3);
                 <div style="margin: 10px; margin-right: 100px">
                 <label for="modelo">Modelo</label>
                 <select id="modelo" name="modelo" style="width: 200px" data-placeholder="Seleccione un modelo" required>
-                <option value="">Seleccione un modelo</option>
                 <?php
                 while ($row = mysqli_fetch_assoc($query2)) {
-                    echo "<option value='{$row['id_modelo']}'>{$row['nombre']}</option>";
+                    $selected = ($row['id_modelo'] == $id_modelo_seleccionado)? 'selected' : '';
+                    echo "<option value='{$row['id_modelo']}' $selected>{$row['nombre']}</option>";
                 }
                 ?>
                 </select>
@@ -177,20 +142,20 @@ $row=mysqli_fetch_array($query3);
                 <div style="margin: 10px">
                 <label for="sisver">Versión del sistema</label>
                 <select name="sisver" id="sisver" style="width: 200px" data-placeholder="Seleccione una versión">
-                <option value="">Seleccione una versión</option>
                 <?php
-                while ($row = mysqli_fetch_assoc($query7)) {     
-                    echo "<option value='{$row['id_sisver']}'>{$row['nombre']}</option>";
+                while ($row = mysqli_fetch_assoc($query7)) {
+                    $selected = ($row['id_sisver'] == $id_sisver_seleccionado)? 'selected' : '';
+                    echo "<option value='{$row['id_sisver']}' $selected>{$row['nombre']}</option>";
                 }
                 ?></select>
                 </div>
                 <div style="margin: 10px">
                 <label for="operadora">Operadora</label>
                 <select name="operadora" id="operadora" style="width: 200px" data-placeholder="Seleccione una operadora">
-                <option value="">Seleccione una operadora</option>
                 <?php
-                while ($row = mysqli_fetch_assoc($query8)) {     
-                    echo "<option value='{$row['id_operadora']}'>{$row['nombre']}</option>";
+                while ($row = mysqli_fetch_assoc($query8)) {
+                    $selected = ($row['id_operadora'] == $id_operadora_seleccionado)? 'selected' : '';
+                    echo "<option value='{$row['id_operadora']}' $selected>{$row['nombre']}</option>";
                 }
                 ?></select>
                 </div>
@@ -199,8 +164,9 @@ $row=mysqli_fetch_array($query3);
                 <select name="sucursal" id="sucursal" style="width: 200px" data-placeholder="Seleccione la sucursal">
                 <option value="">Seleccione la sucursal</option>
                 <?php
-                while ($row = mysqli_fetch_assoc($query9)) {     
-                    echo "<option value='{$row['id_sucursal']}'>{$row['nombre']}</option>";
+                while ($row = mysqli_fetch_assoc($query9)) {
+                    $selected = ($row['id_sucursal'] == $id_sucursal_seleccionado)? 'selected' : '';
+                    echo "<option value='{$row['id_sucursal']}' $selected>{$row['nombre']}</option>";
                 }
                 ?></select>
                 </div>
@@ -209,74 +175,82 @@ $row=mysqli_fetch_array($query3);
                 <div>
                 <label class="nopoint" for="cabezal-cargador" style="width: 250px; height: 10px;">Seleccione los accesorios:</label><br>
                 <div class="accesorioscheck" id="accesorios">       
-                    <label><input type="checkbox" id="cabezal-cargador" name="accesorios[]" value="cabezal cargador"> Cabezal cargador</label>
-                    <label><input type="checkbox" id="adaptador1" name="accesorios[]" value="adaptador"> Adaptador</label>
-                    <label><input type="checkbox" id="cable-usb" name="accesorios[]" value="cable usb"> Cable USB</label>
-                    <label><input type="checkbox" id="forro1" name="accesorios[]" value="forro"> Forro</label>
-                    <label><input type="checkbox" id="vidrio-templado" name="accesorios[]" value="vidrio templado"> Vidrio templado</label>
-                    <label><input type="checkbox" id="hidrogel" name="accesorios[]" value="hidrogel"> Hidrogel</label>
-                    <label><input type="checkbox" id="estuche" name="accesorios[]" value="estuche"> Estuche</label>
+                <label><input type="checkbox" id="cabezal-cargador" name="accesorios[]" value="cabezal cargador" <?= in_array('cabezal cargador', $accesorios) ? 'checked' : ''; ?>> Cabezal cargador</label>
+                <label><input type="checkbox" id="adaptador1" name="accesorios[]" value="adaptador" <?= in_array('adaptador', $accesorios) ? 'checked' : ''; ?>> Adaptador</label>
+                <label><input type="checkbox" id="cable-usb" name="accesorios[]" value="cable usb" <?= in_array('cable usb', $accesorios) ? 'checked' : ''; ?>> Cable USB</label>
+                <label><input type="checkbox" id="forro1" name="accesorios[]" value="forro" <?= in_array('forro', $accesorios) ? 'checked' : ''; ?>> Forro</label>
+                <label><input type="checkbox" id="vidrio-templado" name="accesorios[]" value="vidrio templado" <?= in_array('vidrio templado', $accesorios) ? 'checked' : ''; ?>> Vidrio templado</label>
+                <label><input type="checkbox" id="hidrogel" name="accesorios[]" value="hidrogel" <?= in_array('hidrogel', $accesorios) ? 'checked' : ''; ?>> Hidrogel</label>
+                <label><input type="checkbox" id="estuche" name="accesorios[]" value="estuche" <?= in_array('estuche', $accesorios) ? 'checked' : ''; ?>> Estuche</label>
                 </div>
                 </div>
                 </div>
                 <div id="entradas" style="display: flex; flex-wrap: wrap;">
                 <div class="inputs">
                 <label for="imei1">IMEI 1</label>
-                <input type="text" name="imei1" id="imei1" placeholder="Ingrese el IMEI 1" value="">
+                <input type="text" name="imei1" id="imei1" placeholder="Ingrese el IMEI 1" value="<?= $row0['imei1']?>">
                 </div>
                 <div class="inputs">
                 <label for="imei2">IMEI 2</label>
-                <input type="text" name="imei2" id="imei2" placeholder="Ingrese el IMEI 2" value="">
+                <input type="text" name="imei2" id="imei2" placeholder="Ingrese el IMEI 2" value="<?= $row0['imei2']?>">
+                </div>
+                <div class="inputs">
+                <label for="imei1">IMEI ADN</label>
+                <input type="text" name="imei_adn" id="imei_adn" placeholder="Ingrese el IMEI ADN" value="<?= $row0['imei_adn']?>">
                 </div>
                 <div class="inputs">
                 <label for="serial">Serial</label>
-                <input type="text" name="serial" id="serial" placeholder="Ingrese el serial" value="">
+                <input type="text" name="serial" id="serial" placeholder="Ingrese el serial" value="<?= $row0['serial']?>">
+                </div>
+                <div class="inputs">
+                <label for="imei1">MAC LAN</label>
+                <input type="text" name="mac_lan" id="mac_lan" placeholder="Ingrese la MAC LAN" value="<?= $row0['mac_lan']?>">
+                </div>
+                <div class="inputs">
+                <label for="imei1">MAC WIFI</label>
+                <input type="text" name="mac_wifi" id="mac_wifi" placeholder="Ingrese la MAC WIFI" value="<?= $row0['mac_wifi']?>">
                 </div>
                 <div class="inputs">
                 <label for="numero">Número telefónico</label>
-                <input type="text" name="numero" id="numero" placeholder="Ingrese el número" value="">
+                <input type="text" name="numero" id="numero" placeholder="Ingrese el número" value="<?= $row0['numero']?>">
                 </div>
                 <div class="inputs">
                 <label for="cuenta_google">Cuenta google</label>
-                <input type="text" name="cuenta_google" id="cuenta_google" placeholder="Ingrese el correo" value="">
+                <input type="text" name="cuenta_google" id="cuenta_google" placeholder="Ingrese el correo" value="<?= $row0['cuenta_google']?>">
                 </div>
                 <div class="inputs">
                 <label for="clave_google">Clave google</label>
-                <input type="text" name="clave_google" id="clave_google" placeholder="Ingrese la clave" value="">
+                <input type="text" name="clave_google" id="clave_google" placeholder="Ingrese la clave" value="<?= $row0['clave_google']?>">
                 </div>
                 <div class="inputs">
                 <label for="correo_corporativo">Correo corporativo</label>
-                <input type="text" name="correo_corporativo" id="correo_corporativo" placeholder="Ingrese el correo" value="">
+                <input type="text" name="correo_corporativo" id="correo_corporativo" placeholder="Ingrese el correo" value="<?= $row0['correo_corporativo']?>">
                 </div>
                 <div class="inputs">
                 <label for="clave_corporativo">Clave corporativa</label>
-                <input type="text" name="clave_corporativo" id="clave_corporativo" placeholder="Ingrese la clave" value="">
+                <input type="text" name="clave_corporativo" id="clave_corporativo" placeholder="Ingrese la clave" value="<?= $row0['clave_corporativo']?>">
                 </div>
                 <div class="inputs">
                 <label for="anydesk">Código Anydesk</label>
-                <input type="text" name="anydesk" id="anydesk" placeholder="Ingrese el código" value="">
+                <input type="text" name="anydesk" id="anydesk" placeholder="Ingrese el código" value="<?= $row0['anydesk']?>">
                 </div>
                 <div class="inputs">
                 <label for="pin">Pin de desbloqueo</label>
-                <input type="text" name="pin" id="pin" placeholder="Ingrese el pin" value="">
+                <input type="text" name="pin" id="pin" placeholder="Ingrese el pin" value="<?= $row0['pin']?>">
                 </div>
                 <div class="inputs">
                 <label for="cuenta_mi">Cuenta MI</label>
-                <input type="text" name="cuenta_mi" id="cuenta_mi" placeholder="Ingrese la cuenta MI" value="">
+                <input type="text" name="cuenta_mi" id="cuenta_mi" placeholder="Ingrese la cuenta MI" value="<?= $row0['cuenta_mi']?>">
                 </div>
                 <div class="inputs">
                 <label for="clave_mi">Clave MI</label>
-                <input type="text" name="clave_mi" id="clave_mi" placeholder="Ingrese la clave MI" value="">
+                <input type="text" name="clave_mi" id="clave_mi" placeholder="Ingrese la clave MI" value="<?= $row0['clave_mi']?>">
                 </div>
                 <div class="inputs">
                 <label for="precio">Precio</label>
-                <input type="text" name="precio" id="precio" placeholder="Ingrese el precio" value="">
+                <input type="text" name="precio" id="precio" placeholder="Ingrese el precio" value="<?= $row0['precio']?>">
                 </div>
-                <div class="inputs">
-                <label for="nota">Nota</label>
-                <input type="text" name="nota" id="nota" placeholder="Ingrese una nota" value="">
-                </div>
-                <div class="inputs" style="width: 350px">
+                <div class="inputs" style="width: 225px">
                 <label for="almacenamiento-num" style="width: 200px">Almacenamiento ocupado</label>
 <input type="text" id="almacenamiento-num" style="width: 130px; margin-right: -3px" placeholder="Almacenamiento">
 <select id="unidad" style="width: 80px">
@@ -284,8 +258,21 @@ $row=mysqli_fetch_array($query3);
   <option value="MB">MB</option>
 </select>
 </div>
+<div class="inputs" style="width: 600px">
+                <label for="consumo" style="width: 200px">Consumo de datos</label>
+<input type="text" id="consumo" style="width: 130px; margin-right: -3px" placeholder="Consumo">
+<select id="unidad1" style="width: 80px">
+  <option value="GB">GB</option>
+  <option value="MB">MB</option>
+</select>
+</div>
+<div class="inputs" style="width: 600px">
+                <label for="nota">Observación</label>
+                <textarea style="width: 1000px; height: 200px" type="text" name="nota" id="nota" placeholder="Mantiene la configuración inicial." value="<?= $row0['nota']?>"></textarea>
+                </div>
 </div>
 <input type="hidden" name="almacenamiento" id="almacenamiento-hidden">
+<input type="hidden" name="consumo_datos" id="consumo-hidden">
 
 <script>
   const almacenamientoNum = document.getElementById('almacenamiento-num');
@@ -297,6 +284,19 @@ $row=mysqli_fetch_array($query3);
     const unidad = unidadSelect.value;
     const almacenamientoCompleto = `${valor} ${unidad}`;
     almacenamientoHidden.value = almacenamientoCompleto;
+  });
+</script>
+
+<script>
+  const consumo = document.getElementById('consumo');
+  const unidadSelect = document.getElementById('unidad1');
+  const consumoHidden = document.getElementById('consumo-hidden');
+
+  consumo.addEventListener('input', () => {
+    const valor = consumo.value;
+    const unidad = unidadSelect.value;
+    const consumoCompleto = `${valor} ${unidad}`;
+    consumoHidden.value = consumoCompleto;
   });
 </script>
                 <div id="statuses" style="display: flex; flex-wrap: wrap;">
