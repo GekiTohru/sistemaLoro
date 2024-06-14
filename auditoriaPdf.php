@@ -1,19 +1,24 @@
 <?php
+session_start();
 
+if (!isset($_SESSION['user'])) {
+    header("Location: login.php?error=not_logged_in");
+    exit();
+}
 include("conexion.php");
 require('fpdf/fpdf.php');
 $id_telefono=$_GET['id'];
 
 
-$sql = "SELECT telefonos.*, telefonos.id_telefono AS id, modelo_marca.nombre AS modelo, modelo_marca.ram AS ram, modelo_marca.rom AS rom, marca.nombre AS marca, personal.nombre AS asignado, cargo_ruta.nombre AS cargo, area.nombre AS area
-FROM telefonos
-INNER JOIN modelo_marca ON telefonos.id_modelo = modelo_marca.id_modelo
-INNER JOIN marca ON modelo_marca.id_marca = marca.id_marca
-INNER JOIN tlf_asignado ON telefonos.id_telefono = tlf_asignado.id_telefono
-INNER JOIN personal ON tlf_asignado.id_personal = personal.id_personal
-INNER JOIN cargo_ruta ON personal.id_cargoruta = cargo_ruta.id_cargoruta
-INNER JOIN area ON personal.id_area = area.id_area
-WHERE telefonos.id_telefono = $id_telefono";
+$sql="SELECT telefonos.*, telefonos.id_telefono AS id, modelo_marca.nombre AS modelo, marca.nombre AS marca, personal.nombre AS asignado, cargo_ruta.nombre AS cargo, area.nombre AS area
+    FROM telefonos
+    INNER JOIN modelo_marca ON telefonos.id_modelo = modelo_marca.id_modelo
+    INNER JOIN marca ON modelo_marca.id_marca = marca.id_marca
+    LEFT JOIN tlf_asignado ON telefonos.id_telefono = tlf_asignado.id_telefono
+    LEFT JOIN personal ON tlf_asignado.id_personal = personal.id_personal
+    LEFT JOIN cargo_ruta ON personal.id_cargoruta = cargo_ruta.id_cargoruta
+    LEFT JOIN area ON personal.id_area = area.id_area
+    WHERE telefonos.id_telefono = $id_telefono AND tlf_asignado.activo = 1"; 
 
 
 
@@ -52,7 +57,7 @@ $pdf->Image('img/logo.png', 10, 10, 30, 20);
 
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(150);
-$pdf->Cell(30, 10, '10/6/2024', 0, 0, 'R');
+$pdf->Cell(30, 10, date('d/m/Y'), 0, 0, 'R');
 $pdf->SetFont('Arial', 'B', 12);
 // Move to the right
 $pdf->Cell(80);
@@ -68,7 +73,7 @@ $pdf->Cell(15, 10, 'Modelo:', 0, 0, 'L');
 $pdf->Cell(20, 10,$row['marca'].' '.$row['modelo'], 0, 0, 'L');
 $pdf->Ln(5);
 $pdf->Cell(15, 10, 'Usuario:', 0, 0, 'L');
-$pdf->Cell(20, 10,$asignadoA, 0, 0, 'L');
+$pdf->Cell(20, 10,iconv('UTF-8', 'ISO-8859-1', $asignadoA), 0, 0, 'L');
 $pdf->Ln(5);
 $pdf->Cell(15, 10, 'Cargo:', 0, 0, 'L');
 $pdf->Cell(20, 10,$row['cargo'], 0, 0, 'L');
@@ -129,22 +134,25 @@ foreach ($apps as $app) {
 $pdf->SetX(10);
 $pdf->SetY(100);
 $pdf->Cell(30, 10, 'Forro', 1, 0, 'L');
-$pdf->Cell(50, 10, $row['forro'], 1, 1, 'C');
+$pdf->Cell(50, 10, iconv('UTF-8', 'ISO-8859-1', $row['forro']), 1, 1, 'C');
 
 $pdf->Cell(30, 10, 'Vidrio Templado', 1, 0, 'L');
-$pdf->Cell(50, 10, $row['vidrio'], 1, 1, 'C');
+$pdf->Cell(50, 10, iconv('UTF-8', 'ISO-8859-1', $row['vidrio']), 1, 1, 'C');
+
+$pdf->Cell(30, 10, 'Pantalla', 1, 0, 'L');
+$pdf->Cell(50, 10, iconv('UTF-8', 'ISO-8859-1', $row['pantalla']), 1, 1, 'C');
 
 $pdf->Cell(30, 10, 'Cargador', 1, 0, 'L');
-$pdf->Cell(50, 10, $row['cargador'], 1, 1, 'C');
+$pdf->Cell(50, 10, iconv('UTF-8', 'ISO-8859-1', $row['cargador']), 1, 1, 'C');
 
 $pdf->Cell(30, 10, 'Cable USB', 1, 0, 'L');
-$pdf->Cell(50, 10, $row['cable_usb'], 1, 1, 'C');
+$pdf->Cell(50, 10, iconv('UTF-8', 'ISO-8859-1', $row['cable_usb']), 1, 1, 'C');
 
 $pdf->Cell(30, 10, iconv('UTF-8', 'ISO-8859-1', 'Cámara'), 1, 0, 'L');
-$pdf->Cell(50, 10, $row['camara'], 1, 1, 'C');
+$pdf->Cell(50, 10, iconv('UTF-8', 'ISO-8859-1', $row['camara']), 1, 1, 'C');
 
 $pdf->Cell(30, 10, 'Adaptador', 1, 0, 'L');
-$pdf->Cell(50, 10, $row['adaptador'], 1, 1, 'C');
+$pdf->Cell(50, 10, iconv('UTF-8', 'ISO-8859-1', $row['adaptador']), 1, 1, 'C');
 
 $pdf->Ln(5);
 $pdf->SetFont('Arial', 'B', 10);
@@ -169,9 +177,7 @@ $pdf->Cell(20, 10,$row['consumo_datos'], 1, 1, 'C');
 
 // Observations
 $pdf->Ln(10);
-$pdf->Cell(20, 10, 'Observaciones:', 0, 0, 'L');
-$pdf->SetX(36);
-$pdf->Cell(30, 10, iconv('UTF-8', 'ISO-8859-1', $row['nota']), 0, 0, 'L');
+$pdf->MultiCell(0, 10, iconv('UTF-8', 'ISO-8859-1', 'Observaciones:'.' '.$row['nota']), 0, 'L');
 $pdf->Ln(20);
 $pdf->SetLineWidth(0.5); // Establecer el ancho de la línea en 0.5 puntos
 $pdf->Line(10, 265, 45, 265); 

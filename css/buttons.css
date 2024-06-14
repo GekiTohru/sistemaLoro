@@ -2,8 +2,8 @@
 @import url("https://fonts.googleapis.com/css?family=Ubuntu");
 button.icon-slide-left, button.icon-slide-right, button.increase-letter-space, button.flip-horizontal, button.flip-vertical, button.skew-vertical, button.skew-horizontal, button.button-rotate-shrink, button.button-rotate-grow, button.button-rotate, button.float-right, button.float-left, button.float-up, button.float-down, button.scale-decrease, button.scale-increase, button.shadow-decrease, button.shadow-increase, button.shadow-float, button.text-color, button.bg-color, button.text-blur, button.button-blur, button.grayscale-decrease, button.grayscale-increase, button.opacity-decrease, button.opacity-increase, button.bg-text-show-bg:hover, button.bg-text, button.bg-show:hover, button.bg-hide {
   color: #FFF;
-  background: greenyellow;
-  border-color: greenyellow;
+  background: blue;
+  border-color: blue;
 }
 
 button.swipe-overlay, button.swipe-overlay-out, button.border-color, button.border-text-color, button.border-dotted, button.border-dashed, button.radius-decrease, button.radius-increase, button.slide-down, button.slide-left, button.slide-right, button.slide-up, button.radial-out, button.radial-in, button.bg-text-show-border:hover, button.bg-show, button.bg-hide:hover {
@@ -280,10 +280,15 @@ button.swipe-overlay::after, button.swipe-overlay-out::after {
     left: 130%;
   }
   button.icon-slide-left::after, button.icon-slide-right::after {
-    content: "🦜";
+    content: "";
     position: absolute;
     left: -20%;
-  transition: 0.25s ease;
+    transition: 0.25s ease;
+    width: 35px; /* Ajusta el ancho de la imagen según sea necesario */
+    height: 35px; /* Ajusta la altura de la imagen según sea necesario */
+    background-image: url('../img/loro.png'); /* Reemplaza con la ruta de tu imagen */
+    background-size: cover; /* Ajusta esto según tus necesidades, por ejemplo, 'contain' o 'cover' */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
 }
 button.icon-slide-left span, button.icon-slide-right span {
   transition: 0.25s ease;

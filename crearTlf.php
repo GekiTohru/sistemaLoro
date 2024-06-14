@@ -1,4 +1,10 @@
 <?php 
+session_start();
+
+if (!isset($_SESSION['user'])) {
+    header("Location: login.php?error=not_logged_in");
+    exit();
+}
     include("conexion.php");
 
     $sql2="SELECT * FROM modelo_marca";
@@ -32,10 +38,26 @@ $row=mysqli_fetch_array($query3);
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </head>
 <header>
+<div style="height: 50px;"></div>
     <img src="img/logo.png" id="logo">
 </header>
 <body>
-<a href="index.php">hola mundo!!!</a>
+<nav class="navbar">
+        <div class="navbar-left">
+            <a href="cerrarSesion.php" class="navbtn">Salir</a>
+            <a href="lobby.php" class="navbtn">Inicio</a>
+            <a href="lobbyCrearTlf.php" class="navbtn">Añadir</a>
+            <a href="lobbyVerTlf.php" class="navbtn">Ver y editar</a>
+            <div class="dropdown">
+                 <button class="dropbtn">Gestionar</button>
+                 <div class="dropdown-content">
+                     <a href="indexTelefonos.php">Teléfonos</a>
+                     <a href="indexPc.php">Computadoras</a>
+                     <a href="indexImpresoras.php">Impresoras</a>
+                 </div>
+             </div>
+        </div>
+    </nav>
     <div class="users-table">
         <h2 style="text-align: center;">Añadir nuevo teléfono</h2>
 <style>
@@ -82,7 +104,6 @@ $row=mysqli_fetch_array($query3);
 }
 </style>
         <div class="users-form">
-        <h2>Añadir</h2>
             <form id="nuevo" action="crearTlfFuncion.php" method="POST">
                 <div id="fechas" style="display: flex">
                 <div style="margin: 10px">
@@ -91,15 +112,15 @@ $row=mysqli_fetch_array($query3);
                 </div>
                 <div style="margin: 10px">
                 <label for="fecha_recep" style="width: 210px">Fecha del últ. mant.</label>
-                <input type="date" name="fecha_ult_mant" id="fecha_recep" style="width: 200px" value="">
+                <input type="date" name="fecha_ult_mant" id="fecha_recep" style="width: 200px" value="<?= date('Y-m-d') ?>">
                 </div>
                 <div style="margin: 10px">
                 <label for="fecha_recep" style="width: 210px">Fecha de la última revisión</label>
-                <input type="date" name="fecha_ult_rev" id="fecha_recep" style="width: 200px" value="">
+                <input type="date" name="fecha_ult_rev" id="fecha_recep" style="width: 200px" value="<?= date('Y-m-d') ?>">
                 </div>
                 </div>
-                <div style="display: flex; flex-wrap: wrap">
-                <div id="selecciones" style="display: block;">
+                <div style="display: flex; flex-wrap: wrap;">
+                <div id="selecciones" style="display: block; margin-right: 75px">
                 <div style="margin: 10px; margin-right: 100px">
                 <label for="modelo">Modelo</label>
                 <select id="modelo" name="modelo" style="width: 200px" data-placeholder="Seleccione un modelo" required>
@@ -123,7 +144,7 @@ $row=mysqli_fetch_array($query3);
                 </div>
                 <div style="margin: 10px">
                 <label for="sisver">Versión del sistema</label>
-                <select name="sisver" id="sisver" style="width: 200px" data-placeholder="Seleccione una versión">
+                <select name="sisver" id="sisver" style="width: 200px" data-placeholder="Seleccione una versión" required>
                 <option value="">Seleccione una versión</option>
                 <?php
                 while ($row = mysqli_fetch_assoc($query7)) {     
@@ -153,7 +174,7 @@ $row=mysqli_fetch_array($query3);
                 </div>
                 </div>
                 <input type="checkbox" id="dummy" name="accesorios[]" required style="display:none">
-                <div>
+                <div style="margin-right: 75px">
                 <label class="nopoint" for="cabezal-cargador" style="width: 250px; height: 10px;">Seleccione los accesorios:</label><br>
                 <div class="accesorioscheck" id="accesorios">       
                     <label><input type="checkbox" id="cabezal-cargador" name="accesorios[]" value="cabezal cargador"> Cabezal cargador</label>
@@ -163,6 +184,21 @@ $row=mysqli_fetch_array($query3);
                     <label><input type="checkbox" id="vidrio-templado" name="accesorios[]" value="vidrio templado"> Vidrio templado</label>
                     <label><input type="checkbox" id="hidrogel" name="accesorios[]" value="hidrogel"> Hidrogel</label>
                     <label><input type="checkbox" id="estuche" name="accesorios[]" value="estuche"> Estuche</label>
+                </div>
+                </div>
+                <input type="checkbox" id="dummy1" name="apps_conf[]" required style="display:none">
+                <div>
+                <label class="nopoint" for="whatsapp" style="width: 300px; height: 10px;">Aplicaciones y configuración básica:</label><br>
+                <div class="accesorioscheck" id="apps_conf" style="width: 360px; height: 300px; display: flex; flex-wrap: wrap;">       
+                    <label><input type="checkbox" id="whatsapp" name="apps_conf[]" value="whatsapp">WhatsAapp</label>
+                    <label><input type="checkbox" id="gmail" name="apps_conf[]" value="gmail">Gmail</label>
+                    <label><input type="checkbox" id="adn" name="apps_conf[]" value="adn">ADN</label>
+                    <label><input type="checkbox" id="facebook" name="apps_conf[]" value="facebook">Facebook</label>
+                    <label><input type="checkbox" id="instagram" name="apps_conf[]" value="instagram">Instagram</label>
+                    <label><input type="checkbox" id="netflix" name="apps_conf[]" value="netflix">Netflix</label>
+                    <label><input type="checkbox" id="youtube" name="apps_conf[]" value="youtube">Youtube</label>
+                    <label><input type="checkbox" id="ubicacion" name="apps_conf[]" value="ubicacion">Ubicación</label>
+                    <label><input type="checkbox" id="tema_por_defecto" name="apps_conf[]" value="tema por defecto">Tema por defecto</label>
                 </div>
                 </div>
                 </div>
@@ -176,7 +212,7 @@ $row=mysqli_fetch_array($query3);
                 <input type="text" name="imei2" id="imei2" placeholder="Ingrese el IMEI 2" value="">
                 </div>
                 <div class="inputs">
-                <label for="imei1">IMEI ADN</label>
+                <label for="imei_adn">IMEI ADN</label>
                 <input type="text" name="imei_adn" id="imei_adn" placeholder="Ingrese el IMEI ADN" value="">
                 </div>
                 <div class="inputs">
@@ -263,20 +299,20 @@ $row=mysqli_fetch_array($query3);
   almacenamientoNum.addEventListener('input', () => {
     const valor = almacenamientoNum.value;
     const unidad = unidadSelect.value;
-    const almacenamientoCompleto = `${valor} ${unidad}`;
+    const almacenamientoCompleto = `${valor}${unidad}`;
     almacenamientoHidden.value = almacenamientoCompleto;
   });
 </script>
 
 <script>
   const consumo = document.getElementById('consumo');
-  const unidadSelect = document.getElementById('unidad1');
+  const unidad1Select = document.getElementById('unidad1');
   const consumoHidden = document.getElementById('consumo-hidden');
 
   consumo.addEventListener('input', () => {
-    const valor = consumo.value;
-    const unidad = unidadSelect.value;
-    const consumoCompleto = `${valor} ${unidad}`;
+    const valor1 = consumo.value;
+    const unidad1 = unidad1Select.value;
+    const consumoCompleto = `${valor1}${unidad1}`;
     consumoHidden.value = consumoCompleto;
   });
 </script>
@@ -316,8 +352,8 @@ $row=mysqli_fetch_array($query3);
                 <select name="camara" id="camara">
                 <option value="BUENO">BUENO</option>
                 <option value="DAÑADO">DAÑADO</option>
-                <option value="PARTIDO">PARTIDO</option>
-                <option value="RAYADO">RAYADO</option>
+                <option value="RAYADO">MICA RAYADA</option>
+                <option value="PARTIDO">MICA PARTIDA</option>
                 <option value="OTRO">OTRO</option>
                 </select>
                 </div>
@@ -367,6 +403,20 @@ $row=mysqli_fetch_array($query3);
                     });
                 });
                 </script>
+                <script>
+                const checkboxes1 = Array.from(document.querySelectorAll('input[type="checkbox"][name="apps_conf[]"]'));
+                const dummy1 = document.getElementById('dummy1');
+
+                checkboxes1.forEach((checkbox) => {
+                    checkbox.addEventListener('change', () => {
+                    if (checkboxes1.some((cb) => cb.checked)) {
+                        dummy1.checked = true;
+                    } else {
+                        dummy1.checked = false;
+                    }
+                    });
+                });
+                </script>
 
 <script>
 $(document).ready(function() {
@@ -376,6 +426,19 @@ $(document).ready(function() {
         debug: true,
     });
 });</script>
+<script>
+$(document).ready(function() {
+  // Obtener la fecha actual usando la función "Date" de JavaScript
+  var today = new Date();
+  
+  // Formatear la fecha en el formato "YYYY-MM-DD" usando las propiedades "getFullYear", "getMonth" y "getDate" de la clase Date
+  var todayFormatted = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+  
+  // Asignar el valor formateado al input
+  $('#fecha_ult_mant, #fecha_ult_rev').val(todayFormatted);
+});
+</script>
+
                 <input type="submit" value="Añadir nuevo teléfono">
             </form>
         </div>

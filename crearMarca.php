@@ -7,25 +7,6 @@ if (!isset($_SESSION['user'])) {
 }
     include("conexion.php");
 
-    $sql="SELECT telefonos.*, telefonos.id_telefono AS id, modelo_marca.nombre AS modelo, marca.nombre AS marca, personal.nombre AS asignado, cargo_ruta.nombre AS cargo, area.nombre AS area
-    FROM telefonos
-    INNER JOIN modelo_marca ON telefonos.id_modelo = modelo_marca.id_modelo
-    INNER JOIN marca ON modelo_marca.id_marca = marca.id_marca
-    INNER JOIN tlf_asignado ON telefonos.id_telefono = tlf_asignado.id_telefono
-    INNER JOIN personal ON tlf_asignado.id_personal = personal.id_personal
-    INNER JOIN cargo_ruta ON personal.id_cargoruta = cargo_ruta.id_cargoruta
-    INNER JOIN area ON personal.id_area = area.id_area
-    WHERE telefonos.activo = 1
-    ORDER BY `telefonos`.`id_telefono` ASC";
-
-    $sql1="SELECT * FROM personal";
-    $sql2="SELECT * FROM cargo_ruta";
-    $sql3="SELECT * FROM area";
-
-$query = mysqli_query($conexion, $sql);
-$query2 = mysqli_query($conexion, $sql2);
-$query3 = mysqli_query($conexion, $sql3);
-
 ?>
 <html lang="en">
 <head>
@@ -59,7 +40,7 @@ $query3 = mysqli_query($conexion, $sql3);
         </div>
     </nav>
     <div class="users-table">
-        <h2 style="text-align: center;">Añadir nuevo personal</h2>
+        <h2 style="text-align: center;">Añadir nueva marca</h2>
 <style>
 /* Estilo para centrar elementos dentro del contenedor */
 .users-form {
@@ -104,43 +85,14 @@ $query3 = mysqli_query($conexion, $sql3);
 }
 </style>
         <div class="users-form">
-            <form id="nuevo" action="crearPersonalFuncion.php" method="POST">
-            <div style="display: flex; flex-wrap: wrap;">
-                <div id="selecciones" style="display: block; margin-right: 75px">
-                <div style="margin: 10px; margin-right: 100px">
-                <label for="cargoruta">Cargo/Ruta</label>
-                <select name="cargoruta" id="cargoruta" style="width: 200px" required>
-                <option value="">Seleccione un cargo/ruta</option>
-                <?php
-                while ($row = mysqli_fetch_assoc($query2)) {     
-                    echo "<option value='{$row['id_cargoruta']}'>{$row['nombre']}</option>";
-                }
-                ?></select>
-                <label for="area">Área</label>
-                <select name="area" id="area" style="width: 200px" required>
-                <option value="">Seleccione una área</option>
-                <?php
-                while ($row = mysqli_fetch_assoc($query3)) {     
-                    echo "<option value='{$row['id_area']}'>{$row['nombre']}</option>";
-                }
-                ?></select>
-                </div>
-                </div>
-                </div>
+            <form id="nuevo" action="crearFuncion.php" method="POST">
                 <div id="entradas" style="display: flex; flex-wrap: wrap;">
                 <div class="inputs">
-                <label for="nombre">Nombre</label>
-                <input type="text" name="nombre" id="nombre" placeholder="Ingrese el nombre" value="" required>
+                <label for="nombre_marca">Marca</label>
+                <input type="text" name="nombre_marca" id="nombre_marca" placeholder="Ingrese el nombre" value="" required>
                 </div>
-                </div>
-<script>
-$(document).ready(function() {
-    $('#cargoruta, #area').select2({
-        minimumInputLength: 0,
-        debug: true,
-    });
-});</script>
-                <input type="submit" value="Añadir nuevo personal">
+</div>
+                <input type="submit" value="Añadir nueva marca">
             </form>
         </div>
         

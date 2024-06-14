@@ -1,5 +1,10 @@
 <?php
+session_start();
 
+if (!isset($_SESSION['user'])) {
+    header("Location: login.php?error=not_logged_in");
+    exit();
+}
 include("conexion.php");
 
 $id_telefono=$_GET["id"];
@@ -11,7 +16,7 @@ $query1 = mysqli_query($conexion,$sql1);
 $query2 = mysqli_query($conexion,$sql2);
 
 if ($query1) {
-    echo '<script language="javascript">alert("Datos eliminados correctamente"); window.location.href = "index.php";</script>';
+    echo '<script language="javascript">alert("Datos eliminados correctamente"); window.location.href = "indexTelefonos.php";</script>';
 } else {
     echo '<script language="javascript">alert("Error al eliminar los datos");</script>';
 }

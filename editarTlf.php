@@ -1,4 +1,10 @@
 <?php 
+session_start();
+
+if (!isset($_SESSION['user'])) {
+    header("Location: login.php?error=not_logged_in");
+    exit();
+}
     include("conexion.php");
     $id_telefono=$_GET['id'];
 
@@ -6,10 +12,10 @@
     FROM telefonos
     INNER JOIN modelo_marca ON telefonos.id_modelo = modelo_marca.id_modelo
     INNER JOIN marca ON modelo_marca.id_marca = marca.id_marca
-    INNER JOIN tlf_asignado ON telefonos.id_telefono = tlf_asignado.id_telefono
-    INNER JOIN personal ON tlf_asignado.id_personal = personal.id_personal
-    INNER JOIN cargo_ruta ON personal.id_cargoruta = cargo_ruta.id_cargoruta
-    INNER JOIN area ON personal.id_area = area.id_area
+    LEFT JOIN tlf_asignado ON telefonos.id_telefono = tlf_asignado.id_telefono
+    LEFT JOIN personal ON tlf_asignado.id_personal = personal.id_personal
+    LEFT JOIN cargo_ruta ON personal.id_cargoruta = cargo_ruta.id_cargoruta
+    LEFT JOIN area ON personal.id_area = area.id_area
     WHERE telefonos.id_telefono = $id_telefono";
 
     $sql2="SELECT * FROM modelo_marca";
@@ -37,7 +43,32 @@ $id_sisver_seleccionado = $row0['id_sisver'];
 $id_operadora_seleccionado = $row0['id_operadora'];
 $id_sucursal_seleccionado = $row0['id_sucursal'];
 
+$almacenamiento_ocupado = $row0['almacenamiento_ocupado'];
+$consumo_datos = $row0['consumo_datos'];
+$numero_almacenamiento = '';
+$unidad_almacenamiento = '';
+
+
+function separarNumeroYUnidad($valor) {
+    $numero = '';
+    $unidad = '';
+
+    if (strpos($valor, 'GB') !== false) {
+        $numero = str_replace('GB', '', $valor);
+        $unidad = 'GB';
+    } elseif (strpos($valor, 'MB') !== false) {
+        $numero = str_replace('MB', '', $valor);
+        $unidad = 'MB';
+    }
+
+    return [$numero, $unidad];
+}
+
+list($numero_almacenamiento, $unidad_almacenamiento) = separarNumeroYUnidad($row0['almacenamiento_ocupado']);
+list($numero_consumo, $unidad_consumo) = separarNumeroYUnidad($row0['consumo_datos']);
+
 $accesorios = explode(',', $row0['accesorios']);
+$apps = explode(',', $row0['app_conf']);
 ?>
 <html lang="en">
 <head>
@@ -50,10 +81,11 @@ $accesorios = explode(',', $row0['accesorios']);
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </head>
 <header>
+<div style="height: 50px;"></div>
     <img src="img/logo.png" id="logo">
 </header>
 <body>
-<a href="index.php">hola mundo!!!</a>
+<a href="indexTelefonos.php">hola mundo!!!</a>
     <div class="users-table">
         <h2 style="text-align: center;">Editar Información de teléfono</h2>
         <style>
@@ -100,8 +132,9 @@ $accesorios = explode(',', $row0['accesorios']);
 }
 </style>
         <div class="users-form">
-        <h2>Editar</h2>
+        <h2><?= $row0['cargo']; ?></h2>
             <form id="nuevo" action="editarTlfFuncion.php" method="POST">
+            <input type="hidden" name="id_telefono" value="<?= $row0['id']?>">
                 <div id="fechas" style="display: flex">
                 <div style="margin: 10px">
                 <label for="fecha_recep" style="width: 210px;">Fecha de recepción</label>
@@ -116,8 +149,8 @@ $accesorios = explode(',', $row0['accesorios']);
                 <input type="date" name="fecha_ult_rev" id="fecha_recep" style="width: 200px" value="<?= $row0['fecha_ult_rev']?>">
                 </div>
                 </div>
-                <div style="display: flex; flex-wrap: wrap">
-                <div id="selecciones" style="display: block;">
+                <div style="display: flex; flex-wrap: wrap;">
+                <div id="selecciones" style="display: block; margin-right: 75px">
                 <div style="margin: 10px; margin-right: 100px">
                 <label for="modelo">Modelo</label>
                 <select id="modelo" name="modelo" style="width: 200px" data-placeholder="Seleccione un modelo" required>
@@ -171,10 +204,9 @@ $accesorios = explode(',', $row0['accesorios']);
                 ?></select>
                 </div>
                 </div>
-                <input type="checkbox" id="dummy" name="accesorios[]" required style="display:none">
-                <div>
+                <div style="margin-right: 75px">
                 <label class="nopoint" for="cabezal-cargador" style="width: 250px; height: 10px;">Seleccione los accesorios:</label><br>
-                <div class="accesorioscheck" id="accesorios">       
+                <div class="accesorioscheck" id="accesorios">     
                 <label><input type="checkbox" id="cabezal-cargador" name="accesorios[]" value="cabezal cargador" <?= in_array('cabezal cargador', $accesorios) ? 'checked' : ''; ?>> Cabezal cargador</label>
                 <label><input type="checkbox" id="adaptador1" name="accesorios[]" value="adaptador" <?= in_array('adaptador', $accesorios) ? 'checked' : ''; ?>> Adaptador</label>
                 <label><input type="checkbox" id="cable-usb" name="accesorios[]" value="cable usb" <?= in_array('cable usb', $accesorios) ? 'checked' : ''; ?>> Cable USB</label>
@@ -182,6 +214,20 @@ $accesorios = explode(',', $row0['accesorios']);
                 <label><input type="checkbox" id="vidrio-templado" name="accesorios[]" value="vidrio templado" <?= in_array('vidrio templado', $accesorios) ? 'checked' : ''; ?>> Vidrio templado</label>
                 <label><input type="checkbox" id="hidrogel" name="accesorios[]" value="hidrogel" <?= in_array('hidrogel', $accesorios) ? 'checked' : ''; ?>> Hidrogel</label>
                 <label><input type="checkbox" id="estuche" name="accesorios[]" value="estuche" <?= in_array('estuche', $accesorios) ? 'checked' : ''; ?>> Estuche</label>
+                </div>
+                </div>
+                <div>
+                <label class="nopoint" for="whatsapp" style="width: 300px; height: 10px;">Aplicaciones y configuración básica:</label><br>
+                <div class="accesorioscheck" id="apps_conf" style="width: 360px; height: 300px; display: flex; flex-wrap: wrap;">       
+                    <label><input type="checkbox" id="whatsapp" name="apps_conf[]" value="whatsapp" <?= in_array('whatsapp', $apps) ? 'checked' : ''; ?>>WhatsAapp</label>
+                    <label><input type="checkbox" id="gmail" name="apps_conf[]" value="gmail" <?= in_array('gmail', $apps) ? 'checked' : ''; ?>>Gmail</label>
+                    <label><input type="checkbox" id="adn" name="apps_conf[]" value="adn" <?= in_array('adn', $apps) ? 'checked' : ''; ?>>ADN</label>
+                    <label><input type="checkbox" id="facebook" name="apps_conf[]" value="facebook" <?= in_array('facebook', $apps) ? 'checked' : ''; ?>>Facebook</label>
+                    <label><input type="checkbox" id="instagram" name="apps_conf[]" value="instagram" <?= in_array('instagram', $apps) ? 'checked' : ''; ?>>Instagram</label>
+                    <label><input type="checkbox" id="netflix" name="apps_conf[]" value="netflix" <?= in_array('netflix', $apps) ? 'checked' : ''; ?>>Netflix</label>
+                    <label><input type="checkbox" id="youtube" name="apps_conf[]" value="youtube" <?= in_array('youtube', $apps) ? 'checked' : ''; ?>>Youtube</label>
+                    <label><input type="checkbox" id="ubicacion" name="apps_conf[]" value="ubicacion" <?= in_array('ubicacion', $apps) ? 'checked' : ''; ?>>Ubicación</label>
+                    <label><input type="checkbox" id="tema_por_defecto" name="apps_conf[]" value="tema por defecto" <?= in_array('tema por defecto', $apps) ? 'checked' : ''; ?>>Tema por defecto</label>
                 </div>
                 </div>
                 </div>
@@ -251,141 +297,141 @@ $accesorios = explode(',', $row0['accesorios']);
                 <input type="text" name="precio" id="precio" placeholder="Ingrese el precio" value="<?= $row0['precio']?>">
                 </div>
                 <div class="inputs" style="width: 225px">
-                <label for="almacenamiento-num" style="width: 200px">Almacenamiento ocupado</label>
-<input type="text" id="almacenamiento-num" style="width: 130px; margin-right: -3px" placeholder="Almacenamiento">
-<select id="unidad" style="width: 80px">
-  <option value="GB">GB</option>
-  <option value="MB">MB</option>
-</select>
+    <label for="almacenamiento-num" style="width: 200px">Almacenamiento ocupado</label>
+    <input type="text" id="almacenamiento-num" style="width: 130px; margin-right: -3px" placeholder="Almacenamiento" required value="<?= $numero_almacenamiento ?>">
+    <select id="unidad" style="width: 80px">
+        <option value="GB" <?= $unidad_almacenamiento == 'GB' ? 'selected' : '' ?>>GB</option>
+        <option value="MB" <?= $unidad_almacenamiento == 'MB' ? 'selected' : '' ?>>MB</option>
+    </select>
 </div>
 <div class="inputs" style="width: 600px">
-                <label for="consumo" style="width: 200px">Consumo de datos</label>
-<input type="text" id="consumo" style="width: 130px; margin-right: -3px" placeholder="Consumo">
-<select id="unidad1" style="width: 80px">
-  <option value="GB">GB</option>
-  <option value="MB">MB</option>
-</select>
+    <label for="consumo" style="width: 200px">Consumo de datos</label>
+    <input type="text" id="consumo" style="width: 130px; margin-right: -3px" placeholder="Consumo" required value="<?= $numero_consumo ?>">
+    <select id="unidad1" style="width: 80px">
+        <option value="GB" <?= $unidad_consumo == 'GB' ? 'selected' : '' ?>>GB</option>
+        <option value="MB" <?= $unidad_consumo == 'MB' ? 'selected' : '' ?>>MB</option>
+    </select>
 </div>
+<input type="hidden" name="almacenamiento" id="almacenamiento-hidden" value="<?= $numero_almacenamiento . $unidad_almacenamiento ?>">
+<input type="hidden" name="consumo_datos" id="consumo-hidden" value="<?= $numero_consumo . $unidad_consumo ?>">
+
 <div class="inputs" style="width: 600px">
                 <label for="nota">Observación</label>
-                <textarea style="width: 1000px; height: 200px" type="text" name="nota" id="nota" placeholder="Mantiene la configuración inicial." value="<?= $row0['nota']?>"></textarea>
+                <textarea style="width: 1000px; height: 200px" type="text" name="nota" id="nota" placeholder="Mantiene la configuración inicial."><?= $row0['nota']?></textarea>
                 </div>
 </div>
-<input type="hidden" name="almacenamiento" id="almacenamiento-hidden">
-<input type="hidden" name="consumo_datos" id="consumo-hidden">
-
 <script>
-  const almacenamientoNum = document.getElementById('almacenamiento-num');
-  const unidadSelect = document.getElementById('unidad');
-  const almacenamientoHidden = document.getElementById('almacenamiento-hidden');
+  document.addEventListener('DOMContentLoaded', (event) => {
+    const almacenamientoNum = document.getElementById('almacenamiento-num');
+    const unidadSelect = document.getElementById('unidad');
+    const almacenamientoHidden = document.getElementById('almacenamiento-hidden');
 
-  almacenamientoNum.addEventListener('input', () => {
-    const valor = almacenamientoNum.value;
-    const unidad = unidadSelect.value;
-    const almacenamientoCompleto = `${valor} ${unidad}`;
-    almacenamientoHidden.value = almacenamientoCompleto;
+    const consumo = document.getElementById('consumo');
+    const unidad1Select = document.getElementById('unidad1');
+    const consumoHidden = document.getElementById('consumo-hidden');
+
+    function actualizarAlmacenamientoHidden() {
+      const valor = almacenamientoNum.value;
+      const unidad = unidadSelect.value;
+      const almacenamientoCompleto = `${valor}${unidad}`;
+      almacenamientoHidden.value = almacenamientoCompleto;
+    }
+
+    function actualizarConsumoHidden() {
+      const valor1 = consumo.value;
+      const unidad1 = unidad1Select.value;
+      const consumoCompleto = `${valor1}${unidad1}`;
+      consumoHidden.value = consumoCompleto;
+    }
+
+    almacenamientoNum.addEventListener('input', actualizarAlmacenamientoHidden);
+    unidadSelect.addEventListener('change', actualizarAlmacenamientoHidden);
+
+    consumo.addEventListener('input', actualizarConsumoHidden);
+    unidad1Select.addEventListener('change', actualizarConsumoHidden);
+
+    // Actualizar los valores ocultos al cargar la página
+    actualizarAlmacenamientoHidden();
+    actualizarConsumoHidden();
   });
 </script>
+  <div id="statuses" style="display: flex; flex-wrap: wrap;">
+  <div class="inputs">
+  <label for="vidrio">Estado del vidrio</label>
+  <select name="vidrio" id="vidrio">
+    <option value="BUENO" <?= $row0['vidrio'] == 'BUENO' ? 'selected' : '' ?>>BUENO</option>
+    <option value="DAÑADO" <?= $row0['vidrio'] == 'DAÑADO' ? 'selected' : '' ?>>DAÑADO</option>
+    <option value="PARTIDO" <?= $row0['vidrio'] == 'PARTIDO' ? 'selected' : '' ?>>PARTIDO</option>
+    <option value="RAYADO" <?= $row0['vidrio'] == 'RAYADO' ? 'selected' : '' ?>>RAYADO</option>
+    <option value="NO TIENE" <?= $row0['vidrio'] == 'NO TIENE' ? 'selected' : '' ?>>NO TIENE</option>
+    <option value="OTRO" <?= $row0['vidrio'] == 'OTRO' ? 'selected' : '' ?>>OTRO</option>
+  </select>
+</div>
+  <div class="inputs">
+  <label for="forro">Estado del forro</label>
+  <select name="forro" id="forro">
+    <option value="BUENO" <?= $row0['forro'] == 'BUENO'? 'selected' : ''?>>BUENO</option>
+    <option value="DAÑADO" <?= $row0['forro'] == 'DAÑADO'? 'selected' : ''?>>DAÑADO</option>
+    <option value="NO TIENE" <?= $row0['forro'] == 'NO TIENE'? 'selected' : ''?>>NO TIENE</option>
+    <option value="OTRO" <?= $row0['forro'] == 'OTRO'? 'selected' : ''?>>OTRO</option>
+  </select>
+</div>
 
-<script>
-  const consumo = document.getElementById('consumo');
-  const unidadSelect = document.getElementById('unidad1');
-  const consumoHidden = document.getElementById('consumo-hidden');
+<div class="inputs">
+  <label for="pantalla">Estado pantalla</label>
+  <select name="pantalla" id="pantalla">
+    <option value="BUENO" <?= $row0['pantalla'] == 'BUENO'? 'selected' : ''?>>BUENO</option>
+    <option value="DAÑADO" <?= $row0['pantalla'] == 'DAÑADO'? 'selected' : ''?>>DAÑADO</option>
+    <option value="PARTIDO" <?= $row0['pantalla'] == 'PARTIDO'? 'selected' : ''?>>PARTIDO</option>
+    <option value="RAYADO" <?= $row0['pantalla'] == 'RAYADO'? 'selected' : ''?>>RAYADO</option>
+    <option value="OTRO" <?= $row0['pantalla'] == 'OTRO'? 'selected' : ''?>>OTRO</option>
+  </select>
+</div>
 
-  consumo.addEventListener('input', () => {
-    const valor = consumo.value;
-    const unidad = unidadSelect.value;
-    const consumoCompleto = `${valor} ${unidad}`;
-    consumoHidden.value = consumoCompleto;
-  });
-</script>
-                <div id="statuses" style="display: flex; flex-wrap: wrap;">
-                <div class="inputs">
-                <label for="vidrio">Estado del vidrio</label>
-                <select name="vidrio" id="vidrio">
-                <option value="BUENO">BUENO</option>
-                <option value="DAÑADO">DAÑADO</option>
-                <option value="PARTIDO">PARTIDO</option>
-                <option value="RAYADO">RAYADO</option>
-                <option value="NO TIENE">NO TIENE</option>
-                <option value="OTRO">OTRO</option>
-                </select>
-                </div>
-                <div class="inputs">
-                <label for="forro">Estado del forro</label>
-                <select name="forro" id="forro">
-                <option value="BUENO">BUENO</option>
-                <option value="DAÑADO">DAÑADO</option>
-                <option value="NO TIENE">NO TIENE</option>
-                <option value="OTRO">OTRO</option>
-                </select>
-                </div>
-                <div class="inputs">
-                <label for="pantalla">Estado pantalla</label>
-                <select name="pantalla" id="pantalla">
-                <option value="BUENO">BUENO</option>
-                <option value="DAÑADO">DAÑADO</option>
-                <option value="PARTIDO">PARTIDO</option>
-                <option value="RAYADO">RAYADO</option>
-                <option value="OTRO">OTRO</option>
-                </select>
-                </div>
-                <div class="inputs">
-                <label for="camara">Estado cámara</label>
-                <select name="camara" id="camara">
-                <option value="BUENO">BUENO</option>
-                <option value="DAÑADO">DAÑADO</option>
-                <option value="PARTIDO">PARTIDO</option>
-                <option value="RAYADO">RAYADO</option>
-                <option value="OTRO">OTRO</option>
-                </select>
-                </div>
-                <div class="inputs">
-                <label for="cargador">Estado cargador</label>
-                <select name="cargador" id="cargador">
-                <option value="BUENO">BUENO</option>
-                <option value="DAÑADO">DAÑADO</option>
-                <option value="NO TIENE">NO TIENE</option>
-                <option value="NO TRAE A REVISIÓN">NO TRAE A REVISIÓN</option>
-                <option value="OTRO">OTRO</option>
-                </select>
-                </div>
-                <div class="inputs">
-                <label for="cable_usb">Estado cable USB</label>
-                <select name="cable_usb" id="cable_usb">
-                <option value="BUENO">BUENO</option>
-                <option value="DAÑADO">DAÑADO</option>
-                <option value="NO TIENE">NO TIENE</option>
-                <option value="NO TRAE A REVISIÓN">NO TRAE A REVISIÓN</option>
-                <option value="OTRO">OTRO</option>
-                </select>
-                </div>
-                <div class="inputs">
-                <label for="adaptador">Estado adaptador</label>
-                <select name="adaptador" id="adaptador">
-                <option value="BUENO">BUENO</option>
-                <option value="DAÑADO">DAÑADO</option>
-                <option value="NO TIENE">NO TIENE</option>
-                <option value="NO USA">NO USA</option>
-                <option value="NO TRAE A REVISIÓN">NO TRAE A REVISIÓN</option>
-                <option value="OTRO">OTRO</option>
-                </select>
-                </div>
-                </div>
-                <script>
-                const checkboxes = Array.from(document.querySelectorAll('input[type="checkbox"][name="accesorios[]"]'));
-                const dummy = document.getElementById('dummy');
+<div class="inputs">
+  <label for="camara">Estado cámara</label>
+  <select name="camara" id="camara">
+    <option value="BUENO" <?= $row0['camara'] == 'BUENO'? 'selected' : ''?>>BUENO</option>
+    <option value="DAÑADO" <?= $row0['camara'] == 'DAÑADO'? 'selected' : ''?>>DAÑADO</option>
+    <option value="MICA PARTIDA" <?= $row0['camara'] == 'MICA PARTIDA'? 'selected' : ''?>>MICA PARTIDA</option>
+    <option value="MICA RAYADA" <?= $row0['camara'] == 'MICA RAYADA'? 'selected' : ''?>>MICA RAYADA</option>
+    <option value="OTRO" <?= $row0['camara'] == 'OTRO'? 'selected' : ''?>>OTRO</option>
+  </select>
+</div>
 
-                checkboxes.forEach((checkbox) => {
-                    checkbox.addEventListener('change', () => {
-                    if (checkboxes.some((cb) => cb.checked)) {
-                        dummy.checked = true;
-                    } else {
-                        dummy.checked = false;
-                    }
-                    });
-                });
-                </script>
+<div class="inputs">
+  <label for="cargador">Estado cargador</label>
+  <select name="cargador" id="cargador">
+    <option value="BUENO" <?= $row0['cargador'] == 'BUENO'? 'selected' : ''?>>BUENO</option>
+    <option value="DAÑADO" <?= $row0['cargador'] == 'DAÑADO'? 'selected' : ''?>>DAÑADO</option>
+    <option value="NO TIENE" <?= $row0['cargador'] == 'NO TIENE'? 'selected' : ''?>>NO TIENE</option>
+    <option value="NO TRAE A REVISIÓN" <?= $row0['cargador'] == 'NO TRAE A REVISIÓN'? 'selected' : ''?>>NO TRAE A REVISIÓN</option>
+    <option value="OTRO" <?= $row0['cargador'] == 'OTRO'? 'selected' : ''?>>OTRO</option>
+  </select>
+</div>
+
+<div class="inputs">
+  <label for="cable_usb">Estado cable USB</label>
+  <select name="cable_usb" id="cable_usb">
+    <option value="BUENO" <?= $row0['cable_usb'] == 'BUENO'? 'selected' : ''?>>BUENO</option>
+    <option value="DAÑADO" <?= $row0['cable_usb'] == 'DAÑADO'? 'selected' : ''?>>DAÑADO</option>
+    <option value="NO TIENE" <?= $row0['cable_usb'] == 'NO TIENE'? 'selected' : ''?>>NO TIENE</option>
+    <option value="NO TRAE A REVISIÓN" <?= $row0['cable_usb'] == 'NO TRAE A REVISIÓN'? 'selected' : ''?>>NO TRAE A REVISIÓN</option>
+    <option value="OTRO" <?= $row0['cable_usb'] == 'OTRO'? 'selected' : ''?>>OTRO</option>
+                </select>
+                </div>
+                <div class="inputs">
+  <label for="cable_usb">Estado Adaptador</label>
+  <select name="adaptador" id="adaptador">
+    <option value="BUENO" <?= $row0['adaptador'] == 'BUENO'? 'selected' : ''?>>BUENO</option>
+    <option value="DAÑADO" <?= $row0['adaptador'] == 'DAÑADO'? 'selected' : ''?>>DAÑADO</option>
+    <option value="NO TIENE" <?= $row0['adaptador'] == 'NO TIENE'? 'selected' : ''?>>NO TIENE</option>
+    <option value="NO USA" <?= $row0['adaptador'] == 'NO USA'? 'selected' : ''?>>NO USA</option>
+    <option value="NO TRAE A REVISIÓN" <?= $row0['adaptador'] == 'NO TRAE A REVISIÓN'? 'selected' : ''?>>NO TRAE A REVISIÓN</option>
+    <option value="OTRO" <?= $row0['adaptador'] == 'OTRO'? 'selected' : ''?>>OTRO</option>
+                </select>
+                </div>
+                </div>
 
 <script>
 $(document).ready(function() {

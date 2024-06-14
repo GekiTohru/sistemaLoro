@@ -46,7 +46,8 @@ header {
 }
 
 .users-table {
-  width: 80%;
+  width: 100%;
+  overflow-x: auto;
   margin: 20px auto;
   background-color: #fff;
   padding: 20px;
@@ -149,7 +150,7 @@ header {
   /* estilos para los labels */
   display: block;
   margin-bottom: 25px;
-  width: 250px;
+  width: 180px;
 }
 
 
@@ -160,4 +161,185 @@ header {
 
 .nopoint{
   pointer-events: none;
+}
+
+div#selecciones{
+width: 250px;
+}
+label#selecciones{
+  width: 250px;
+  }
+select#selecciones{
+  width: 250px;
+}
+
+/* Estilos de la barra de navegación */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  padding: 10px;
+  z-index: 1000;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-brand {
+  color: white;
+  text-decoration: none;
+  font-size: 24px;
+}
+
+.navbtn, .dropbtn {
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+/* Mostrar el contenido del desplegable al pasar el cursor */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Cambiar el color del botón al pasar el cursor */
+.navbtn:hover, .dropdown:hover .dropbtn {
+  background-color: #555;
+}
+
+/* Estilos para el contenido de ejemplo */
+.content {
+  margin-top: 60px; /* Espacio para evitar que el contenido quede debajo de la navbar */
+  padding: 20px;
+}
+
+/* Estilo para la tabla */
+/* Estilo para la tabla */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  table-layout: fixed; /* Ajusta el diseño de la tabla a fijo */
+}
+
+/* Estilo para las celdas de encabezado */
+th {
+    background-color: greenyellow;
+    color: black;
+    padding: 10px;
+    text-align: left;
+    white-space: normal; /* Cambia el comportamiento de salto de línea a normal */
+    overflow: visible; /* Muestra todo el contenido, sin ocultarlo */
+    text-overflow: unset; /* Restablece la propiedad de desbordamiento de texto */
+}
+
+/* Estilo para las celdas de datos */
+td {
+    padding: 10px;
+    text-align: left;
+    white-space: normal; /* Cambia el comportamiento de salto de línea a normal */
+    overflow: visible; /* Muestra todo el contenido, sin ocultarlo */
+    text-overflow: unset; /* Restablece la propiedad de desbordamiento de texto */
+}
+
+/* Estilo para los enlaces dentro de las celdas */
+a.users-table--edit,
+a.users-table--delete {
+  color: green;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+/* Estilo para los enlaces de editar */
+a.users-table--edit:hover {
+  text-decoration: underline;
+}
+
+/* Estilo para los enlaces de eliminar */
+a.users-table--delete:hover {
+  text-decoration: underline;
+  color: red;
+}
+
+.users-table--edit {
+  display: block; /* Hace que los enlaces se muestren como bloques, uno debajo del otro */
+}
+
+@media screen and (max-width: 480px) {
+  .navbar-left {
+      align-items: center;
+  }
+
+  .navbar-left a,
+  .navbar-left .dropbtn {
+      text-align: center;
+      padding: 10px;
+      margin-bottom: 10px;
+  }
+
+  header {
+      padding: 10px;
+  }
+
+  #logo {
+      width: 200px;
+      height: 100px;
+  }
+
+  .content {
+      padding: 10px;
+  }
+
+  th, td {
+      font-size: 12px;
+  }
+}
+table.dataTable {
+  width: 100%;
+  table-layout: auto !important;
+}
+table.dataTable th,
+table.dataTable td {
+  white-space: normal; /* Permite el salto de línea */
+  overflow: visible; /* Muestra todo el contenido */
+  text-overflow: unset; /* Restablece cualquier configuración de desbordamiento de texto */
+  /*max-width: 0;*/
+  word-wrap: break-word; /* Forza el salto de palabra */
 }
