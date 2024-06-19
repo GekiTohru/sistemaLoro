@@ -6,6 +6,15 @@ if (!isset($_SESSION['user'])) {
     header("Location: login.php?error=not_logged_in");
     exit();
 }
+if (isset($_SESSION["timeout"])) {
+    if ($_SESSION["timeout"] < time()) {
+        session_destroy();
+        header("Location: login.php?error=timeout");
+        exit();
+    }
+}
+$_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
+
 
 include("conexion.php");
 
@@ -15,9 +24,9 @@ LEFT JOIN tlf_asignado ON personal.id_personal = tlf_asignado.id_personal
 LEFT JOIN telefonos ON tlf_asignado.id_telefono = telefonos.id_telefono
 LEFT JOIN cargo_ruta ON personal.id_cargoruta = cargo_ruta.id_cargoruta
 LEFT JOIN area ON personal.id_area = area.id_area
-INNER JOIN modelo_marca ON modelo_marca.id_modelo = telefonos.id_modelo
+LEFT JOIN modelo_marca ON modelo_marca.id_modelo = telefonos.id_modelo
 WHERE personal.activo = 1
-ORDER BY `personal`.`id_personal` ASC";
+GROUP BY personal.id_personal";
 $query = mysqli_query($conexion, $sql);
 
 // Iniciar el arreglo para agrupar los usuarios por ID de teléfono
@@ -77,17 +86,6 @@ $telefonosPorPersonal[$idPersonal][] = $nombreTlf;
     <div class="users-table">
         <h2 style="text-align: center;">Personal registrado</h2>
         <table id="tablaTelefonos">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th> 
-                    <th>Cargo</th>       
-                    <th>Área</th>
-                    <th>Teléfono asignado</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
                 <?php
                 foreach ($telefonosPorPersonal as $idPersonal => $usuario) {
                     $fila = current(array_filter($personal, function($fila) use ($idPersonal) {
@@ -113,8 +111,6 @@ $telefonosPorPersonal[$idPersonal][] = $nombreTlf;
                 echo '</td>';
                 }
                ?>
-            </tbody>
-        </table>
     </div>
 
     <script type="text/javascript">

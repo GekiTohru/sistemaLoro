@@ -35,8 +35,8 @@ if (isset($_SESSION['user'])) {
 </head>
 <body>
     <form action="loginFuncion.php" method="post">
-        <label for="nombre">Usuario:</label>
-        <input type="text" id="nombre" name="nombre" required><br><br>
+        <label for="user">Usuario:</label>
+        <input type="text" id="user" name="user" required><br><br>
         <label for="clave">Contraseña:</label>
         <input type="password" id="clave" name="clave" required><br><br>
         <button type="submit">Iniciar Sesión</button>

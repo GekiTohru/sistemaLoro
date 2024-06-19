@@ -5,6 +5,15 @@ if (!isset($_SESSION['user'])) {
     header("Location: login.php?error=not_logged_in");
     exit();
 }
+if (isset($_SESSION["timeout"])) {
+    if ($_SESSION["timeout"] < time()) {
+        session_destroy();
+        header("Location: login.php?error=timeout");
+        exit();
+    }
+}
+$_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
+
     include("conexion.php");
     $id_telefono=$_GET['id'];
 
@@ -79,6 +88,7 @@ $apps = explode(',', $row0['app_conf']);
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
 </head>
 <header>
 <div style="height: 50px;"></div>
@@ -226,10 +236,36 @@ $apps = explode(',', $row0['app_conf']);
                     <label><input type="checkbox" id="instagram" name="apps_conf[]" value="instagram" <?= in_array('instagram', $apps) ? 'checked' : ''; ?>>Instagram</label>
                     <label><input type="checkbox" id="netflix" name="apps_conf[]" value="netflix" <?= in_array('netflix', $apps) ? 'checked' : ''; ?>>Netflix</label>
                     <label><input type="checkbox" id="youtube" name="apps_conf[]" value="youtube" <?= in_array('youtube', $apps) ? 'checked' : ''; ?>>Youtube</label>
+                    <label><input type="checkbox" id="tiktok" name="apps_conf[]" value="tiktok" <?= in_array('tiktok', $apps) ? 'checked' : ''; ?>>TikTok</label>
                     <label><input type="checkbox" id="ubicacion" name="apps_conf[]" value="ubicacion" <?= in_array('ubicacion', $apps) ? 'checked' : ''; ?>>Ubicación</label>
                     <label><input type="checkbox" id="tema_por_defecto" name="apps_conf[]" value="tema por defecto" <?= in_array('tema por defecto', $apps) ? 'checked' : ''; ?>>Tema por defecto</label>
+                    <label><input type="checkbox" id="otra" name="apps_conf[]" value="otra" <?= in_array('otra', $apps) ? 'checked' : ''; ?>>Otra</label>
+                </div>
+                <div id="otra_app_container" style="display: none;">
+                    <label for="otra_app">Especifique otras aplicaciones:</label>
+                    <input type="text" id="otra_app" name="otra_app" value="<?= $row0['otra_app']?>">
                 </div>
                 </div>
+                <script>
+    // Escuchar el cambio de estado de la checkbox "otra"
+    document.getElementById('otra').addEventListener('change', function() {
+        var otraAppContainer = document.getElementById('otra_app_container');
+        if (this.checked) {
+            otraAppContainer.style.display = 'block';
+        } else {
+            otraAppContainer.style.display = 'none';
+        }
+    });
+
+    // Mostrar el campo de entrada si "otra" ya está seleccionada al cargar la página
+    window.addEventListener('DOMContentLoaded', function() {
+        var otraCheckbox = document.getElementById('otra');
+        var otraAppContainer = document.getElementById('otra_app_container');
+        if (otraCheckbox.checked) {
+            otraAppContainer.style.display = 'block';
+        }
+    });
+</script>
                 </div>
                 <div id="entradas" style="display: flex; flex-wrap: wrap;">
                 <div class="inputs">
@@ -312,12 +348,12 @@ $apps = explode(',', $row0['app_conf']);
         <option value="MB" <?= $unidad_consumo == 'MB' ? 'selected' : '' ?>>MB</option>
     </select>
 </div>
-<input type="hidden" name="almacenamiento" id="almacenamiento-hidden" value="<?= $numero_almacenamiento . $unidad_almacenamiento ?>">
-<input type="hidden" name="consumo_datos" id="consumo-hidden" value="<?= $numero_consumo . $unidad_consumo ?>">
+<input type="text" name="almacenamiento" id="almacenamiento-hidden" value="<?= $numero_almacenamiento . $unidad_almacenamiento ?>">
+<input type="text" name="consumo_datos" id="consumo-hidden" value="<?= $numero_consumo . $unidad_consumo ?>">
 
 <div class="inputs" style="width: 600px">
-                <label for="nota">Observación</label>
-                <textarea style="width: 1000px; height: 200px" type="text" name="nota" id="nota" placeholder="Mantiene la configuración inicial."><?= $row0['nota']?></textarea>
+                <label for="editor">Observación</label>
+                <textarea style="width: 1000px; height: 200px" type="text" name="nota" id="editor" placeholder="Mantiene la configuración inicial."><?= $row0['nota']?></textarea>
                 </div>
 </div>
 <script>
@@ -355,6 +391,8 @@ $apps = explode(',', $row0['app_conf']);
     actualizarConsumoHidden();
   });
 </script>
+<script>CKEDITOR.replace('editor');</script>
+
   <div id="statuses" style="display: flex; flex-wrap: wrap;">
   <div class="inputs">
   <label for="vidrio">Estado del vidrio</label>

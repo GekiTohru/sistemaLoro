@@ -5,6 +5,15 @@ if (!isset($_SESSION['user'])) {
     header("Location: login.php?error=not_logged_in");
     exit();
 }
+if (isset($_SESSION["timeout"])) {
+    if ($_SESSION["timeout"] < time()) {
+        session_destroy();
+        header("Location: login.php?error=timeout");
+        exit();
+    }
+}
+$_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
+
     include("conexion.php");
 
     $sql2="SELECT * FROM modelo_marca";
@@ -199,8 +208,33 @@ $row=mysqli_fetch_array($query3);
                     <label><input type="checkbox" id="youtube" name="apps_conf[]" value="youtube">Youtube</label>
                     <label><input type="checkbox" id="ubicacion" name="apps_conf[]" value="ubicacion">Ubicación</label>
                     <label><input type="checkbox" id="tema_por_defecto" name="apps_conf[]" value="tema por defecto">Tema por defecto</label>
+                    <label><input type="checkbox" id="otra" name="apps_conf[]" value="otra">Otra</label>
+                </div>
+                <div id="otra_app_container" style="display: none;">
+                    <label for="otra_app">Especifique otras aplicaciones:</label>
+                    <input type="text" id="otra_app" name="otra_app" value="">
                 </div>
                 </div>
+                <script>
+    // Escuchar el cambio de estado de la checkbox "otra"
+    document.getElementById('otra').addEventListener('change', function() {
+        var otraAppContainer = document.getElementById('otra_app_container');
+        if (this.checked) {
+            otraAppContainer.style.display = 'block';
+        } else {
+            otraAppContainer.style.display = 'none';
+        }
+    });
+
+    // Mostrar el campo de entrada si "otra" ya está seleccionada al cargar la página
+    window.addEventListener('DOMContentLoaded', function() {
+        var otraCheckbox = document.getElementById('otra');
+        var otraAppContainer = document.getElementById('otra_app_container');
+        if (otraCheckbox.checked) {
+            otraAppContainer.style.display = 'block';
+        }
+    });
+</script>
                 </div>
                 <div id="entradas" style="display: flex; flex-wrap: wrap;">
                 <div class="inputs">

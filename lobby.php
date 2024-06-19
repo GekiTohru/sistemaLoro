@@ -3,10 +3,27 @@ session_start(); // Iniciar la sesión
 
 // Verificar si el usuario ha iniciado sesión
 if (!isset($_SESSION['user'])) {
-    // Redirigir al formulario de inicio de sesión con un mensaje de error
     header("Location: login.php?error=not_logged_in");
     exit();
 }
+if (isset($_SESSION["timeout"])) {
+    if ($_SESSION["timeout"] < time()) {
+        session_destroy();
+        header("Location: login.php?error=timeout");
+        exit();
+    }
+}
+$_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
+
+if (isset($_SESSION["timeout"])) {
+    if ($_SESSION["timeout"] < time()) {
+        session_destroy();
+        header("Location: login.php?error=timeout");
+        exit();
+    }
+}
+$_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
+
 ?>
 
 <!DOCTYPE html>
@@ -38,7 +55,7 @@ if (!isset($_SESSION['user'])) {
     </nav>
 
     <div class="container">
-        <h1>Bienvenido, <?php echo htmlspecialchars($_SESSION['user']); ?>!</h1>
+        <h1>Bienvenido, <?php echo htmlspecialchars($_SESSION['nombre']); ?>!</h1>
         <a href="indexTelefonos.php" class="button">Gestionar teléfonos corporativos</a>
         <a href="indexPc.php" class="button">Gestionar computadoras</a>
         <a href="indexImpresoras.php" class="button">Gestionar impresoras</a>

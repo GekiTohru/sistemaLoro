@@ -6,6 +6,15 @@ if (!isset($_SESSION['user'])) {
     header("Location: login.php?error=not_logged_in");
     exit();
 }
+if (isset($_SESSION["timeout"])) {
+    if ($_SESSION["timeout"] < time()) {
+        session_destroy();
+        header("Location: login.php?error=timeout");
+        exit();
+    }
+}
+$_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
+
 
 include("conexion.php");
 
@@ -88,21 +97,6 @@ foreach ($telefonos as $fila) {
 
 </style>
         <table id="tablaTelefonos" class="display responsive nowrap" style="width:100%">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Marca</th>
-                    <th>Modelo</th>
-                    <th>Cargo</th>       
-                    <th>Asignado a</th>
-                    <th>Área</th>
-                    <th>Sucursal</th>
-                    <th>RAM</th>
-                    <th>ROM</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
                 <?php
                 foreach ($usuariosPorTelefono as $idTelefono => $usuarios) {
                     $fila = current(array_filter($telefonos, function($fila) use ($idTelefono) {
@@ -129,10 +123,10 @@ foreach ($telefonos as $fila) {
                 echo '<div><a href="eliminarTlfFuncion.php?id='. $fila['id']. '" class="users-table--edit" onclick="return confirm(\'¿Estás seguro de eliminar este elemento?\')">Eliminar</a></div>';
                 }
                 echo '<div><a href="auditoriaPdf.php?id='. $fila['id']. '" class="users-table--edit">Auditoría</a></div>';
+                echo '<div><a href="constanciaTlf.php?id='. $fila['id']. '" class="users-table--edit">Constancia</a></div>';
                 echo '</td>';
                 }
                ?>
-            </tbody>
         </table>
     </div>
 

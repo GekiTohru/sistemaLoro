@@ -5,6 +5,15 @@ if (!isset($_SESSION['user'])) {
     header("Location: login.php?error=not_logged_in");
     exit();
 }
+if (isset($_SESSION["timeout"])) {
+    if ($_SESSION["timeout"] < time()) {
+        session_destroy();
+        header("Location: login.php?error=timeout");
+        exit();
+    }
+}
+$_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
+
 include("conexion.php");
 
 function check_empty($value, $field) {
@@ -36,6 +45,7 @@ $apps = $_POST['apps_conf'];
 $apps_string = implode(',', array_map(function($value1) use ($conexion) {
     return mysqli_real_escape_string($conexion, $value1);
 }, $apps));
+$otra = $_POST['otra_app'];
 $imei1 = check_empty(mysqli_real_escape_string($conexion, $_POST['imei1']), 'imei1');
 $imei2 = check_empty(mysqli_real_escape_string($conexion, $_POST['imei2']), 'imei2');
 $imei_adn = check_empty(mysqli_real_escape_string($conexion, $_POST['imei_adn']), 'imei_adn');
@@ -72,7 +82,8 @@ $sql1 = "UPDATE telefonos SET
   id_operadora = '$operadora', 
   id_sucursal = '$sucursal', 
   accesorios = '$accesorios_string', 
-  app_conf = '$apps_string', 
+  app_conf = '$apps_string',
+  otra_app = '$otra',
   imei1 = '$imei1', 
   imei2 = '$imei2', 
   imei_adn = '$imei_adn', 
