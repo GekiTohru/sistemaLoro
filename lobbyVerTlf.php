@@ -36,18 +36,36 @@ if (!isset($_SESSION['user'])) {
                 ?>
         </div>
     </nav>
-
-    <div class="container">
-        <h1>Gestionar elementos</h1>
+    <div style="margin-top: 30%" class="container">
+    <h1>Gestionar elementos</h1>
+        <div id="tlf">
+        <h1 style="margin-left: 5%">Teléfonos</h1>
         <a href="indexTelefonos.php" class="button">Gestionar Teléfonos</a>
-        <a href="idxPersonal.php" class="button">Gestionar Personal</a>
-        <a href="idxMarca.php" class="button">Gestionar Marcas</a>
-        <a href="idxModelo.php" class="button">Gestionar Modelos</a>
-        <a href="idxArea.php" class="button">Gestionar Áreas</a>
-        <a href="idxCargo.php" class="button">Gestionar Cargos/rutas</a>
+        <a href="idxModelo.php" class="button">Gestionar Modelo</a>
         <a href="idxSisTlf.php" class="button">Gestionar Versones de Android</a>
         <a href="idxOperadora.php" class="button">Gestionar Operadoras</a>
+        </div>
+        <div id="pc">
+        <h1 style="margin-left: 5%">Computadoras</h1>
+        <a href="indexPC.php" class="button">Gestionar Computadoras</a>
+        <a href="idxPcSO.php" class="button">Gestionar Sistemas Operativos (PC)</a>
+        <a href="idxTipoEquipo.php" class="button">Gestionar Tipos de equipo (PC)</a>
+        <a href="idxAlmacenamiento.php" class="button">Gestionar Tipos de almacenamiento</a>
+        </div>
+        <div id="impresora">
+        <h1 style="margin-left: 5%">Impresoras</h1>
+        <a href="indexImpresora.php" class="button">Gestionar Impresoras</a>
+        </div>
+        <div id="general">
+        <h1 style="margin-left: 5%">General</h1>
+        <a href="idxPersonal.php" class="button">Gestionar Personal</a>
+        <a href="idxFabricante.php" class="button">Gestionar Fabricantes</a>
+        <a href="idxArea.php" class="button">Gestionar Áreas</a>
+        <a href="idxCargo.php" class="button">Gestionar Cargos/rutas</a>
         <a href="idxSucursal.php" class="button">Gestionar Sucursales</a>
+        <a href="idxMantenimientos.php" class="button">Gestionar Mantenimientos</a>
+        </div>
     </div>
+
 </body>
 </html>

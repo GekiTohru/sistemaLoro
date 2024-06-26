@@ -39,15 +39,32 @@ if (!isset($_SESSION['user'])) {
 
     <div class="container">
         <h1>Añadir un nuevo elemento</h1>
-        <a href="crearTlf.php" class="button">Nuevo Teléfono</a>
-        <a href="crearPersonal.php" class="button">Nuevo Personal</a>
-        <a href="crearMarca.php" class="button">Nueva Marca</a>
+        <div id="tlf">
+        <label for="tlf">Teléfonos</label>
+        <a href="crearTlf.php" id="tlf1" class="button">Nuevo Teléfono</a>
         <a href="crearModelo.php" class="button">Nuevo Modelo</a>
-        <a href="crearArea.php" class="button">Nueva Área</a>
-        <a href="crearCargo.php" class="button">Nuevo Cargo/ruta</a>
         <a href="crearSisTlf.php" class="button">Nueva Versión Android</a>
         <a href="crearOperadora.php" class="button">Nueva Operadora</a>
+        </div>
+        <div id="pc">
+        <label for="pc">Computadoras</label>
+        <a href="crearPC.php" id="pc1" class="button">Nueva PC</a>
+        <a href="crearPcSO.php" class="button">Nuevo Sistema Operativo (PC)</a>
+        <a href="crearTipoEquipo.php" class="button">Nuevo Tipo de equipo (PC)</a>
+        <a href="crearAlmacenamiento.php" class="button">Nuevo tipo de almacenamiento</a>
+        </div>
+        <div id="impresora">
+        <label for="impresora1">Impresoras</label>
+        <a href="crearImp.php" class="button">Nueva Impresora</a>
+        </div>
+        <div id="general">
+        <label for="general1">General</label>
+        <a href="crearPersonal.php" id="general1" class="button">Nuevo Personal</a>
+        <a href="crearFabricante.php" class="button">Nuevo Fabricante</a>
+        <a href="crearArea.php" class="button">Nueva Área</a>
+        <a href="crearCargo.php" class="button">Nuevo Cargo/ruta</a>
         <a href="crearSucursal.php" class="button">Nueva Sucursal</a>
+        </div>
     </div>
 </body>
 </html>

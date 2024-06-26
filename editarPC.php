@@ -1,26 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <?php
 session_start();
 
@@ -55,7 +32,7 @@ LEFT JOIN sucursal ON computadoras.id_sucursal = sucursal.id_sucursal
 WHERE computadoras.id_pc = $id_PC";
 
 $sql2="SELECT * FROM tipo_equipo";
-$sql3="SELECT * FROM fabricante";
+$sql3="SELECT * FROM fabricante WHERE equipo = 'PC'";
 $sql4="SELECT * FROM personal";
 $sql5="SELECT * FROM red_lan";
 $sql6="SELECT * FROM pc_sis_op";
@@ -132,52 +109,24 @@ $accesorios = explode(',', $row0['accesorios']);
     <img src="img/logo.png" id="logo">
 </header>
 <body>
-<a href="indexTelefonos.php">hola mundo!!!</a>
+<nav class="navbar">
+        <div class="navbar-left">
+            <a href="cerrarSesion.php" class="navbtn">Salir</a>
+            <a href="lobby.php" class="navbtn">Inicio</a>
+            <a href="lobbyCrearTlf.php" class="navbtn">Añadir</a>
+            <a href="lobbyVerTlf.php" class="navbtn">Ver y editar</a>
+            <div class="dropdown">
+                 <button class="dropbtn">Gestionar</button>
+                 <div class="dropdown-content">
+                     <a href="indexTelefonos.php">Teléfonos</a>
+                     <a href="indexPc.php">Computadoras</a>
+                     <a href="indexImpresoras.php">Impresoras</a>
+                 </div>
+             </div>
+        </div>
+    </nav>
     <div class="users-table">
         <h2 style="text-align: center;">Editar Información de PC</h2>
-        <style>
-/* Estilo para centrar elementos dentro del contenedor */
-.users-form {
-    text-align: center;
-}
-
-/* Estilo para el formulario dentro del contenedor */
-.users-form form {
-    display: inline-block;
-    text-align: left;
-    margin: 0 auto;
-}
-
-/* Estilo para el formulario */
-.users-form h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-/* Estilo para los campos de entrada de texto */
-.users-form input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-/* Estilo para el botón */
-.users-form input[type="submit"] {
-    background-color: greenyellow;
-    color: black;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-/* Estilo para el botón al pasar el mouse sobre él */
-.users-form input[type="submit"]:hover {
-    background-color: green;
-}
-</style>
 <div class="users-form">
             <form id="nuevo" action="editarPCFuncion.php" method="POST">
             <input type="hidden" name="id_pc" value="<?= $row0['id']?>">
@@ -331,6 +280,7 @@ $accesorios = explode(',', $row0['accesorios']);
                     <label><input type="checkbox" id="estuche" name="accesorios[]" value="Estuche" <?= in_array('Estuche', $accesorios) ? 'checked' : ''; ?>> Estuche</label>
                     <label><input type="checkbox" id="adaptador" name="accesorios[]" value="Adaptador red" <?= in_array('Adaptador red', $accesorios) ? 'checked' : ''; ?>> Adaptador red</label>
                     <label><input type="checkbox" id="cubreteclado" name="accesorios[]" value="Cubreteclado" <?= in_array('Cubreteclado', $accesorios) ? 'checked' : ''; ?>> Cubreteclado</label>
+                    <label><input type="checkbox" id="funda" name="accesorios[]" value="Funda" <?= in_array('Funda', $accesorios) ? 'checked' : ''; ?>> Funda</label>
                 </div>
                 </div>
                 </div>
@@ -427,14 +377,14 @@ $accesorios = explode(',', $row0['accesorios']);
     function actualizarRomHidden() {
       const valor = romNum.value;
       const unidad = unidadSelect.value;
-      const romCompleto = `${valor} ${unidad}`;
+      const romCompleto = `${valor}${unidad}`;
       romHidden.value = romCompleto;
     }
 
     function actualizarRamHidden() {
       const valor1 = ramNum.value;
       const unidad1 = unidad1Select.value;
-      const ramCompleto = `${valor1} ${unidad1}`;
+      const ramCompleto = `${valor1}${unidad1}`;
       ramHidden.value = ramCompleto;
     }
 
@@ -550,8 +500,13 @@ $(document).ready(function() {
         allowClear: true,
         debug: true,
     });
-});</script>
-                <input type="submit" value="Actualizar computadora">
+});</script>    
+                <div style="display:flex">
+                <input type="submit" value="Actualizar computadora">  
+                <div style="margin-left: 25px; margin-top: 10px">
+                <label><input type="checkbox" id="mantenimiento" name="mantenimiento" value="mantenimiento"> Se le realizó mantenimiento?</label>
+                </div>
+                </div> 
             </form>
         </div>
 

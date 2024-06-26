@@ -16,13 +16,13 @@ $_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
 
 include("conexion.php");
 
-
+$id_personal = mysqli_real_escape_string($conexion, $_POST['id_personal']);
 $cargoruta = mysqli_real_escape_string($conexion, $_POST['cargoruta']);
 $area = mysqli_real_escape_string($conexion, $_POST['area']);
 $nombre = mysqli_real_escape_string($conexion, $_POST['nombre']);
 
-$sql1="INSERT INTO personal(id_cargoruta,id_area,nombre)
-VALUES('$cargoruta','$area','$nombre')";
+$sql1="UPDATE personal SET id_cargoruta = '$cargoruta', id_area = '$area', nombre = '$nombre'
+WHERE personal.id_personal = $id_personal";
 
 $query1 = mysqli_query($conexion, $sql1);
 

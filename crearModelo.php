@@ -16,7 +16,7 @@ $_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
 
     include("conexion.php");
 
-    $sql2="SELECT * FROM marca";
+    $sql2="SELECT * FROM fabricante WHERE equipo = 'Teléfono'";
     $query2 = mysqli_query($conexion, $sql2);
     
 ?>
@@ -101,12 +101,12 @@ $_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
                 <div style="display: flex; flex-wrap: wrap;">
                 <div id="selecciones" style="display: block; margin-right: 75px">
                 <div style="margin: 10px; margin-right: 100px">
-                <label for="marca">Marca</label>
-                <select id="marca" name="marca" style="width: 200px" data-placeholder="Seleccione una marca" required>
+                <label for="fabricante">Marca</label>
+                <select id="fabricante" name="fabricante" style="width: 200px" data-placeholder="Seleccione una marca" required>
                 <option value="">Seleccione una marca</option>
                 <?php
                 while ($row = mysqli_fetch_assoc($query2)) {
-                    echo "<option value='{$row['id_marca']}'>{$row['nombre']}</option>";
+                    echo "<option value='{$row['id_fabricante']}'>{$row['nombre']}</option>";
                 }
                 ?>
                 </select>
@@ -182,7 +182,7 @@ $_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
                 
 <script>
 $(document).ready(function() {
-    $('#marca').select2({
+    $('#fabricante').select2({
         minimumInputLength: 0,
         allowClear: true,
         debug: true,

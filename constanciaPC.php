@@ -120,7 +120,7 @@ $pdf->Image('img/logo.png', 10, 10, 40, 20, '', '', '', true, 300, '', false, fa
 
 // Fuente
 $pdf->SetFont('helvetica', '', 9);
-$pdf->SetXY(250, 10);
+$pdf->SetXY(245, 10);
 $pdf->Cell(30, 10, date('d/m/Y'), 0, 0, 'R');
 
 // Título
@@ -161,10 +161,10 @@ foreach ($accesorios as $acc) {
         case 'Cargador':
             $accesoriosText .= "• Cargador\n";
             break;
-        case 'Cable AC tipo Mickey':
+        case 'Cable mickey':
             $accesoriosText .= "• Cable AC tipo Mickey\n";
             break;
-        case 'Guaya seguridad':
+        case 'Guaya de seguridad':
             $accesoriosText .= "• Guaya de seguridad\n";
             break;
         case 'Mouse':
@@ -178,6 +178,9 @@ foreach ($accesorios as $acc) {
             break;
         case 'Cubreteclado':
             $accesoriosText .= "• Cubreteclado\n";
+            break;
+        case 'Funda':
+            $accesoriosText .= "• Funda\n";
             break;
     }
 }
@@ -265,7 +268,7 @@ $contador = 1;
 $pdf->MultiCell(10, 5, $contador++.'.', 0, 'C', 0, 0);
 $pdf->MultiCell(250, 5, 'Queda prohibida la instalación o desinstalación de cualquier programa sin autorización del área de Soporte Técnico.', 0, 'L',0,1);
 $pdf->MultiCell(10, 5, $contador++.'.', 0, 'C', 0, 0);
-if (stripos($row['cargo'], 'Jefe') === false && stripos($row['cargo'], 'Gerente') === false && stripos($row['cargo'], 'Supervisor') === false && $row['area']!= 'Ventas') {
+if (stripos($row['cargo'], 'Jefe') === false && stripos($row['cargo'], 'Gerente') === false && stripos($row['cargo'], 'Supervisor') === false) {
     $pdf->MultiCell(250, 5, 'La asignación del equipo se hace para uso exclusivo dentro de las instalaciones de la empresa.', 0, 'L',0,1);
     $pdf->MultiCell(10, 5, $contador++.'.', 0, 'C', 0, 0);
     $pdf->MultiCell(250, 5, 'Si se requiere el uso del equipo fuera de las instalaciones, debe notificar a su Supervisor o jefe inmediato.', 0, 'L',0,1);

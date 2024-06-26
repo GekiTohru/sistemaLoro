@@ -85,7 +85,8 @@ $telefonosPorPersonal[$idPersonal][] = $nombreTlf;
     </nav>
     <div class="users-table">
         <h2 style="text-align: center;">Personal registrado</h2>
-        <table id="tablaTelefonos">
+<input type="hidden" id="filterInput">
+        <table id="tablaPersonal">
                 <?php
                 foreach ($telefonosPorPersonal as $idPersonal => $usuario) {
                     $fila = current(array_filter($personal, function($fila) use ($idPersonal) {
@@ -103,11 +104,10 @@ $telefonosPorPersonal[$idPersonal][] = $nombreTlf;
                   echo '<td>'. $fila['area']. '</td>';
                   echo '<td>'. $asignado. '</td>';
                   echo '<td>';
-                echo '<div><a href="editarTlf.php?id='. $fila['id']. '" class="users-table--edit">Editar</a></div>';
+                echo '<div><a href="editarPersonal.php?id='. $fila['id']. '" class="users-table--edit">Editar</a></div>';
                 if ($_SESSION['permisos'] == 1) {
-                echo '<div><a href="eliminarTlfFuncion.php?id='. $fila['id']. '" class="users-table--edit" onclick="return confirm(\'¿Estás seguro de eliminar este elemento?\')">Eliminar</a></div>';
+                echo '<div><a href="eliminarFuncion.php?tabla=personal&id_columna=id_personal&id='.$fila['id'].'&redirect=idxPersonal.php" class="users-table--edit" onclick="return confirm(\'¿Estás seguro de eliminar este elemento?\')">Eliminar</a></div>';
                 }
-                echo '<div><a href="auditoriaPdf.php?id='. $fila['id']. '" class="users-table--edit">Auditoría</a></div>';
                 echo '</td>';
                 }
                ?>
@@ -115,7 +115,7 @@ $telefonosPorPersonal[$idPersonal][] = $nombreTlf;
 
     <script type="text/javascript">
 $(document).ready(function() {
-    $('#tablaTelefonos').DataTable({
+   var table = $('#tablaPersonal').DataTable({
         "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, "Todos"]],
         "language": {
   "ajax": {
@@ -123,7 +123,6 @@ $(document).ready(function() {
     "dataType": "json"
   }
 },"responsive": true,
-"pageLength": 5,
         "columns": [
             { "title": "ID"},
             { "title": "Nombre" },
@@ -133,6 +132,16 @@ $(document).ready(function() {
             { "title": "Acciones" }
         ]
     });
+        // Recuperar el valor del filtro del localStorage y aplicarlo
+        var filterValue = sessionStorage.getItem('filterValue_personal');
+        if (filterValue) {
+            table.search(filterValue).draw();
+        }
+
+        // Guardar el valor del filtro en localStorage cada vez que se busca
+        $('#tablaPersonal_filter input').on('input', function() {
+            sessionStorage.setItem('filterValue_personal', $(this).val());
+        });
 });
 </script>
 </body>

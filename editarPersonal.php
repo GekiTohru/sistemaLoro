@@ -15,14 +15,25 @@ if (isset($_SESSION["timeout"])) {
 $_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
 
     include("conexion.php");
+    $id_personal=$_GET['id'];
 
-    
+
+    $sql0="SELECT personal.*, personal.id_personal AS id, cargo_ruta.nombre AS cargo, area.nombre AS area
+    FROM personal
+    LEFT JOIN cargo_ruta ON personal.id_cargoruta = cargo_ruta.id_cargoruta
+    LEFT JOIN area ON personal.id_area = area.id_area
+    WHERE personal.id_personal = $id_personal";
+
     $sql2="SELECT * FROM cargo_ruta";
     $sql3="SELECT * FROM area";
 
+$query0 = mysqli_query($conexion, $sql0);
 $query2 = mysqli_query($conexion, $sql2);
 $query3 = mysqli_query($conexion, $sql3);
 
+$row0 = mysqli_fetch_assoc($query0);
+$id_cargo_seleccionado = $row0['id_cargoruta'];
+$id_area_seleccionado = $row0['id_area'];
 ?>
 <html lang="en">
 <head>
@@ -57,51 +68,9 @@ $query3 = mysqli_query($conexion, $sql3);
     </nav>
     <div class="users-table">
         <h2 style="text-align: center;">Añadir nuevo personal</h2>
-<style>
-/* Estilo para centrar elementos dentro del contenedor */
-.users-form {
-    text-align: center;
-}
-
-/* Estilo para el formulario dentro del contenedor */
-.users-form form {
-    display: inline-block;
-    text-align: left;
-    margin: 0 auto;
-}
-
-/* Estilo para el formulario */
-.users-form h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-/* Estilo para los campos de entrada de texto */
-.users-form input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-/* Estilo para el botón */
-.users-form input[type="submit"] {
-    background-color: greenyellow;
-    color: black;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-/* Estilo para el botón al pasar el mouse sobre él */
-.users-form input[type="submit"]:hover {
-    background-color: green;
-}
-</style>
         <div class="users-form">
-            <form id="nuevo" action="crearPersonalFuncion.php" method="POST">
+            <form id="nuevo" action="editarPersonalFuncion.php" method="POST">
+            <input type="hidden" name="id_personal" value="<?= $row0['id']?>">            
             <div style="display: flex; flex-wrap: wrap;">
                 <div id="selecciones" style="display: block; margin-right: 75px">
                 <div style="margin: 10px; margin-right: 100px">
@@ -109,16 +78,18 @@ $query3 = mysqli_query($conexion, $sql3);
                 <select name="cargoruta" id="cargoruta" style="width: 200px" data-placeholder="Seleccione un cargo/ruta" required>
                 <option value=""></option>
                 <?php
-                while ($row = mysqli_fetch_assoc($query2)) {     
-                    echo "<option value='{$row['id_cargoruta']}'>{$row['nombre']}</option>";
+                while ($row = mysqli_fetch_assoc($query2)) {
+                    $selected = ($row['id_cargoruta'] == $id_cargo_seleccionado)? 'selected' : '';
+                    echo "<option value='{$row['id_cargoruta']}' $selected>{$row['nombre']}</option>";
                 }
                 ?></select>
                 <label for="area">Área</label>
                 <select name="area" id="area" style="width: 200px" data-placeholder="Seleccione una área" required>
                 <option value=""></option>
                 <?php
-                while ($row = mysqli_fetch_assoc($query3)) {     
-                    echo "<option value='{$row['id_area']}'>{$row['nombre']}</option>";
+                while ($row = mysqli_fetch_assoc($query3)) {
+                    $selected = ($row['id_area'] == $id_area_seleccionado)? 'selected' : '';
+                    echo "<option value='{$row['id_area']}' $selected>{$row['nombre']}</option>";
                 }
                 ?></select>
                 </div>
@@ -127,7 +98,7 @@ $query3 = mysqli_query($conexion, $sql3);
                 <div id="entradas" style="display: flex; flex-wrap: wrap;">
                 <div class="inputs">
                 <label for="nombre">Nombre</label>
-                <input type="text" name="nombre" id="nombre" placeholder="Ingrese el nombre" value="" required>
+                <input type="text" name="nombre" id="nombre" placeholder="Ingrese el nombre" value="<?= $row0['nombre']?>" required>
                 </div>
                 </div>
 <script>

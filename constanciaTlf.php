@@ -21,10 +21,10 @@ require_once('TCPDF/tcpdf.php');
 $id_telefono=$_GET['id'];
 
 
-$sql="SELECT telefonos.*, telefonos.id_telefono AS id, modelo_marca.nombre AS modelo, modelo_marca.ram AS ram, modelo_marca.rom AS rom, marca.nombre AS marca, personal.nombre AS asignado, cargo_ruta.nombre AS cargo, area.nombre AS area
+$sql="SELECT telefonos.*, telefonos.id_telefono AS id, modelo_marca.nombre AS modelo, modelo_marca.ram AS ram, modelo_marca.rom AS rom, fabricante.nombre AS marca, personal.nombre AS asignado, cargo_ruta.nombre AS cargo, area.nombre AS area
     FROM telefonos
     INNER JOIN modelo_marca ON telefonos.id_modelo = modelo_marca.id_modelo
-    INNER JOIN marca ON modelo_marca.id_marca = marca.id_marca
+    INNER JOIN fabricante ON modelo_marca.id_fabricante = fabricante.id_fabricante
     LEFT JOIN tlf_asignado ON telefonos.id_telefono = tlf_asignado.id_telefono
     LEFT JOIN personal ON tlf_asignado.id_personal = personal.id_personal
     LEFT JOIN cargo_ruta ON personal.id_cargoruta = cargo_ruta.id_cargoruta

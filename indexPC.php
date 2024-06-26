@@ -77,7 +77,7 @@ foreach ($pc as $fila) {
         <div class="navbar-left">
             <a href="cerrarSesion.php" class="navbtn">Salir</a>
             <a href="lobby.php" class="navbtn">Inicio</a>
-            <a href="lobbyCrearPC.php" class="navbtn">Añadir</a>
+            <a href="lobbyCrearTlf.php" class="navbtn">Añadir</a>
             <a href="lobbyVerTlf.php" class="navbtn">Ver y editar</a>
             <div class="dropdown">
                  <button class="dropbtn">Gestionar</button>
@@ -91,10 +91,8 @@ foreach ($pc as $fila) {
     </nav>
     <div class="users-table">
         <h2 style="text-align: center;">Computadoras registradas</h2>
-        <style>
-
-</style>
-        <table id="tablaTelefonos" class="display responsive nowrap" style="width:100%">    
+<input type="hidden" id="filterInput">
+        <table id="tablaPC" class="display responsive nowrap" style="width:100%">    
                 <?php
                 foreach ($usuariosPorPC as $idPC => $usuarios) {
                     $fila = current(array_filter($pc, function($fila) use ($idPC) {
@@ -114,14 +112,15 @@ foreach ($pc as $fila) {
                   echo '<td>'. $fila['ram']. '</td>';
                   echo '<td>'. $fila['almacenamiento']. '</td>';
                   echo '<td>';
-                echo '<div><a href="editarPC.php?id='. $fila['id']. '" class="users-table--edit">Editar</a></div>';
-                if ($_SESSION['permisos'] == 1) {
-                echo '<div><a href="eliminarPcFuncion.php?id='. $fila['id']. '" class="users-table--edit" onclick="return confirm(\'¿Estás seguro de eliminar este elemento?\')">Eliminar</a></div>';
-                }
-                echo '<div><a href="auditoriaPcPdf.php?id='. $fila['id']. '" class="users-table--edit">Auditoría</a></div>';
-                echo '<div><a href="fichaPcPdf.php?id='. $fila['id']. '" class="users-table--edit">Ficha</a></div>';
-                echo '<div><a href="constanciaPc.php?id='. $fila['id']. '" class="users-table--edit">Constancia</a></div>';
-                echo '</td>';
+                  echo '<div><a href="editarPC.php?id='. $fila['id']. '" class="users-table--edit">Editar</a></div>';
+                  if ($_SESSION['permisos'] == 1) {
+                    echo '<div><a href="eliminarFuncion.php?tabla=computadoras&id_columna=id_pc&id='.$fila['id'].'&redirect=indexPC.php" class="users-table--edit" onclick="return confirm(\'¿Estás seguro de eliminar este elemento?\')">Eliminar</a></div>';
+                  }
+                  echo '<div><a href="auditoriaPcPdf.php?id='. $fila['id']. '" class="users-table--edit">Auditoría</a></div>';
+                  echo '<div><a href="fichaPcPdf.php?id='. $fila['id']. '" class="users-table--edit">Ficha</a></div>';
+                  echo '<div><a href="constanciaPc.php?id='. $fila['id']. '" class="users-table--edit">Constancia</a></div>';
+                  echo '</td>';
+                  echo '<td>'. $fila['serial']. '</td>';
             }
                ?>
                </table>
@@ -129,7 +128,7 @@ foreach ($pc as $fila) {
 
     <script type="text/javascript">
 $(document).ready(function() {
-    $('#tablaTelefonos').DataTable({
+  var table = $('#tablaPC').DataTable({
         "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, "Todos"]],
         "language": {
   "ajax": {
@@ -137,7 +136,6 @@ $(document).ready(function() {
     "dataType": "json"
   }
 },"responsive": true,
-"pageLength": 5,
         "columns": [
             { "title": "ID"},
             { "title": "Fabricante" },
@@ -150,9 +148,20 @@ $(document).ready(function() {
             { "title": "Sucursal", "defaultContent": "Sin sucursal" },
             { "title": "RAM", "defaultContent": "N/A" },
             { "title": "Almacen.","defaultContent": "N/A" },
-            { "title": "Acciones" }
+            { "title": "Acciones" },
+            { "title": "Serial", "defaultContent": "N/A" },
         ]
     });
+    // Recuperar el valor del filtro del localStorage y aplicarlo
+    var filterValue = sessionStorage.getItem('filterValue_pc');
+        if (filterValue) {
+            table.search(filterValue).draw();
+        }
+
+        // Guardar el valor del filtro en localStorage cada vez que se busca
+        $('#tablaPC_filter input').on('input', function() {
+            sessionStorage.setItem('filterValue_pc', $(this).val());
+        });
 });
 </script>
 </body>

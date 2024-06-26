@@ -25,21 +25,18 @@ function check_empty($value) {
     }
   }
 
-  $marca = check_empty(mysqli_real_escape_string($conexion, $_POST['fabricante']));
   $nombre = check_empty(mysqli_real_escape_string($conexion, $_POST['nombre']));
-  $ram = check_empty(mysqli_real_escape_string($conexion, $_POST['ram']));
-  $rom = check_empty(mysqli_real_escape_string($conexion, $_POST['rom']));
-  $tipo = check_empty(mysqli_real_escape_string($conexion, $_POST['dispositivo']));
+  $teclado = check_empty(mysqli_real_escape_string($conexion, $_POST['teclado']));
 
 
 
-$sql1="INSERT INTO modelo_marca(id_fabricante,nombre,ram,rom,tipo)
-VALUES('$marca','$nombre','$ram','$rom','$tipo')";
+$sql1="INSERT INTO tipo_equipo(nombre,teclado)
+VALUES('$nombre','$teclado')";
 
 $query1 = mysqli_query($conexion, $sql1);
 
 if ($query1) {
-    echo '<script language="javascript">alert("Modelo añadido correctamente"); window.location.href = "indexTelefonos.php";</script>';
+    echo '<script language="javascript">alert("Tipo de equipo añadido correctamente"); window.location.href = "indexTelefonos.php";</script>';
 } else {
-    echo '<script language="javascript">alert("Error al añadir el modelo");</script>';
+    echo '<script language="javascript">alert("Error al añadir el tipo de equipo");</script>';
 }

@@ -21,10 +21,10 @@ require_once('TCPDF/tcpdf.php');
 $id_telefono=$_GET['id'];
 
 
-$sql="SELECT telefonos.*, telefonos.id_telefono AS id, modelo_marca.nombre AS modelo, marca.nombre AS marca, personal.nombre AS asignado, cargo_ruta.nombre AS cargo, area.nombre AS area
+$sql="SELECT telefonos.*, telefonos.id_telefono AS id, modelo_marca.nombre AS modelo, fabricante.nombre AS marca, personal.nombre AS asignado, cargo_ruta.nombre AS cargo, area.nombre AS area
     FROM telefonos
     INNER JOIN modelo_marca ON telefonos.id_modelo = modelo_marca.id_modelo
-    INNER JOIN marca ON modelo_marca.id_marca = marca.id_marca
+    INNER JOIN fabricante ON modelo_marca.id_fabricante = fabricante.id_fabricante
     LEFT JOIN tlf_asignado ON telefonos.id_telefono = tlf_asignado.id_telefono
     LEFT JOIN personal ON tlf_asignado.id_personal = personal.id_personal
     LEFT JOIN cargo_ruta ON personal.id_cargoruta = cargo_ruta.id_cargoruta
@@ -171,7 +171,7 @@ if (!empty($row['otra_app'])) {
 $pdf->SetXY(10, 100);
 $accessories = [
     'Forro' => $row['forro'],
-    'Vidrio Templado' => $row['vidrio'],
+    'Vidrio Templado/Hidrogel' => $row['vidrio_hidrogel'],
     'Pantalla' => $row['pantalla'],
     'Cargador' => $row['cargador'],
     'Cable USB' => $row['cable_usb'],

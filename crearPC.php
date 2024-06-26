@@ -17,7 +17,7 @@ $_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
     include("conexion.php");
 
     $sql2="SELECT * FROM tipo_equipo";
-    $sql3="SELECT * FROM fabricante";
+    $sql3="SELECT * FROM fabricante WHERE equipo = 'PC'";
     $sql4="SELECT * FROM personal";
     $sql5="SELECT * FROM red_lan";
     $sql6="SELECT * FROM pc_sis_op";
@@ -217,6 +217,7 @@ $query9 = mysqli_query($conexion, $sql9);
                     <label><input type="checkbox" id="estuche" name="accesorios[]" value="Estuche"> Estuche</label>
                     <label><input type="checkbox" id="adaptador" name="accesorios[]" value="Adaptador red"> Adaptador red</label>
                     <label><input type="checkbox" id="cubreteclado" name="accesorios[]" value="Cubreteclado"> Cubreteclado</label>
+                    <label><input type="checkbox" id="funda" name="accesorios[]" value="Funda"> Funda</label>
                 </div>
                 </div>
                 </div>
@@ -460,6 +461,7 @@ $(document).ready(function() {
 
 
                 <input type="submit" value="Añadir nueva PC">
+                
             </form>
         </div>
         

@@ -17,10 +17,10 @@ $_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
     include("conexion.php");
     $id_telefono=$_GET['id'];
 
-    $sql="SELECT telefonos.*, telefonos.id_telefono AS id, modelo_marca.nombre AS modelo, marca.nombre AS marca, personal.nombre AS asignado, cargo_ruta.nombre AS cargo, area.nombre AS area
+    $sql="SELECT telefonos.*, telefonos.id_telefono AS id, modelo_marca.nombre AS modelo, fabricante.nombre AS fabricante, personal.nombre AS asignado, cargo_ruta.nombre AS cargo, area.nombre AS area
     FROM telefonos
     INNER JOIN modelo_marca ON telefonos.id_modelo = modelo_marca.id_modelo
-    INNER JOIN marca ON modelo_marca.id_marca = marca.id_marca
+    INNER JOIN fabricante ON modelo_marca.id_fabricante = fabricante.id_fabricante
     LEFT JOIN tlf_asignado ON telefonos.id_telefono = tlf_asignado.id_telefono
     LEFT JOIN personal ON tlf_asignado.id_personal = personal.id_personal
     LEFT JOIN cargo_ruta ON personal.id_cargoruta = cargo_ruta.id_cargoruta
@@ -95,52 +95,25 @@ $apps = explode(',', $row0['app_conf']);
     <img src="img/logo.png" id="logo">
 </header>
 <body>
-<a href="indexTelefonos.php">hola mundo!!!</a>
+<nav class="navbar">
+        <div class="navbar-left">
+            <a href="cerrarSesion.php" class="navbtn">Salir</a>
+            <a href="lobby.php" class="navbtn">Inicio</a>
+            <a href="lobbyCrearTlf.php" class="navbtn">Añadir</a>
+            <a href="lobbyVerTlf.php" class="navbtn">Ver y editar</a>
+            <div class="dropdown">
+                 <button class="dropbtn">Gestionar</button>
+                 <div class="dropdown-content">
+                     <a href="indexTelefonos.php">Teléfonos</a>
+                     <a href="indexPc.php">Computadoras</a>
+                     <a href="indexImpresoras.php">Impresoras</a>
+                 </div>
+             </div>
+        </div>
+    </nav>
     <div class="users-table">
         <h2 style="text-align: center;">Editar Información de teléfono</h2>
-        <style>
-/* Estilo para centrar elementos dentro del contenedor */
-.users-form {
-    text-align: center;
-}
 
-/* Estilo para el formulario dentro del contenedor */
-.users-form form {
-    display: inline-block;
-    text-align: left;
-    margin: 0 auto;
-}
-
-/* Estilo para el formulario */
-.users-form h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-/* Estilo para los campos de entrada de texto */
-.users-form input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-/* Estilo para el botón */
-.users-form input[type="submit"] {
-    background-color: greenyellow;
-    color: black;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-/* Estilo para el botón al pasar el mouse sobre él */
-.users-form input[type="submit"]:hover {
-    background-color: green;
-}
-</style>
         <div class="users-form">
         <h2><?= $row0['cargo']; ?></h2>
             <form id="nuevo" action="editarTlfFuncion.php" method="POST">
@@ -221,7 +194,7 @@ $apps = explode(',', $row0['app_conf']);
                 <label><input type="checkbox" id="adaptador1" name="accesorios[]" value="adaptador" <?= in_array('adaptador', $accesorios) ? 'checked' : ''; ?>> Adaptador</label>
                 <label><input type="checkbox" id="cable-usb" name="accesorios[]" value="cable usb" <?= in_array('cable usb', $accesorios) ? 'checked' : ''; ?>> Cable USB</label>
                 <label><input type="checkbox" id="forro1" name="accesorios[]" value="forro" <?= in_array('forro', $accesorios) ? 'checked' : ''; ?>> Forro</label>
-                <label><input type="checkbox" id="vidrio-templado" name="accesorios[]" value="vidrio templado" <?= in_array('vidrio templado', $accesorios) ? 'checked' : ''; ?>> Vidrio templado</label>
+                <label><input type="checkbox" id="vidrio_hidrogel-templado" name="accesorios[]" value="vidrio_hidrogel templado" <?= in_array('vidrio templado', $accesorios) ? 'checked' : ''; ?>> Vidrio templado</label>
                 <label><input type="checkbox" id="hidrogel" name="accesorios[]" value="hidrogel" <?= in_array('hidrogel', $accesorios) ? 'checked' : ''; ?>> Hidrogel</label>
                 <label><input type="checkbox" id="estuche" name="accesorios[]" value="estuche" <?= in_array('estuche', $accesorios) ? 'checked' : ''; ?>> Estuche</label>
                 </div>
@@ -348,8 +321,8 @@ $apps = explode(',', $row0['app_conf']);
         <option value="MB" <?= $unidad_consumo == 'MB' ? 'selected' : '' ?>>MB</option>
     </select>
 </div>
-<input type="text" name="almacenamiento" id="almacenamiento-hidden" value="<?= $numero_almacenamiento . $unidad_almacenamiento ?>">
-<input type="text" name="consumo_datos" id="consumo-hidden" value="<?= $numero_consumo . $unidad_consumo ?>">
+<input type="hidden" name="almacenamiento" id="almacenamiento-hidden" value="<?= $numero_almacenamiento . $unidad_almacenamiento ?>">
+<input type="hidden" name="consumo_datos" id="consumo-hidden" value="<?= $numero_consumo . $unidad_consumo ?>">
 
 <div class="inputs" style="width: 600px">
                 <label for="editor">Observación</label>
@@ -395,14 +368,15 @@ $apps = explode(',', $row0['app_conf']);
 
   <div id="statuses" style="display: flex; flex-wrap: wrap;">
   <div class="inputs">
-  <label for="vidrio">Estado del vidrio</label>
-  <select name="vidrio" id="vidrio">
-    <option value="BUENO" <?= $row0['vidrio'] == 'BUENO' ? 'selected' : '' ?>>BUENO</option>
-    <option value="DAÑADO" <?= $row0['vidrio'] == 'DAÑADO' ? 'selected' : '' ?>>DAÑADO</option>
-    <option value="PARTIDO" <?= $row0['vidrio'] == 'PARTIDO' ? 'selected' : '' ?>>PARTIDO</option>
-    <option value="RAYADO" <?= $row0['vidrio'] == 'RAYADO' ? 'selected' : '' ?>>RAYADO</option>
-    <option value="NO TIENE" <?= $row0['vidrio'] == 'NO TIENE' ? 'selected' : '' ?>>NO TIENE</option>
-    <option value="OTRO" <?= $row0['vidrio'] == 'OTRO' ? 'selected' : '' ?>>OTRO</option>
+  <label for="vidrio_hidrogel">Estado del vidrio/hidrogel</label>
+  <select name="vidrio_hidrogel" id="vidrio_hidrogel">
+    <option value="BUENO" <?= $row0['vidrio_hidrogel'] == 'BUENO' ? 'selected' : '' ?>>BUENO</option>
+    <option value="DAÑADO" <?= $row0['vidrio_hidrogel'] == 'DAÑADO' ? 'selected' : '' ?>>DAÑADO</option>
+    <option value="PARTIDO" <?= $row0['vidrio_hidrogel'] == 'PARTIDO' ? 'selected' : '' ?>>PARTIDO</option>
+    <option value="ROTO" <?= $row0['vidrio_hidrogel'] == 'ROTO' ? 'selected' : '' ?>>ROTO</option>
+    <option value="RAYADO" <?= $row0['vidrio_hidrogel'] == 'RAYADO' ? 'selected' : '' ?>>RAYADO</option>
+    <option value="NO TIENE" <?= $row0['vidrio_hidrogel'] == 'NO TIENE' ? 'selected' : '' ?>>NO TIENE</option>
+    <option value="OTRO" <?= $row0['vidrio_hidrogel'] == 'OTRO' ? 'selected' : '' ?>>OTRO</option>
   </select>
 </div>
   <div class="inputs">

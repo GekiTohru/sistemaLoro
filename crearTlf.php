@@ -352,11 +352,12 @@ $row=mysqli_fetch_array($query3);
 </script>
                 <div id="statuses" style="display: flex; flex-wrap: wrap;">
                 <div class="inputs">
-                <label for="vidrio">Estado del vidrio</label>
-                <select name="vidrio" id="vidrio">
+                <label for="vidrio_hidrogel">Estado del vidrio/hidrogel</label>
+                <select name="vidrio_hidrogel" id="vidrio_hidrogel">
                 <option value="BUENO">BUENO</option>
                 <option value="DAÑADO">DAÑADO</option>
                 <option value="PARTIDO">PARTIDO</option>
+                <option value="ROTO">ROTO</option>
                 <option value="RAYADO">RAYADO</option>
                 <option value="NO TIENE">NO TIENE</option>
                 <option value="OTRO">OTRO</option>

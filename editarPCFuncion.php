@@ -73,7 +73,8 @@ $pantalla = mysqli_real_escape_string($conexion, $_POST['pantalla/monitor']);
 $estado_teclado = mysqli_real_escape_string($conexion, $_POST['estado_teclado']);
 $cargador = mysqli_real_escape_string($conexion, $_POST['cargador']);
 $cable_mickey = mysqli_real_escape_string($conexion, $_POST['cable_mickey']);
-
+$mantenimiento = isset($_POST['mantenimiento']) ? $_POST['mantenimiento'] : 0;
+$realizador = $_SESSION['nombre'];
 
 
 
@@ -121,9 +122,17 @@ $sql1 = "UPDATE computadoras SET
   cable_mickey = '$cable_mickey'
 WHERE id_pc = '$id_pc'";
 
+$sql2 = "INSERT INTO registro_mantenimiento(fecha_mantenimiento, id_pc, realizador)
+VALUES ('$fecha_ult_mant','$id_pc','$realizador')"; 
 
+
+
+if ($mantenimiento == true){
 $query1 = mysqli_query($conexion, $sql1);
-
+$query2 = mysqli_query($conexion, $sql2);
+} else{
+    $query1 = mysqli_query($conexion, $sql1);
+}
 
 
 if ($query1) {

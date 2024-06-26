@@ -3,12 +3,8 @@
     height: 125px;
 }
 
-#hola{
-    color: blue;
-}
-
 #accesorios {
-    text-align: center; /* Centra el contenido del div */
+    text-align: center;
     width: 170px;
   }
   
@@ -16,18 +12,18 @@
     display: flex;
   }
   #accesorios input[type="checkbox"] {
-    cursor: pointer; /* Cambia el cursor para indicar que se puede hacer clic */
+    cursor: pointer;
   }
   
   #accesorios input[type="checkbox"] {
-    margin: 0; /* Quita el margen para que no se desplace el checkbox */
-    display: inline-block; /* Muestra el checkbox junto al texto */
-    width: 17px; /* Establece un ancho fijo para el checkbox */
-    height: 17px; /* Establece un alto fijo para el checkbox */
+    margin: 0; 
+    display: inline-block;
+    width: 17px;
+    height: 17px;
   }
   
   #accesorios input[type="checkbox"] + label {
-    margin-left: 5px; /* Agrega un espacio entre el checkbox y el texto */
+    margin-left: 5px;
   }
   
   /* Estilos generales */
@@ -251,7 +247,6 @@ select#selecciones{
 }
 
 /* Estilo para la tabla */
-/* Estilo para la tabla */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -343,3 +338,30 @@ table.dataTable td {
   /*max-width: 0;*/
   word-wrap: break-word; /* Forza el salto de palabra */
 }
+
+  .form-date__label {
+  font-family: “Helvetica”, arial, sans-serif;
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 24px;
+  padding-bottom: 8px;
+  }
+  .form-date__input[type="date"] {
+  appearance: none;
+  color: #1D1D1D;
+  font-family: “Helvetica”, arial, sans-serif;
+  font-size: 15px;
+  border:1px solid #ECF0F1;
+  background:#c5ff59;
+  padding: 4px;
+  display: inline-block;
+  visibility: visible;
+  width: 140px;
+  }
+  .form-date__input[type="date"]:focus {
+  color: #495057;
+  background-color: #FFFFFF;
+  border-color: #80BDFF;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+  }

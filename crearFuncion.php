@@ -24,6 +24,8 @@ include("conexion.php");
       'nombre_cargo' => isset($_POST['nombre_cargo']) ? check_empty(mysqli_real_escape_string($conexion, $_POST['nombre_cargo'])) : null,
       'nombre_area' => isset($_POST['nombre_area']) ? check_empty(mysqli_real_escape_string($conexion, $_POST['nombre_area'])) : null,
       'nombre_sisver' => isset($_POST['nombre_sisver']) ? check_empty(mysqli_real_escape_string($conexion, $_POST['nombre_sisver'])) : null,
+      'nombre_pcso' => isset($_POST['nombre_pcso']) ? check_empty(mysqli_real_escape_string($conexion, $_POST['nombre_pcso'])) : null,
+      'nombre_almacentipo' => isset($_POST['nombre_almacentipo']) ? check_empty(mysqli_real_escape_string($conexion, $_POST['nombre_almacentipo'])) : null,
   ];
 
   function check_empty($value) {
@@ -51,6 +53,12 @@ include("conexion.php");
                       break;
                   case 'nombre_sisver':
                       $sql = "INSERT INTO tlf_sisver(nombre) VALUES('$value')";
+                      break;
+                  case 'nombre_pcso':
+                      $sql = "INSERT INTO pc_sis_op(nombre) VALUES('$value')";
+                      break;
+                  case 'nombre_almacentipo':
+                      $sql = "INSERT INTO tipo_almacenamiento(nombre) VALUES('$value')";
                       break;
                   default:
                       continue 2;

@@ -64,7 +64,7 @@ $precio = check_empty(mysqli_real_escape_string($conexion, $_POST['precio']), 'p
 $nota = check_empty(mysqli_real_escape_string($conexion, $_POST['nota']), 'nota');
 $almacenamiento = check_empty(mysqli_real_escape_string($conexion, $_POST['almacenamiento']), 'almacenamiento');
 $consumo_datos = mysqli_real_escape_string($conexion, $_POST['consumo_datos']);
-$vidrio = mysqli_real_escape_string($conexion, $_POST['vidrio']);
+$vidrio_hidrogel = mysqli_real_escape_string($conexion, $_POST['vidrio_hidrogel']);
 $forro = mysqli_real_escape_string($conexion, $_POST['forro']);
 $pantalla = mysqli_real_escape_string($conexion, $_POST['pantalla']);
 $camara = mysqli_real_escape_string($conexion, $_POST['camara']);
@@ -75,8 +75,8 @@ $adaptador = mysqli_real_escape_string($conexion, $_POST['adaptador']);
 
 
 
-$sql1="INSERT INTO telefonos(fecha_recep,fecha_ult_mant,fecha_ult_rev,id_modelo,id_sisver,id_operadora,id_sucursal,accesorios,app_conf,imei1,imei2,imei_adn,serial,mac_lan,mac_wifi,numero,cuenta_google,clave_google,correo_corporativo,clave_corporativo,anydesk,pin,cuenta_mi,clave_mi, precio, nota, almacenamiento_ocupado, consumo_datos, vidrio,forro,pantalla,camara,cargador,cable_usb,adaptador)
-VALUES('$fecha_recep','$fecha_ult_mant','$fecha_ult_rev','$modelo','$sisver','$operadora','$sucursal','$accesorios_string','$apps_string','$imei1','$imei2','$imei_adn','$serial','$mac_lan','$mac_wifi','$numero','$cuenta_google','$clave_google','$correo_corporativo','$clave_corporativo','$anydesk','$pin','$cuenta_mi','$clave_mi','$precio','$nota','$almacenamiento','$consumo_datos','$vidrio','$forro','$pantalla','$camara','$cargador','$cable_usb','$adaptador')";
+$sql1="INSERT INTO telefonos(fecha_recep,fecha_ult_mant,fecha_ult_rev,id_modelo,id_sisver,id_operadora,id_sucursal,accesorios,app_conf,imei1,imei2,imei_adn,serial,mac_lan,mac_wifi,numero,cuenta_google,clave_google,correo_corporativo,clave_corporativo,anydesk,pin,cuenta_mi,clave_mi, precio, nota, almacenamiento_ocupado, consumo_datos, vidrio_hidrogel,forro,pantalla,camara,cargador,cable_usb,adaptador)
+VALUES('$fecha_recep','$fecha_ult_mant','$fecha_ult_rev','$modelo','$sisver','$operadora','$sucursal','$accesorios_string','$apps_string','$imei1','$imei2','$imei_adn','$serial','$mac_lan','$mac_wifi','$numero','$cuenta_google','$clave_google','$correo_corporativo','$clave_corporativo','$anydesk','$pin','$cuenta_mi','$clave_mi','$precio','$nota','$almacenamiento','$consumo_datos','$vidrio_hidrogel','$forro','$pantalla','$camara','$cargador','$cable_usb','$adaptador')";
 
 $query1 = mysqli_query($conexion, $sql1);
 

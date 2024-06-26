@@ -15,7 +15,6 @@ if (isset($_SESSION["timeout"])) {
 $_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
 
     include("conexion.php");
-
 ?>
 <html lang="en">
 <head>
@@ -49,59 +48,32 @@ $_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
         </div>
     </nav>
     <div class="users-table">
-        <h2 style="text-align: center;">Añadir nueva marca</h2>
-<style>
-/* Estilo para centrar elementos dentro del contenedor */
-.users-form {
-    text-align: center;
-}
+        <h2 style="text-align: center;">Añadir nuevo usuario</h2>
 
-/* Estilo para el formulario dentro del contenedor */
-.users-form form {
-    display: inline-block;
-    text-align: left;
-    margin: 0 auto;
-}
-
-/* Estilo para el formulario */
-.users-form h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-/* Estilo para los campos de entrada de texto */
-.users-form input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-/* Estilo para el botón */
-.users-form input[type="submit"] {
-    background-color: greenyellow;
-    color: black;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-/* Estilo para el botón al pasar el mouse sobre él */
-.users-form input[type="submit"]:hover {
-    background-color: green;
-}
-</style>
         <div class="users-form">
-            <form id="nuevo" action="crearFuncion.php" method="POST">
+            <form id="nuevo" action="crearUsuarioFuncion.php" method="POST">
                 <div id="entradas" style="display: flex; flex-wrap: wrap;">
                 <div class="inputs">
-                <label for="nombre_marca">Marca</label>
-                <input type="text" name="nombre_marca" id="nombre_marca" placeholder="Ingrese el nombre" value="" required>
+                <label for="user">Usuario</label>
+                <input type="text" name="user" id="user" placeholder="Ingrese el usuario" value="" required>
+                </div>
+                <div class="inputs">
+                <label for="nombre">Nombre</label>
+                <input type="text" name="nombre" id="nombre" placeholder="Ingrese el nombre" value="" required>
+                </div>
+                <div class="inputs">
+                <label for="pass">Clave</label>
+                <input type="text" name="pass" id="pass" placeholder="Ingrese la clave" value="" required>
+                </div>
+                <div class="inputs">
+                <label for="permisos">Permisos</label>
+                <select name="permisos" id="permisos">
+                <option value="0">Usuario</option>
+                <option value="1">Administrador</option>
+                </select>
                 </div>
 </div>
-                <input type="submit" value="Añadir nueva marca">
+                <input type="submit" value="Añadir nuevo usuario">
             </form>
         </div>
         
