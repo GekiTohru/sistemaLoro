@@ -28,7 +28,7 @@ if (!isset($_SESSION['user'])) {
            echo'<div class="dropdown">
                 <button class="dropbtn">Administrar</button>
                 <div class="dropdown-content">
-                    <a href="gestionarUsuarios.php">Gestionar usuarios</a>
+                    <a href="idxUsuarios.php">Gestionar usuarios</a>
                     <a href="#">Opción de prueba</a>
                 </div>
             </div>';
@@ -41,16 +41,17 @@ if (!isset($_SESSION['user'])) {
         <div id="tlf">
         <h1 style="margin-left: 5%">Teléfonos</h1>
         <a href="indexTelefonos.php" class="button">Gestionar Teléfonos</a>
-        <a href="idxModelo.php" class="button">Gestionar Modelo</a>
-        <a href="idxSisTlf.php" class="button">Gestionar Versones de Android</a>
-        <a href="idxOperadora.php" class="button">Gestionar Operadoras</a>
+        <a href="indexGeneral.php?tabla=modelo" class="button">Gestionar Modelo</a>
+        <a href="indexGeneral.php?tabla=tlf_sisver" class="button">Gestionar Versiones de Android</a>
+        <a href="indexGeneral.php?tabla=operadora" class="button">Gestionar Operadoras</a>
         </div>
         <div id="pc">
         <h1 style="margin-left: 5%">Computadoras</h1>
         <a href="indexPC.php" class="button">Gestionar Computadoras</a>
-        <a href="idxPcSO.php" class="button">Gestionar Sistemas Operativos (PC)</a>
-        <a href="idxTipoEquipo.php" class="button">Gestionar Tipos de equipo (PC)</a>
-        <a href="idxAlmacenamiento.php" class="button">Gestionar Tipos de almacenamiento</a>
+        <a href="indexGeneral.php?tabla=pc_sis_op" class="button">Gestionar Sistemas operativos (PC)</a>
+        <a href="indexGeneral.php?tabla=tipo_equipo" class="button">Gestionar Tipo de Equipo (PC)</a>
+        <a href="indexGeneral.php?tabla=tipo_almacenamiento" class="button">Gestionar Tipo de Almacenamiento</a>
+        <a href="indexGeneral.php?tabla=red_lan" class="button">Gestionar Tipos de red</a>
         </div>
         <div id="impresora">
         <h1 style="margin-left: 5%">Impresoras</h1>
@@ -59,13 +60,24 @@ if (!isset($_SESSION['user'])) {
         <div id="general">
         <h1 style="margin-left: 5%">General</h1>
         <a href="idxPersonal.php" class="button">Gestionar Personal</a>
-        <a href="idxFabricante.php" class="button">Gestionar Fabricantes</a>
-        <a href="idxArea.php" class="button">Gestionar Áreas</a>
-        <a href="idxCargo.php" class="button">Gestionar Cargos/rutas</a>
-        <a href="idxSucursal.php" class="button">Gestionar Sucursales</a>
+        <a href="indexGeneral.php?tabla=fabricante" class="button">Gestionar Fabricantes</a>
+        <a href="indexGeneral.php?tabla=area" class="button">Gestionar Áreas</a>
+        <a href="indexGeneral.php?tabla=cargo_ruta" class="button">Gestionar Cargos/Rutas</a>
+        <a href="indexGeneral.php?tabla=sucursales" class="button">Gestionar Sucursales</a>
+        <a href="indexGeneral.php?tabla=sistema_admin" class="button">Gestionar Sistemas Administrativos</a>
         <a href="idxMantenimientos.php" class="button">Gestionar Mantenimientos</a>
         </div>
     </div>
 
 </body>
+<!-- <a href="indexGeneral.php?tabla=modelos" class="button">Gestionar Modelo</a>
+<a href="indexGeneral.php?tabla=sucursales" class="button">Gestionar Sucursales</a>
+<a href="indexGeneral.php?tabla=tipo_almacenamiento" class="button">Gestionar Tipo de Almacenamiento</a>
+<a href="indexGeneral.php?tabla=tipo_equipo" class="button">Gestionar Tipo de Equipo</a>
+<a href="indexGeneral.php?tabla=tlf_sisver" class="button">Gestionar Tlf Sisver</a>
+<a href="indexGeneral.php?tabla=sistema_admin" class="button">Gestionar Sistema Admin</a>
+<a href="indexGeneral.php?tabla=red_lan" class="button">Gestionar Red LAN</a>
+<a href="indexGeneral.php?tabla=pc_sis_op" class="button">Gestionar PC Sis OP</a>
+<a href="indexGeneral.php?tabla=cargo_ruta" class="button">Gestionar Cargo Ruta</a>
+<a href="indexGeneral.php?tabla=area" class="button">Gestionar Área</a> -->
 </html>

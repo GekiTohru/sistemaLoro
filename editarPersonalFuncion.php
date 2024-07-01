@@ -27,7 +27,7 @@ WHERE personal.id_personal = $id_personal";
 $query1 = mysqli_query($conexion, $sql1);
 
 if ($query1) {
-    echo '<script language="javascript">alert("Personal añadido correctamente"); window.location.href = "idxPersonal.php";</script>';
+    echo '<script language="javascript">alert("Personal editado correctamente"); window.location.href = "idxPersonal.php";</script>';
 } else {
-    echo '<script language="javascript">alert("Error al añadir el personal");</script>';
+    echo '<script language="javascript">alert("Error al editar el personal");</script>';
 }

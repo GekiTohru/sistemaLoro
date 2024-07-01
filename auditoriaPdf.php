@@ -171,7 +171,7 @@ if (!empty($row['otra_app'])) {
 $pdf->SetXY(10, 100);
 $accessories = [
     'Forro' => $row['forro'],
-    'Vidrio Templado/Hidrogel' => $row['vidrio_hidrogel'],
+    'Vidrio/Hidrogel' => $row['vidrio_hidrogel'],
     'Pantalla' => $row['pantalla'],
     'Cargador' => $row['cargador'],
     'Cable USB' => $row['cable_usb'],

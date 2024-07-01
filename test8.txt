@@ -1,0 +1,7 @@
+ALTER TABLE modelo_marca
+ADD PRIMARY KEY (id_modelo),
+ADD INDEX idx_id_marca (id_fabricante);
+
+-- AUTO_INCREMENT de la tabla `telefonos`
+ALTER TABLE telefonos
+ALTER COLUMN id_telefono INT IDENTITY(1,1);

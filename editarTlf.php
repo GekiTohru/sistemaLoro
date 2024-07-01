@@ -148,12 +148,13 @@ $apps = explode(',', $row0['app_conf']);
                 <div style="margin: 10px">
                 <label for="personal">Asignado a</label>
                 <select name="id_personal" id="personal" style="width: 200px" data-placeholder="Seleccione un asignado">
-                <option value="">Seleccione un asignado</option>
+                <option value="Sin cambios">Sin cambios</option>
                 <?php
                 while ($row = mysqli_fetch_assoc($query4)) {     
                     echo "<option value='{$row['id_personal']}'>{$row['nombre']}</option>";
                 }
                 ?></select>
+                <label style="margin-bottom:20px"><input type="checkbox" id="extra" name="extra"> Asignado adicional?</label>
                 </div>
                 <div style="margin: 10px">
                 <label for="sisver">Versión del sistema</label>
@@ -202,7 +203,7 @@ $apps = explode(',', $row0['app_conf']);
                 <div>
                 <label class="nopoint" for="whatsapp" style="width: 300px; height: 10px;">Aplicaciones y configuración básica:</label><br>
                 <div class="accesorioscheck" id="apps_conf" style="width: 360px; height: 300px; display: flex; flex-wrap: wrap;">       
-                    <label><input type="checkbox" id="whatsapp" name="apps_conf[]" value="whatsapp" <?= in_array('whatsapp', $apps) ? 'checked' : ''; ?>>WhatsAapp</label>
+                    <label><input type="checkbox" id="whatsapp" name="apps_conf[]" value="whatsapp" required <?= in_array('whatsapp', $apps) ? 'checked' : ''; ?>>WhatsAapp</label>
                     <label><input type="checkbox" id="gmail" name="apps_conf[]" value="gmail" <?= in_array('gmail', $apps) ? 'checked' : ''; ?>>Gmail</label>
                     <label><input type="checkbox" id="adn" name="apps_conf[]" value="adn" <?= in_array('adn', $apps) ? 'checked' : ''; ?>>ADN</label>
                     <label><input type="checkbox" id="facebook" name="apps_conf[]" value="facebook" <?= in_array('facebook', $apps) ? 'checked' : ''; ?>>Facebook</label>

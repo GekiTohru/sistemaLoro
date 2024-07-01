@@ -109,7 +109,7 @@ $(document).ready(function() {
         debug: true,
     });
 });</script>
-                <input type="submit" value="Añadir nuevo personal">
+                <input type="submit" value="Editar personal">
             </form>
         </div>
         

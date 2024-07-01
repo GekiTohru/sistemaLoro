@@ -49,6 +49,7 @@ $user_admin = check_empty(mysqli_real_escape_string($conexion, $_POST['admin']))
 $motherboard = check_empty(mysqli_real_escape_string($conexion, $_POST['motherboard']));
 $serial = check_empty(mysqli_real_escape_string($conexion, $_POST['serial']));
 $procesador = check_empty(mysqli_real_escape_string($conexion, $_POST['procesador']));
+$costo = check_empty(mysqli_real_escape_string($conexion, $_POST['costo']));
 $clave_win = check_empty(mysqli_real_escape_string($conexion, $_POST['clave_win']));
 $pin = check_empty(mysqli_real_escape_string($conexion, $_POST['pin']));
 $resp_seguridad = check_empty(mysqli_real_escape_string($conexion, $_POST['resp_seguridad']));
@@ -95,6 +96,7 @@ $sql1="INSERT INTO computadoras (
   motherboard,
   serial,
   procesador,
+  costo,
   clave_win,
   pin,
   resp_seguridad,
@@ -137,6 +139,7 @@ $sql1="INSERT INTO computadoras (
   '$motherboard',
   '$serial',
   '$procesador',
+  '$costo',
   '$clave_win',
   '$pin',
   '$resp_seguridad',

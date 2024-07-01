@@ -360,8 +360,49 @@ table.dataTable td {
   }
   .form-date__input[type="date"]:focus {
   color: #495057;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border-color: #80BDFF;
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
   }
+
+  :root {
+  --arrow-bg: rgb(148, 255, 48);
+  --arrow-icon: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg);
+  --option-bg: rgb(255, 251, 4);
+  --select-bg: rgb(242, 255, 193);
+}
+* {
+  box-sizing: border-box; 
+}
+/* <select> styles */
+.selectStyle {
+  /* Reset */
+  appearance: none;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  /* Personalize */
+  width: 18rem;
+  padding: 1rem 4rem 1rem 1rem;
+  background: var(--arrow-icon) no-repeat right 0.8em center / 1.4em,
+    linear-gradient(to left, var(--arrow-bg) 3em, var(--select-bg) 3em);
+  background-color: var(--select-bg);
+  color: black;
+  border-radius: 7rem;
+  box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  /* Remove IE arrow */
+  &::-ms-expand {
+    display: none;
+  }
+  /* Remove focus outline */
+  &:focus {
+    outline: none;
+  }
+  /* <option> colors */
+  option {
+    color: inherit;
+    background-color: var(--option-bg);
+  }
+}

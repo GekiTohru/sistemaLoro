@@ -33,7 +33,7 @@ $fecha_recep = mysqli_real_escape_string($conexion, $_POST['fecha_recep']);
 $fecha_ult_mant = mysqli_real_escape_string($conexion, $_POST['fecha_ult_mant']);
 $fecha_ult_rev = mysqli_real_escape_string($conexion, $_POST['fecha_ult_rev']);
 $modelo = mysqli_real_escape_string($conexion, $_POST['modelo']);
-$personal = mysqli_real_escape_string($conexion, $_POST['id_personal']);
+$personal = isset($_POST['id_personal']) ? $_POST['id_personal'] : '';
 $sisver = mysqli_real_escape_string($conexion, $_POST['sisver']);
 $operadora = mysqli_real_escape_string($conexion, $_POST['operadora']);
 $sucursal = mysqli_real_escape_string($conexion, $_POST['sucursal']);
@@ -72,6 +72,8 @@ $camara = mysqli_real_escape_string($conexion, $_POST['camara']);
 $cargador = mysqli_real_escape_string($conexion, $_POST['cargador']);
 $cable_usb = mysqli_real_escape_string($conexion, $_POST['cable_usb']);
 $adaptador = mysqli_real_escape_string($conexion, $_POST['adaptador']);
+$extra = isset($_POST['extra']) ? $_POST['extra'] : 0;
+
 
 $sql1 = "UPDATE telefonos SET 
   fecha_recep = '$fecha_recep', 
@@ -121,20 +123,37 @@ $query_check = mysqli_query($conexion, "SELECT * FROM tlf_asignado WHERE id_tele
 
 $ok = true;
 
-if ($personal != '') {
-    if (mysqli_num_rows($query_check) > 0) {
+
+if ($personal != 'Sin cambios') {
+    if (empty($personal)) {
+        // Si $personal está vacío, solo ejecuta query3
         $query3 = mysqli_query($conexion, $sql3);
-        $query2 = mysqli_query($conexion, $sql2);
-        if (!$query2) {
+        if (!$query3) {
             $ok = false;
         }
     } else {
-        $query2 = mysqli_query($conexion, $sql2);
-        if (!$query2) {
-            $ok = false;
+        if (mysqli_num_rows($query_check) > 0 && $extra != "on") {
+            // Si hay una asignación existente y $extra es diferente de "on"
+            $query3 = mysqli_query($conexion, $sql3);
+            if (!$query3) {
+                $ok = false;
+            }
+
+            $query2 = mysqli_query($conexion, $sql2);
+            if (!$query2) {
+                $ok = false;
+            }
+        } else {
+            // Si no hay una asignación existente o $extra es igual a "on"
+            $query2 = mysqli_query($conexion, $sql2);
+            if (!$query2) {
+                $ok = false;
+            }
         }
     }
 }
+
+
 
 $query1 = mysqli_query($conexion,$sql1);
 

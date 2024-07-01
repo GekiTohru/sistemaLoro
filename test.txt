@@ -1,0 +1,232 @@
+-- Transcripción de MySQL a SQL Server
+-- Base de datos: test
+
+-- Crear base de datos y cambiar a ella
+CREATE DATABASE test;
+GO
+
+USE test;
+GO
+
+-- Estructura de tabla para la tabla area
+CREATE TABLE area (
+  id_area INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+  nombre VARCHAR(30) NOT NULL,
+  activo BIT NOT NULL DEFAULT 1
+);
+GO
+
+-- Estructura de tabla para la tabla cargo_ruta
+CREATE TABLE cargo_ruta (
+  id_cargoruta INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+  nombre VARCHAR(30) NOT NULL,
+  activo BIT NOT NULL DEFAULT 1
+);
+GO
+
+-- Estructura de tabla para la tabla computadoras
+CREATE TABLE computadoras (
+  id_pc INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+  id_tipo_equipo INT NOT NULL,
+  id_fabricante INT NOT NULL,
+  nombre VARCHAR(30) NOT NULL,
+  user_admin VARCHAR(30) NOT NULL,
+  motherboard VARCHAR(30) NOT NULL,
+  serial VARCHAR(50) NOT NULL,
+  procesador VARCHAR(50) NOT NULL,
+  ram VARCHAR(30) NOT NULL,
+  almacenamiento VARCHAR(30) NOT NULL,
+  id_almacentipo INT NOT NULL,
+  id_red INT NOT NULL,
+  id_pcso INT NOT NULL,
+  clave_win VARCHAR(30) NOT NULL,
+  pin VARCHAR(30) NOT NULL,
+  resp_seguridad VARCHAR(30) NOT NULL,
+  id_personal INT NOT NULL,
+  status NVARCHAR(20) NOT NULL CHECK (status IN ('Operativo', 'Dañado', 'Descontinuado')),
+  prio_sus NVARCHAR(10) NOT NULL CHECK (prio_sus IN ('ALTA', 'MEDIA', 'BAJA')),
+  id_sisadmin INT NOT NULL,
+  ups VARCHAR(30) NOT NULL,
+  potencia_ups VARCHAR(30) NOT NULL,
+  bateria_ups VARCHAR(30) NULL,
+  bateria_reemplazada DATE NULL,
+  estado_ups NVARCHAR(20) NOT NULL CHECK (estado_ups IN ('BACKUP', 'SIN BACKUP', 'NO TIENE')),
+  mouse NVARCHAR(10) NOT NULL CHECK (mouse IN ('BUENO', 'DAÑADO', 'NO TIENE', 'OTRO')),
+  pantalla_monitor NVARCHAR(20) NOT NULL CHECK (pantalla_monitor IN ('BUENO', 'DAÑADO', 'PARTIDO', 'RAYADO', 'NO TIENE', 'OTRO')),
+  programas NVARCHAR(255) NOT NULL,
+  accesorios NVARCHAR(255) NOT NULL,
+  estado_teclado NVARCHAR(20) NOT NULL CHECK (estado_teclado IN ('BUENO', 'DAÑADO', 'PARTIDO', 'NO SE VEN TECLAS', 'NO TIENE', 'OTRO')),
+  compra_teclado DATE NOT NULL,
+  cargador NVARCHAR(10) NOT NULL CHECK (cargador IN ('BUENO', 'DAÑADO', 'NO TIENE', 'NO USA', 'OTRO')),
+  cable_mickey NVARCHAR(10) NOT NULL CHECK (cable_mickey IN ('BUENO', 'DAÑADO', 'NO TIENE', 'NO USA', 'OTRO')),
+  camara NVARCHAR(10) NOT NULL CHECK (camara IN ('BUENO', 'DAÑADO', 'NO TIENE', 'OTRO')),
+  anydesk VARCHAR(50) NOT NULL,
+  clave_anydesk VARCHAR(30) NOT NULL,
+  mac_lan VARCHAR(30) NOT NULL,
+  mac_wifi VARCHAR(30) NOT NULL,
+  nota VARCHAR(500) NOT NULL,
+  id_sucursal INT NOT NULL,
+  fecha_ult_mant DATE NULL,
+  fecha_ult_rev DATE NULL,
+  activo BIT NOT NULL DEFAULT 1
+);
+GO
+
+-- Estructura de tabla para la tabla fabricante
+CREATE TABLE fabricante (
+  id_fabricante INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+  nombre VARCHAR(30) NOT NULL,
+  equipo NVARCHAR(20) NOT NULL CHECK (equipo IN ('PC', 'Teléfono', 'Impresora')),
+  activo BIT NOT NULL DEFAULT 1
+);
+GO
+
+-- Estructura de tabla para la tabla impresoras
+CREATE TABLE impresoras (
+  id_impresora INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+  id_fabricante INT NOT NULL,
+  modelo VARCHAR(30) NOT NULL,
+  estado NVARCHAR(10) NOT NULL CHECK (estado IN ('Operativa', 'Dañada')),
+  id_area INT NOT NULL,
+  serial VARCHAR(30) NOT NULL,
+  mac_lan VARCHAR(30) NOT NULL,
+  ult_mantenimiento DATE NOT NULL,
+  activo BIT NOT NULL DEFAULT 1
+);
+GO
+
+-- Estructura de tabla para la tabla modelo_marca
+CREATE TABLE modelo_marca (
+  id_modelo INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+  id_fabricante INT NOT NULL,
+  nombre VARCHAR(30) NOT NULL,
+  ram VARCHAR(10) NOT NULL,
+  rom VARCHAR(10) NOT NULL,
+  tipo NVARCHAR(10) NOT NULL CHECK (tipo IN ('Smartphone', 'Tablet')),
+  activo BIT NOT NULL DEFAULT 1
+);
+GO
+
+-- Estructura de tabla para la tabla operadora
+CREATE TABLE operadora (
+  id_operadora INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+  nombre VARCHAR(30) NOT NULL,
+  activo BIT NOT NULL DEFAULT 1
+);
+GO
+
+-- Estructura de tabla para la tabla pc_sis_op
+CREATE TABLE pc_sis_op (
+  id_pcso INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+  nombre VARCHAR(30) NOT NULL,
+  activo BIT NOT NULL DEFAULT 1
+);
+GO
+
+-- Estructura de tabla para la tabla personal
+CREATE TABLE personal (
+  id_personal INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+  id_cargoruta INT NOT NULL,
+  id_area INT NOT NULL,
+  nombre VARCHAR(30) NOT NULL,
+  activo BIT NOT NULL DEFAULT 1
+);
+GO
+
+-- Estructura de tabla para la tabla red_lan
+CREATE TABLE red_lan (
+  id_red INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+  nombre VARCHAR(30) NOT NULL,
+  activo BIT NOT NULL DEFAULT 1
+);
+GO
+
+-- Estructura de tabla para la tabla registro_mantenimiento
+CREATE TABLE registro_mantenimiento (
+  id_mantenimiento INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+  fecha_mantenimiento DATE NOT NULL,
+  id_pc INT NOT NULL,
+  realizador VARCHAR(30) NOT NULL,
+  activo BIT NOT NULL DEFAULT 1
+);
+GO
+
+-- Estructura de tabla para la tabla sistema_admin
+CREATE TABLE sistema_admin (
+  id_sisadmin INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+  nombre VARCHAR(30) NOT NULL,
+  activo BIT NOT NULL DEFAULT 1
+);
+GO
+
+-- Estructura de tabla para la tabla sucursal
+CREATE TABLE sucursal (
+  id_sucursal INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+  nombre VARCHAR(30) NOT NULL,
+  activo BIT NOT NULL DEFAULT 1
+);
+GO
+
+-- Estructura de tabla para la tabla telefonos
+CREATE TABLE telefonos (
+  id_telefono INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+  fecha_recep DATE NULL,
+  id_modelo INT NOT NULL,
+  accesorios NVARCHAR(255) NOT NULL,
+  imei1 VARCHAR(30) DEFAULT 'N/A',
+  imei2 VARCHAR(30) DEFAULT 'N/A',
+  imei_adn VARCHAR(30) DEFAULT 'N/A',
+  serial VARCHAR(50) DEFAULT 'N/A',
+  vidrio_hidrogel NVARCHAR(10) NOT NULL CHECK (vidrio_hidrogel IN ('BUENO', 'DAÑADO', 'PARTIDO', 'ROTO', 'RAYADO', 'NO TIENE', 'OTRO')),
+  forro NVARCHAR(10) NOT NULL CHECK (forro IN ('BUENO', 'DAÑADO', 'NO TIENE', 'OTRO')),
+  pantalla NVARCHAR(10) NOT NULL CHECK (pantalla IN ('BUENO', 'DAÑADO', 'PARTIDO', 'RAYADO', 'OTRO')),
+  camara NVARCHAR(20) NOT NULL CHECK (camara IN ('BUENO', 'DAÑADO', 'MICA PARTIDA', 'MICA RAYADA', 'OTRO')),
+  cargador NVARCHAR(20) NOT NULL CHECK (cargador IN ('BUENO', 'DAÑADO', 'NO TIENE', 'NO TRAE A REVISIÓN', 'OTRO')),
+  cable_usb NVARCHAR(20) NOT NULL CHECK (cable_usb IN ('BUENO', 'DAÑADO', 'NO TIENE', 'NO TRAE A REVISIÓN', 'OTRO')),
+  adaptador NVARCHAR(20) NOT NULL CHECK (adaptador IN ('BUENO', 'DAÑADO', 'NO TIENE', 'NO USA', 'NO TRAE A REVISIÓN', 'OTRO')),
+  id_sisver INT NOT NULL,
+  almacenamiento_ocupado VARCHAR(10) DEFAULT 'N/A',
+  consumo_datos VARCHAR(10) DEFAULT 'N/A',
+  id_operadora INT NOT NULL,
+  numero VARCHAR(30) DEFAULT 'N/A',
+  cuenta_google VARCHAR(255) DEFAULT 'N/A',
+  pin VARCHAR(20) DEFAULT 'N/A',
+  patron VARCHAR(30) DEFAULT 'N/A',
+  cuenta_otro VARCHAR(255) DEFAULT 'N/A',
+  pin_otro VARCHAR(20) DEFAULT 'N/A',
+  patron_otro VARCHAR(30) DEFAULT 'N/A',
+  anydesk VARCHAR(20) DEFAULT 'N/A',
+  anydesk_clave VARCHAR(20) DEFAULT 'N/A',
+  bateria_ocupada BIT DEFAULT 0,
+  wifi_contraseña VARCHAR(20) DEFAULT 'N/A',
+  estado NVARCHAR(20) NOT NULL CHECK (estado IN ('REPARACION', 'ENTREGADO', 'OTRO')),
+  nota VARCHAR(255) DEFAULT 'N/A',
+  fecha_revision DATE NULL,
+  fecha_entrega DATE NULL,
+  activo BIT NOT NULL DEFAULT 1
+);
+GO
+
+-- Estructura de tabla para la tabla tipo_almacenamiento
+CREATE TABLE tipo_almacenamiento (
+  id_almacentipo INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+  nombre VARCHAR(30) NOT NULL,
+  activo BIT NOT NULL DEFAULT 1
+);
+GO
+
+-- Estructura de tabla para la tabla tipo_equipo
+CREATE TABLE tipo_equipo (
+  id_tipo_equipo INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+  nombre VARCHAR(30) NOT NULL,
+  activo BIT NOT NULL DEFAULT 1
+);
+GO
+
+-- Estructura de tabla para la tabla versiones
+CREATE TABLE versiones (
+  id_sisver INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+  nombre VARCHAR(30) NOT NULL,
+  activo BIT NOT NULL DEFAULT 1
+);
+GO

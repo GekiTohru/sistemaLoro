@@ -18,17 +18,32 @@ $_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
 
 include("conexion.php");
 
-$sql = "SELECT telefonos.*, telefonos.id_telefono AS id, modelo_marca.nombre AS modelo, modelo_marca.ram AS ram, modelo_marca.rom AS rom, fabricante.nombre AS fabricante, COALESCE(personal.nombre, 'Sin asignar') AS asignado, COALESCE(cargo_ruta.nombre, 'Sin cargo') AS cargo, COALESCE(area.nombre, 'Sin área') AS area, COALESCE(sucursal.nombre, 'Sin sucursal') AS sucursal
+$sql = "SELECT
+telefonos.*,
+telefonos.id_telefono AS id,
+modelo_marca.nombre AS modelo,
+modelo_marca.ram AS ram,
+modelo_marca.rom AS rom,
+fabricante.nombre AS fabricante,
+COALESCE(personal.nombre, 'Sin asignar') AS asignado,
+COALESCE(cargo_ruta.nombre, 'Sin cargo') AS cargo,
+COALESCE(area.nombre, 'Sin área') AS area,
+COALESCE(sucursal.nombre, 'Sin sucursal') AS sucursal
 FROM telefonos
 INNER JOIN modelo_marca ON telefonos.id_modelo = modelo_marca.id_modelo
 INNER JOIN fabricante ON modelo_marca.id_fabricante = fabricante.id_fabricante
-LEFT JOIN tlf_asignado ON telefonos.id_telefono = tlf_asignado.id_telefono
-LEFT JOIN personal ON tlf_asignado.id_personal = personal.id_personal
+LEFT JOIN (
+SELECT *
+FROM tlf_asignado
+WHERE activo = 1
+) AS tlf_asignado_activo ON telefonos.id_telefono = tlf_asignado_activo.id_telefono
+LEFT JOIN personal ON tlf_asignado_activo.id_personal = personal.id_personal
 LEFT JOIN cargo_ruta ON personal.id_cargoruta = cargo_ruta.id_cargoruta
 LEFT JOIN area ON personal.id_area = area.id_area
 LEFT JOIN sucursal ON telefonos.id_sucursal = sucursal.id_sucursal
 WHERE telefonos.activo = 1
-ORDER BY `telefonos`.`id_telefono` ASC";
+ORDER BY telefonos.id_telefono ASC;
+";
 $query = mysqli_query($conexion, $sql);
 
 // Iniciar el arreglo para agrupar los usuarios por ID de teléfono

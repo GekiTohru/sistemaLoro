@@ -243,6 +243,10 @@ $query9 = mysqli_query($conexion, $sql9);
     <input type="text" name="procesador" id="procesador" placeholder="Ingrese el procesador" value="">
 </div>
 <div class="inputs">
+    <label for="costo">Costo</label>
+    <input type="text" name="costo" id="costo" placeholder="Ingrese el costo" value="">
+</div>
+<div class="inputs">
     <label for="clave_win">Clave de Windows</label>
     <input type="text" name="clave_win" id="clave_win" placeholder="Ingrese la clave de Windows" value="LoroLara23**">
 </div>

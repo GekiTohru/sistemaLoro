@@ -33,7 +33,7 @@ WHERE computadoras.id_pc = $id_PC";
 
 $sql2="SELECT * FROM tipo_equipo";
 $sql3="SELECT * FROM fabricante WHERE equipo = 'PC'";
-$sql4="SELECT * FROM personal";
+$sql4="SELECT * FROM personal WHERE activo = 1";
 $sql5="SELECT * FROM red_lan";
 $sql6="SELECT * FROM pc_sis_op";
 $sql7="SELECT * FROM tipo_almacenamiento";
@@ -304,6 +304,10 @@ $accesorios = explode(',', $row0['accesorios']);
 <div class="inputs">
     <label for="procesador">Procesador</label>
     <input type="text" name="procesador" id="procesador" placeholder="Ingrese el procesador" value="<?= $row0['procesador']?>">
+</div>
+<div class="inputs">
+    <label for="costo">Costo</label>
+    <input type="text" name="costo" id="costo" placeholder="Ingrese el costo" value="<?= $row0['costo']?>">
 </div>
 <div class="inputs">
     <label for="clave_win">Clave de Windows</label>
