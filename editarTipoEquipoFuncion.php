@@ -24,22 +24,19 @@ function check_empty($value) {
         return $value;
     }
   }
-
-  $marca = check_empty(mysqli_real_escape_string($conexion, $_POST['fabricante']));
+  $id_tipo_equipo = check_empty(mysqli_real_escape_string($conexion, $_POST['id_tipo_equipo']));
   $nombre = check_empty(mysqli_real_escape_string($conexion, $_POST['nombre']));
-  $ram = check_empty(mysqli_real_escape_string($conexion, $_POST['ram']));
-  $rom = check_empty(mysqli_real_escape_string($conexion, $_POST['rom']));
-  $tipo = check_empty(mysqli_real_escape_string($conexion, $_POST['dispositivo']));
+  $teclado = check_empty(mysqli_real_escape_string($conexion, $_POST['teclado']));
 
 
 
-$sql1="INSERT INTO modelo_marca(id_fabricante,nombre,ram,rom,tipo)
-VALUES('$marca','$nombre','$ram','$rom','$tipo')";
+  $sql1="UPDATE tipo_equipo SET nombre = '$nombre', teclado = '$teclado'
+WHERE tipo_equipo.id_tipo_equipo = $id_tipo_equipo";
 
 $query1 = mysqli_query($conexion, $sql1);
 
 if ($query1) {
-    echo '<script language="javascript">alert("Modelo añadido correctamente"); window.location.href = "indexGeneral.php?tabla=modelo_marca";</script>';
+    echo '<script language="javascript">alert("Tipo de equipo editado correctamente"); window.location.href = "indexGeneral.php?tabla=tipo_equipo";</script>';
 } else {
-    echo '<script language="javascript">alert("Error al añadir el modelo");</script>';
+    echo '<script language="javascript">alert("Error al editar el tipo de equipo");</script>';
 }

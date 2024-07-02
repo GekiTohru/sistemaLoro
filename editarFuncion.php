@@ -30,6 +30,8 @@ $form_data = [
     'nombre_sisver' => isset($_POST['nombre_sisver']) ? check_empty(mysqli_real_escape_string($conexion, $_POST['nombre_sisver'])) : null,
     'nombre_pcso' => isset($_POST['nombre_pcso']) ? check_empty(mysqli_real_escape_string($conexion, $_POST['nombre_pcso'])) : null,
     'nombre_almacentipo' => isset($_POST['nombre_almacentipo']) ? check_empty(mysqli_real_escape_string($conexion, $_POST['nombre_almacentipo'])) : null,
+    'nombre_sisadmin' => isset($_POST['nombre_sisadmin']) ? check_empty(mysqli_real_escape_string($conexion, $_POST['nombre_sisadmin'])) : null,
+    'nombre_red' => isset($_POST['nombre_red']) ? check_empty(mysqli_real_escape_string($conexion, $_POST['nombre_red'])) : null,
 ];
 // Función para verificar si un valor está vacío
 function check_empty($value) {
@@ -72,6 +74,12 @@ function execute_query($conexion, $id, $form_data) {
                     break;
                 case 'nombre_almacentipo':
                     $sql = "UPDATE tipo_almacenamiento SET nombre='$value' WHERE id_almacentipo='$id'";
+                    break;
+                case 'nombre_sisadmin':
+                    $sql = "UPDATE sistema_admin SET nombre='$value' WHERE id_sisadmin='$id'";
+                    break;
+                case 'nombre_red':
+                    $sql = "UPDATE red_lan SET nombre='$value' WHERE id_red='$id'";
                     break;
                 default:
                     continue 2;

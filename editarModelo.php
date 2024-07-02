@@ -15,10 +15,45 @@ if (isset($_SESSION["timeout"])) {
 $_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
 
     include("conexion.php");
+    $id_modelo=$_GET['id'];
 
-    $sql2="SELECT * FROM fabricante WHERE equipo = 'Teléfono'";
-    $query2 = mysqli_query($conexion, $sql2);
-    
+
+    $sql0="SELECT modelo_marca.*, modelo_marca.id_modelo AS id, fabricante.nombre AS fabricante
+    FROM modelo_marca
+    LEFT JOIN fabricante ON modelo_marca.id_fabricante = fabricante.id_fabricante
+    WHERE modelo_marca.id_modelo = $id_modelo";
+
+    $sql2="SELECT * FROM fabricante";
+
+$query0 = mysqli_query($conexion, $sql0);
+$query2 = mysqli_query($conexion, $sql2);
+
+$row0 = mysqli_fetch_assoc($query0);
+$id_fabricante_seleccionado = $row0['id_fabricante'];
+
+$rom = $row0['rom'];
+$ram = $row0['ram'];
+$numero_rom = '';
+$unidad_rom = '';
+
+function separarNumeroYUnidad($valor) {
+    $numero = '';
+    $unidad = '';
+
+    if (strpos($valor, 'GB') !== false) {
+        $numero = str_replace('GB', '', $valor);
+        $unidad = 'GB';
+    } elseif (strpos($valor, 'TB') !== false) {
+        $numero = str_replace('TB', '', $valor);
+        $unidad = 'TB';
+    }
+
+    return [$numero, $unidad];
+}
+
+list($numero_rom, $unidad_rom) = separarNumeroYUnidad($row0['rom']);
+list($numero_ram, $unidad_ram) = separarNumeroYUnidad($row0['ram']);
+
 ?>
 <html lang="en">
 <head>
@@ -52,52 +87,11 @@ $_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
         </div>
     </nav>
     <div class="users-table">
-        <h2 style="text-align: center;">Añadir nuevo modelo</h2>
-<style>
-/* Estilo para centrar elementos dentro del contenedor */
-.users-form {
-    text-align: center;
-}
+        <h2 style="text-align: center;">Editar Modelo</h2>
 
-/* Estilo para el formulario dentro del contenedor */
-.users-form form {
-    display: inline-block;
-    text-align: left;
-    margin: 0 auto;
-}
-
-/* Estilo para el formulario */
-.users-form h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-/* Estilo para los campos de entrada de texto */
-.users-form input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-/* Estilo para el botón */
-.users-form input[type="submit"] {
-    background-color: greenyellow;
-    color: black;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-/* Estilo para el botón al pasar el mouse sobre él */
-.users-form input[type="submit"]:hover {
-    background-color: green;
-}
-</style>
         <div class="users-form">
-            <form id="nuevo" action="crearModeloFuncion.php" method="POST">
+            <form id="nuevo" action="editarModeloFuncion.php" method="POST">
+            <input type="hidden" name="id_modelo" value="<?= $row0['id']?>">
                 <div style="display: flex; flex-wrap: wrap;">
                 <div id="selecciones" style="display: block; margin-right: 75px">
                 <div style="margin: 10px; margin-right: 100px">
@@ -105,9 +99,10 @@ $_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
                 <select id="fabricante" name="fabricante" style="width: 200px" data-placeholder="Seleccione una marca" required>
                 <option value="">Seleccione una marca</option>
                 <?php
-                while ($row = mysqli_fetch_assoc($query2)) {
-                    echo "<option value='{$row['id_fabricante']}'>{$row['nombre']}</option>";
-                }
+        while ($row = mysqli_fetch_assoc($query2)) {
+            $selected = ($row['id_fabricante'] == $id_fabricante_seleccionado)? 'selected' : '';
+            echo "<option value='{$row['id_fabricante']}'$selected>{$row['nombre']}</option>";
+        }
                 ?>
                 </select>
                 </div>
@@ -116,25 +111,25 @@ $_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
                 <div id="entradas" style="display: flex; flex-wrap: wrap;">
                 <div class="inputs">
                 <label for="nombre">Modelo</label>
-                <input type="text" name="nombre" id="nombre" placeholder="Ingrese el nombre" value="" required>
+                <input type="text" name="nombre" id="nombre" placeholder="Ingrese el nombre" value="<?= $row0['nombre']?>" required>
                 </div>
                 <div class="inputs" style="width: 225px">
     <label for="ram-num" style="width: 200px">RAM</label>
-    <input type="text" id="ram-num" style="width: 130px; margin-right: -3px" placeholder="RAM" required>
+    <input type="text" id="ram-num" style="width: 130px; margin-right: -3px" placeholder="RAM" value="<?= $numero_ram?>" required>
     <select id="unidad" style="width: 80px">
-        <option value="GB">GB</option>
+    <option value="GB" <?= $unidad_ram == 'GB' ? 'selected' : '' ?>>GB</option>
     </select>
 </div>
 <div class="inputs" style="width: 600px">
     <label for="rom-num" style="width: 200px">ROM</label>
-    <input type="text" id="rom-num" style="width: 130px; margin-right: -3px" placeholder="ROM" required>
+    <input type="text" id="rom-num" style="width: 130px; margin-right: -3px" placeholder="ROM" value="<?= $numero_rom?>" required>
     <select id="unidad1" style="width: 80px">
-        <option value="GB">GB</option>
-        <option value="TB">TB</option>
+    <option value="GB" <?= $unidad_rom == 'GB' ? 'selected' : '' ?>>GB</option>
+    <option value="TB" <?= $unidad_rom == 'TB' ? 'selected' : '' ?>>TB</option>
     </select>
 </div>
-<input type="hidden" name="ram" id="ram-hidden">
-<input type="hidden" name="rom" id="rom-hidden">
+<input type="hidden" name="ram" id="ram-hidden" value="<?= $numero_ram . $unidad_ram ?>">
+<input type="hidden" name="rom" id="rom-hidden" value="<?= $numero_rom . $unidad_rom ?>">
 
 <script>
   const ramNum = document.getElementById('ram-num');
@@ -172,8 +167,8 @@ $_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
                 <div class="inputs">
                 <label for="dispositivo">Tipo de dispositivo</label>
                 <select name="dispositivo" id="dispositivo">
-                <option value="Smartphone">Smartphone</option>
-                <option value="Tablet">Tablet</option>
+                <option value="Smartphone" <?= $row0['tipo'] == 'Smartphone' ? 'selected' : '' ?>>Smartphone</option>
+                <option value="Tablet" <?= $row0['tipo'] == 'Tablet' ? 'selected' : '' ?>>Tablet</option>
                 </select>
                 </div>
                 </div>
@@ -188,7 +183,7 @@ $(document).ready(function() {
     });
 });</script>
 
-                <input type="submit" value="Añadir nuevo modelo">
+                <input type="submit" value="Editar modelo">
             </form>
         </div>
         

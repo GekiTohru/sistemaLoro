@@ -31,7 +31,7 @@ $idColumns = [
     "pc_sis_op" => "id_pcso",
     "cargo_ruta" => "id_cargoruta",
     "operadora" => "id_operadora",
-    "modelo" => "id_modelo",
+    "modelo_marca" => "id_modelo",
     "fabricante" => "id_fabricante"
 ];
 
@@ -46,7 +46,7 @@ $edit = [
     "pc_sis_op" => "Pcso",
     "cargo_ruta" => "Cargoruta",
     "operadora" => "Operadora",
-    "modelo" => "Modelo",
+    "modelo_marca" => "Modelo",
     "fabricante" => "Fabricante"
 ];
 // Consultas para todas las tablas necesarias
@@ -61,7 +61,7 @@ $tables = [
     "pc_sis_op" => "SELECT pc_sis_op.id_pcso AS id, pc_sis_op.nombre AS nombre FROM pc_sis_op WHERE pc_sis_op.activo = 1",
     "cargo_ruta" => "SELECT cargo_ruta.id_cargoruta AS id, cargo_ruta.nombre AS nombre FROM cargo_ruta WHERE cargo_ruta.activo = 1",
     "operadora" => "SELECT operadora.id_operadora AS id, operadora.nombre AS nombre FROM operadora WHERE operadora.activo = 1",
-    "modelo" => "SELECT modelo_marca.id_modelo AS id, modelo_marca.nombre AS marca, fabricante.nombre AS fabricante, modelo_marca.ram AS RAM, modelo_marca.rom AS ROM FROM modelo_marca INNER JOIN fabricante ON modelo_marca.id_fabricante =  fabricante.id_fabricante WHERE modelo_marca.activo = 1",
+    "modelo_marca" => "SELECT modelo_marca.id_modelo AS id, modelo_marca.nombre AS marca, fabricante.nombre AS fabricante, modelo_marca.ram AS RAM, modelo_marca.rom AS ROM, modelo_marca.tipo AS tipo FROM modelo_marca INNER JOIN fabricante ON modelo_marca.id_fabricante =  fabricante.id_fabricante WHERE modelo_marca.activo = 1",
     "fabricante" => "SELECT fabricante.id_fabricante AS id, fabricante.nombre AS nombre FROM fabricante WHERE fabricante.activo = 1"
 ];
 
@@ -132,7 +132,7 @@ if (isset($_GET['tabla'])) {
             <option value="area">Áreas</option>
             <option value="cargo_ruta">Cargo/Ruta</option>
             <option value="sucursal">Sucursales</option>
-            <option value="modelo">Modelos</option>
+            <option value="modelo_marca">Modelos</option>
             <option value="fabricante">Fabricante</option>
             <option value="tipo_almacenamiento">Tipos de almacenamiento</option>
             <option value="tipo_equipo">Tipos de equipo</option>

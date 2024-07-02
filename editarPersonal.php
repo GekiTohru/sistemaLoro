@@ -67,7 +67,7 @@ $id_area_seleccionado = $row0['id_area'];
         </div>
     </nav>
     <div class="users-table">
-        <h2 style="text-align: center;">Añadir nuevo personal</h2>
+        <h2 style="text-align: center;">Editar personal</h2>
         <div class="users-form">
             <form id="nuevo" action="editarPersonalFuncion.php" method="POST">
             <input type="hidden" name="id_personal" value="<?= $row0['id']?>">            
