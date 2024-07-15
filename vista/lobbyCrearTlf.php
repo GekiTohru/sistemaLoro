@@ -23,7 +23,7 @@ if (!isset($_SESSION['user'])) {
 <body>
 <nav class="navbar">
         <div class="navbar-left">
-            <a href="controlador/cerrarSesion.php" class="navbtn">Salir</a>
+            <a href="../controlador/cerrarSesion.php" class="navbtn">Salir</a>
             <a href="lobby.php" class="navbtn">Inicio</a>
             <a href="lobbyCrearTlf.php" class="navbtn">Añadir</a>
             <a href="lobbyVerTlf.php" class="navbtn">Ver y editar</a>

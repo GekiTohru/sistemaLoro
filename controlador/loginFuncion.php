@@ -38,10 +38,9 @@ if (count($result) > 0) {
     $_SESSION['permisos'] = $usuario['permisos'];
     $_SESSION['nombre'] = $usuario['nombre'];
 
-    echo '<script language="javascript">alert("Inicio de sesión exitoso. Bienvenido, '.$_SESSION['nombre']. '!"); window.location.href = "../vista/lobby.php";</script>';
+    echo json_encode(['success' => true, 'message' => 'Inicio de sesión exitoso. Bienvenido, '. $_SESSION['nombre']. '!']);
     exit();
 } else {
-    echo '<script language="javascript">alert("Usuario o contraseña incorrectos. Inténtelo de nuevo."); window.location.href = "../login.php";</script>';
-
+    echo json_encode(['success' => false, 'message' => 'Usuario o contraseña incorrectos. Inténtelo de nuevo.']);
 }
 ?>
