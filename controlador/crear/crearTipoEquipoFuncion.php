@@ -41,7 +41,7 @@ function check_empty($value) {
   $stmt->bindParam(':teclado', $teclado);
   
   if ($stmt->execute()) {
-    echo '<script language="javascript">alert("Tipo de equipo añadido correctamente"); window.location.href = "../../vista/index/indexGeneral.php?tabla=tipo_equipo";</script>';
-} else {
-    echo '<script language="javascript">alert("Error al añadir el tipo de equipo");</script>';
-}
+    echo 'ok';
+  } else {
+    echo 'error';
+  }

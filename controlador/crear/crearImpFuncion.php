@@ -75,8 +75,8 @@ $stmt2->bindParam(':toner', $toner);
 $stmt2->execute();
 }
 
-  if ($stmt->execute()) {
-    echo '<script language="javascript">alert("Impresora añadida correctamente"); window.location.href = "../../vista/index/indexImpresoras.php";</script>';
+if ($stmt->execute() {
+  echo 'ok';
 } else {
-    echo '<script language="javascript">alert("Error al añadir la impresora");</script>';
+  echo 'error';
 }

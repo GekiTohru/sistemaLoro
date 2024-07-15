@@ -45,9 +45,9 @@ function check_empty($value) {
   $stmt->bindParam(':ram', $ram);
   $stmt->bindParam(':rom', $rom);
   $stmt->bindParam(':tipo', $tipo);
-  
+
   if ($stmt->execute()) {
-    echo '<script language="javascript">alert("Modelo añadido correctamente"); window.location.href = "../../vista/index/indexGeneral.php?tabla=modelo_marca";</script>';
-} else {
-    echo '<script language="javascript">alert("Error al añadir el modelo");</script>';
-}
+    echo 'ok';
+  } else {
+    echo 'error';
+  }

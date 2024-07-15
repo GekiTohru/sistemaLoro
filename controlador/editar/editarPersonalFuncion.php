@@ -35,7 +35,7 @@ $stmt->bindParam(':nombre', $nombre);
 $stmt->bindParam(':id_personal', $id_personal);
 
 if ($stmt->execute()) {
-    echo '<script language="javascript">alert("Personal editado correctamente"); window.location.href = "../../vista/index/idxPersonal.php";</script>';
+    echo 'ok';
 } else {
-    echo '<script language="javascript">alert("Error al editar el personal");</script>';
+    echo 'error';
 }

@@ -37,8 +37,9 @@ $sql="INSERT INTO fabricante(nombre,equipo)
 VALUES('$nombre','$equipo')";
 $stmt = $conexion->prepare($sql);
 $stmt->execute();
-    if ($stmt) {
-    echo '<script language="javascript">alert("Fabricante añadido correctamente"); window.location.href = "../../vista/index/indexGeneral.php?tabla=fabricante";</script>';
-    } else {
-    echo '<script language="javascript">alert("Error al añadir el fabricante");</script>';
+if ($stmt) {
+    echo 'ok';
+} else {
+    echo 'error';
 }
+

@@ -41,7 +41,7 @@ function check_empty($value) {
   $stmt->bindParam(':id_tipo_equipo', $id_tipo_equipo);
   
   if ($stmt->execute()) {
-    echo '<script language="javascript">alert("Tipo de equipo editado correctamente"); window.location.href = "../../vista/index/indexGeneral.php?tabla=tipo_equipo";</script>';
+    echo 'ok';
 } else {
-    echo '<script language="javascript">alert("Error al editar el tipo de equipo");</script>';
+    echo 'error';
 }

@@ -88,11 +88,11 @@ function execute_query($conexion, $id, $form_data) {
         $stmt->bindParam(':nombre', $value);
         $stmt->bindParam(':id', $id);
         $stmt->execute();
-            if ($stmt) {
-                echo '<script language="javascript">alert("Registro editado correctamente"); window.location.href = "../../vista/index/indexGeneral.php?tabla='. $_GET["redirect"].'";</script>';
-            } else {
-                echo '<script language="javascript">alert("Error al editar el registro");</script>';
-            }
+        if ($stmt) {
+            echo 'ok';
+        } else {
+            echo 'error';
+        }        
             return;
         }
     }

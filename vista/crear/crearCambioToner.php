@@ -40,6 +40,8 @@ $row0 = $result2[0];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>sistemaloro</title>
     <link href="../../css/styles.css" rel="stylesheet">
+    <script src="../../package/dist/sweetalert2.all.js"></script>
+    <script src="../../package/dist/sweetalert2.all.min.js"></script>
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/42.0.0/ckeditor5.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -80,7 +82,7 @@ $row0 = $result2[0];
     <div class="users-table">
         <h2 style="text-align: center;">Nuevo cambio de tóner</h2>
         <div class="users-form">
-            <form id="nuevo" action="../../controlador/crear/crearCTFuncion.php" method="POST">
+            <form id="nuevo" onsubmit="return crear()">
             <input type="hidden" name="id_imp" value="<?= $_GET['id']?>">
                 <div style="display: flex">
                 <div style="display: block">
@@ -114,6 +116,32 @@ $row0 = $result2[0];
                 <input type="submit" value="Añadir nuevo cambio">
             </form>
         </div>
-        
+        <script>
+    $(document).ready(function() {
+        $('#nuevo').submit(function(event) {
+            event.preventDefault();
+        });
+    });
+
+    function crear() {
+        Swal.fire({
+            icon: "success",
+            title: "Tóner creado correctamente",
+            showConfirmButton: false,
+            timer: 3000, 
+            allowOutsideClick: true,
+            willClose: () => {
+                window.location.href = '../../vista/index/idxToner';
+            }
+        });
+        $.ajax({
+            type: 'POST',
+            url: '../../controlador/editar/editarTonerFuncion.php',
+            data: $('#nuevo').serialize(),
+            success: function(data) {
+            }
+        });
+    }
+</script>
         </body>
 </html>

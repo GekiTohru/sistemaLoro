@@ -46,7 +46,7 @@ $sql1 = "INSERT INTO toner (
   
   
   if ($stmt->execute()) {
-    echo '<script language="javascript">alert("Toner añadido correctamente"); window.location.href = "../../vista/index/idxToner.php";</script>';
-} else {
-    echo '<script language="javascript">alert("Error al añadir el toner");</script>';
-}
+    echo 'ok';
+  } else {
+    echo 'error';
+  }

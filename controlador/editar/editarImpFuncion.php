@@ -116,8 +116,9 @@ $stmt->execute();
     
 
 
-if ($ok) {
-    echo '<script language="javascript">alert("Impresora editada correctamente"); window.location.href = "../../vista/index/indexImpresoras.php";</script>';
-} else {
-    echo '<script language="javascript">alert("Error al editar la impresora");</script>';
-}
+    if ($ok) {
+        echo 'ok';
+    } else {
+        echo 'error';
+    }
+    

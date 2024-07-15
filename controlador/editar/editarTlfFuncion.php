@@ -208,7 +208,8 @@ $asignacion_existente = $num_filas > 0;
     
 
     if ($ok) {
-        echo '<script language="javascript">alert("Datos editados correctamente"); window.location.href = "../../vista/index/indexTelefonos.php";</script>';
+        echo 'ok';
     } else {
-        echo '<script language="javascript">alert("Error al editar los datos");</script>';
+        echo 'error';
     }
+    

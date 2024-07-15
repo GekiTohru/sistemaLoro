@@ -47,7 +47,7 @@ $stmt->bindParam(':id_toner', $id_toner);
 
 // Ejecutar la consulta
 if ($stmt->execute()) {
-    echo '<script language="javascript">alert("Toner editado correctamente"); window.location.href = "../../vista/index/idxToner.php";</script>';
+    echo 'ok';
 } else {
-    echo '<script language="javascript">alert("Error al editar la impresora");</script>';
+    echo 'error';
 }

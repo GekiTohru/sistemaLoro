@@ -57,7 +57,7 @@ $sql1 = "INSERT INTO cambio_toner(
   
   
   if ($stmt->execute()) {
-    echo '<script language="javascript">alert("Cambio guardado correctamente"); window.location.href = "../../vista/index/indexImpresoras.php";</script>';
-} else {
-    echo '<script language="javascript">alert("Error al guardar el cambio");</script>';
-}
+    echo 'ok';
+  } else {
+    echo 'error';
+  }

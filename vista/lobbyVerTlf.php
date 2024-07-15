@@ -70,7 +70,7 @@ if (!isset($_SESSION['user'])) {
 		<span data-text=""></span>
 	</div>
     <button style="width:250px; margin-top: 20px" class="icon-slide-right" onclick="location.href='index/indexPC.php'">Gestionar Computadoras</button>    
-    <button style="width:250px; margin-top: 20px" class="icon-slide-left" onclick="location.href='indexGeneral.php?tabla=pc_sis_op'">Gestionar Sistemas operativos (PC)</button>    
+    <button style="width:250px; margin-top: 20px" class="icon-slide-left" onclick="location.href='index/indexGeneral.php?tabla=pc_sis_op'">Gestionar Sistemas operativos (PC)</button>    
     <button style="width:250px; margin-top: 20px" class="icon-slide-right" onclick="location.href='index/indexGeneral.php?tabla=tipo_equipo'">Gestionar Tipo de Equipo (PC)</button>    
     <button style="width:250px; margin-top: 20px" class="icon-slide-left" onclick="location.href='index/indexGeneral.php?tabla=tipo_almacenamiento'">Gestionar Tipo de Almacenamiento</button>    
     <button style="width:250px; margin-top: 20px" class="icon-slide-right" onclick="location.href='index/indexGeneral.php?tabla=red_lan'">Gestionar Tipos de red</button>    

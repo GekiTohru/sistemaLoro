@@ -36,7 +36,7 @@ $stmt->bindParam(':pass', $pass);
 $stmt->bindParam(':permisos', $permisos);
 
 if ($stmt->execute()) {
-    echo '<script language="javascript">alert("Usuario añadido correctamente"); window.location.href = "../../vista/index/idxUsuarios.php";</script>';
-} else {
-    echo '<script language="javascript">alert("Error al añadir el usuario");</script>';
-}
+    echo 'ok';
+  } else {
+    echo 'error';
+  }

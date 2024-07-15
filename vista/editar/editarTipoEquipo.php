@@ -37,6 +37,8 @@ $conexion = $conexionObj->ConexionBD();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>sistemaloro</title>
     <link href="../../css/styles.css" rel="stylesheet">
+    <script src="../../package/dist/sweetalert2.all.js"></script>
+    <script src="../../package/dist/sweetalert2.all.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -75,7 +77,7 @@ $conexion = $conexionObj->ConexionBD();
     <div class="users-table">
         <h2 style="text-align: center;">Editar tipo de equipo</h2>
         <div class="users-form">
-            <form id="nuevo" action="../../controlador/editar/editarTipoEquipoFuncion.php" method="POST">
+        <form id="nuevo" onsubmit="return editar()">
                 <input type="hidden" name="id_tipo_equipo" value="<?= $row0['id']?>">
                 <div id="entradas" style="display: flex; flex-wrap: wrap;">
                 <div class="inputs">
@@ -93,7 +95,32 @@ $conexion = $conexionObj->ConexionBD();
                 <input type="submit" value="Editar tipo">
             </form>
         </div>
-        
+        <script>
+    $(document).ready(function() {
+        $('#nuevo').submit(function(event) {
+            event.preventDefault();
+        });
+    });
 
+    function editar() {
+        Swal.fire({
+            icon: "success",
+            title: "Tipo de equipo editado correctamente",
+            showConfirmButton: false,
+            timer: 3000, 
+            allowOutsideClick: true,
+            willClose: () => {
+                window.location.href = '../../vista/index/indexGeneral.php?tabla=tipo_equipo';
+            }
+        });
+        $.ajax({
+            type: 'POST',
+            url: '../../controlador/editar/editarTipoEquipoFuncion.php',
+            data: $('#nuevo').serialize(),
+            success: function(data) {
+            }
+        });
+    }
+</script>
         </body>
 </html>

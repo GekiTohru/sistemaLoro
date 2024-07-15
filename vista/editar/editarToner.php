@@ -40,6 +40,8 @@ $row0 = $result[0];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>sistemaloro</title>
     <link href="../../css/styles.css" rel="stylesheet">
+    <script src="../../package/dist/sweetalert2.all.js"></script>
+    <script src="../../package/dist/sweetalert2.all.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -78,9 +80,9 @@ $row0 = $result[0];
         </div>
     </nav>
     <div class="users-table">
-        <h2 style="text-align: center;">Editar Toner</h2>
+        <h2 style="text-align: center;">Editar Tóner</h2>
         <div class="users-form">
-        <form id="nuevo" action="../../controlador/editar/editarTonerFuncion.php" method="POST">
+        <form id="nuevo" onsubmit="return editar()">
                 <input type="hidden" name="id_toner" value="<?= $row0['id']?>">
                 <div style="display: flex">
                 <div id="entradas" style="display: flex; flex-wrap: wrap;">
@@ -94,9 +96,35 @@ $row0 = $result[0];
                 </div>
                 </div>
                 </div>
-                <input type="submit" value="Editar toner">
+                <input type="submit" value="Editar tóner">
             </form>
         </div>
-        
+        <script>
+    $(document).ready(function() {
+        $('#nuevo').submit(function(event) {
+            event.preventDefault();
+        });
+    });
+
+    function editar() {
+        Swal.fire({
+            icon: "success",
+            title: "Tóner editado correctamente",
+            showConfirmButton: false,
+            timer: 3000, 
+            allowOutsideClick: true,
+            willClose: () => {
+                window.location.href = '../../vista/index/idxToner.php';
+            }
+        });
+        $.ajax({
+            type: 'POST',
+            url: '../../controlador/editar/editarTonerFuncion.php',
+            data: $('#nuevo').serialize(),
+            success: function(data) {
+            }
+        });
+    }
+</script>
         </body>
 </html>

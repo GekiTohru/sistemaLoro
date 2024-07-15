@@ -82,10 +82,11 @@ $conexion = $conexionObj->ConexionBD();
               $stmt = $conexion->prepare($sql);
               $stmt->execute();
               if ($stmt) {
-                  echo '<script language="javascript">alert("Registro añadido correctamente"); window.location.href = "../../vista/index/indexGeneral.php?tabla='.$_GET['redirect'].'";</script>';
-              } else {
-                  echo '<script language="javascript">alert("Error al añadir el registro");</script>';
-              }
+                echo 'ok';
+            } else {
+                echo 'error';
+            }
+            
               return;
           }
       }

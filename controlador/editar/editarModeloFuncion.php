@@ -54,7 +54,7 @@ $stmt->bindParam(':tipo', $tipo);
 $stmt->bindParam(':id_modelo', $id_modelo);
 
 if ($stmt->execute()) {
-    echo '<script language="javascript">alert("Modelo editado correctamente"); window.location.href = "../../vista/index/indexGeneral.php?tabla=modelo_marca";</script>';
+    echo 'ok';
 } else {
-    echo '<script language="javascript">alert("Error al editar el modelo");</script>';
+    echo 'error';
 }

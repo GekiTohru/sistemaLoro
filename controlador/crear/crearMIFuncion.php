@@ -59,7 +59,7 @@ $sql1 = "INSERT INTO mant_imp (
   
   
   if ($stmt->execute()) {
-    echo '<script language="javascript">alert("Mantenimiento guardado correctamente"); window.location.href = "../../vista/index/indexImpresoras.php";</script>';
-} else {
-    echo '<script language="javascript">alert("Error al guardar el mantenimiento");</script>';
-}
+    echo 'ok';
+  } else {
+    echo 'error';
+  }

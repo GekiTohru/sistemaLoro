@@ -34,7 +34,7 @@ $stmt->bindParam(':area', $area);
 $stmt->bindParam(':nombre', $nombre);
 
 if ($stmt->execute()) {
-    echo '<script language="javascript">alert("Personal añadido correctamente"); window.location.href = "../../vista/index/idxPersonal.php";</script>';
-} else {
-    echo '<script language="javascript">alert("Error al añadir el personal");</script>';
-}
+    echo 'ok';
+  } else {
+    echo 'error';
+  }

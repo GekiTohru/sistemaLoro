@@ -32,6 +32,8 @@ $result2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>sistemaloro</title>
     <link href="../../css/styles.css" rel="stylesheet">
+    <script src="../../package/dist/sweetalert2.all.js"></script>
+    <script src="../../package/dist/sweetalert2.all.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -70,7 +72,7 @@ $result2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
     <div class="users-table">
         <h2 style="text-align: center;">Añadir nuevo modelo</h2>
         <div class="users-form">
-            <form id="nuevo" action="../../controlador/crear/crearModeloFuncion.php" method="POST">
+            <form id="nuevo" onsubmit="return crear()">
                 <div style="display: flex; flex-wrap: wrap;">
                 <div id="selecciones" style="display: block; margin-right: 75px">
                 <div style="margin: 10px; margin-right: 100px">
@@ -165,6 +167,32 @@ $(document).ready(function() {
             </form>
         </div>
         
+        <script>
+    $(document).ready(function() {
+        $('#nuevo').submit(function(event) {
+            event.preventDefault();
+        });
+    });
 
+    function crear() {
+        Swal.fire({
+            icon: "success",
+            title: "Modelo creado correctamente",
+            showConfirmButton: false,
+            timer: 3000, 
+            allowOutsideClick: true,
+            willClose: () => {
+                window.location.href = '../../vista/index/indexGeneral.php?tabla=modelo_marca';
+            }
+        });
+        $.ajax({
+            type: 'POST',
+            url: '../../controlador/crear/crearModeloFuncion.php',
+            data: $('#nuevo').serialize(),
+            success: function(data) {
+            }
+        });
+    }
+</script>    
         </body>
 </html>

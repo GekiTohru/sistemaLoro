@@ -40,7 +40,7 @@ $stmt->bindParam(':permisos', $permisos);
 $stmt->bindParam(':id_user', $id_user);
 
 if ($stmt->execute()) {
-    echo '<script language="javascript">alert("Usuario editado correctamente"); window.location.href = "../../vista/index/idxUsuarios.php";</script>';
+    echo 'ok';
 } else {
-    echo '<script language="javascript">alert("Error al editar el usuario");</script>';
+    echo 'error';
 }

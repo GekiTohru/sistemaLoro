@@ -116,6 +116,8 @@ $apps = explode(',', $row0['app_conf']);
     <title>sistemaloro</title>
     <link href="../../css/styles.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/42.0.0/ckeditor5.css" />
+    <script src="../../package/dist/sweetalert2.all.js"></script>
+    <script src="../../package/dist/sweetalert2.all.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -156,7 +158,7 @@ $apps = explode(',', $row0['app_conf']);
 
         <div class="users-form">
         <h2><?= $row0['cargo']; ?></h2>
-            <form id="nuevo" action="../../controlador/editar/editarTlfFuncion.php" method="POST">
+            <form id="nuevo" onsubmit="return editar()">
             <input type="hidden" name="id_telefono" value="<?= $row0['id']?>">
                 <div id="fechas" style="display: flex">
                 <div style="margin: 10px">
@@ -528,6 +530,33 @@ $(document).ready(function() {
                 <input type="submit" value="Actualizar teléfono">
             </form>
         </div>
+        <script>
+    $(document).ready(function() {
+        $('#nuevo').submit(function(event) {
+            event.preventDefault();
+        });
+    });
+
+    function editar() {
+        Swal.fire({
+            icon: "success",
+            title: "Teléfono editado correctamente",
+            showConfirmButton: false,
+            timer: 3000, 
+            allowOutsideClick: true,
+            willClose: () => {
+                window.location.href = '../../vista/index/indexTelefonos.php';
+            }
+        });
+        $.ajax({
+            type: 'POST',
+            url: '../../controlador/editar/editarTlfFuncion.php',
+            data: $('#nuevo').serialize(),
+            success: function(data) {
+            }
+        });
+    }
+</script>
 
         </body>
 </html>
