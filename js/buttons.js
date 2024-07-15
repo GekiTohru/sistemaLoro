@@ -110,5 +110,4 @@ function CreateButtons(className, isNew) {
   ];
   
   const buttonsWrapper = document.querySelector('.wrap');
-  buttonsWrapper.innerHTML = 
-    buttonsArray.map(button => `<div>${button.createButton()}</div>`).join('');
+  buttonsWrapper.innerHTML = buttonsArray.map(button => `<div>${button.createButton()}</div>`).join('');

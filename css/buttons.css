@@ -1,9 +1,21 @@
 @charset "UTF-8";
 @import url("https://fonts.googleapis.com/css?family=Ubuntu");
-button.icon-slide-left, button.icon-slide-right, button.increase-letter-space, button.flip-horizontal, button.flip-vertical, button.skew-vertical, button.skew-horizontal, button.button-rotate-shrink, button.button-rotate-grow, button.button-rotate, button.float-right, button.float-left, button.float-up, button.float-down, button.scale-decrease, button.scale-increase, button.shadow-decrease, button.shadow-increase, button.shadow-float, button.text-color, button.bg-color, button.text-blur, button.button-blur, button.grayscale-decrease, button.grayscale-increase, button.opacity-decrease, button.opacity-increase, button.bg-text-show-bg:hover, button.bg-text, button.bg-show:hover, button.bg-hide {
-  color: #FFF;
-  background: blue;
-  border-color: blue;
+button.icon-slide-right, button.increase-letter-space, button.flip-horizontal, button.flip-vertical, button.skew-vertical, button.skew-horizontal, button.button-rotate-shrink, button.button-rotate-grow, button.button-rotate, button.float-right, button.float-left, button.float-up, button.float-down, button.scale-decrease, button.scale-increase, button.shadow-decrease, button.shadow-increase, button.shadow-float, button.text-color, button.bg-color, button.text-blur, button.button-blur, button.grayscale-decrease, button.grayscale-increase, button.opacity-decrease, button.opacity-increase, button.bg-text-show-bg:hover, button.bg-text, button.bg-show:hover, button.bg-hide {
+  color: #000;
+  background: #57ff6d;
+  border-color: #57ff6d;
+}
+
+button.icon-slide-left {
+  color: #000;
+  background: #ffba11;
+  border-color: #ffba11;
+}
+
+button.swipe-overlay, button.swipe-overlay-out, button.border-color, button.border-text-color, button.border-dotted, button.border-dashed, button.radius-decrease, button.radius-increase, button.slide-down, button.slide-left, button.slide-right, button.slide-up, button.radial-out, button.radial-in, button.bg-text-show-border:hover, button.bg-show, button.bg-hide:hover {
+  color: #2196F3;
+  border-color: #2196F3;
+  background: transparent;
 }
 
 button.swipe-overlay, button.swipe-overlay-out, button.border-color, button.border-text-color, button.border-dotted, button.border-dashed, button.radius-decrease, button.radius-increase, button.slide-down, button.slide-left, button.slide-right, button.slide-up, button.radial-out, button.radial-in, button.bg-text-show-border:hover, button.bg-show, button.bg-hide:hover {

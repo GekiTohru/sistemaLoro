@@ -3,7 +3,7 @@
 session_start();
 
 if (isset($_SESSION['user'])) {
-    header("Location: indexTelefonos.php");
+    header("Location: vista/lobby.php");
     exit();
 }
 ?>
@@ -34,7 +34,7 @@ if (isset($_SESSION['user'])) {
     </script>
 </head>
 <body>
-    <form action="loginFuncion.php" method="post">
+    <form action="controlador/loginFuncion.php" method="post">
         <label for="user">Usuario:</label>
         <input type="text" id="user" name="user" required><br><br>
         <label for="clave">Contraseña:</label>

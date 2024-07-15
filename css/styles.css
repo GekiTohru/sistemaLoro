@@ -392,12 +392,12 @@ table.dataTable td {
   border-radius: 7rem;
   box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  /* Remove IE arrow */
-  &::-ms-expand {
+  /* Remove IE arrow */}
+  ::-ms-expand {
     display: none;
   }
   /* Remove focus outline */
-  &:focus {
+  :focus {
     outline: none;
   }
   /* <option> colors */
@@ -405,4 +405,3 @@ table.dataTable td {
     color: inherit;
     background-color: var(--option-bg);
   }
-}
