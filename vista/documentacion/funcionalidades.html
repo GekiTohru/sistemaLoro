@@ -1,0 +1,109 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación Loro</title>
+    <link href="../../css/doc.css" rel="stylesheet">
+</head>
+<body>
+    <!-- HTML -->
+<div class="sidebar">
+    <div class="logo">
+      <img src="../../img/loro.png" alt="Logo">
+    </div>
+    <ul>
+      <li><a href="doc.html#principal">Principal</a></li>
+      <li><a href="doc.html#reqs">Requerimientos</a></li>
+      <li><a href="#funcionalidades">Funcionalidades</a></li>
+      <li><a href="#section4">Sección 4</a></li>
+    </ul>
+  </div>
+  
+  <!-- Contenido de la página -->
+  <div class="content">
+    <h2 id="principal">Descripción del sistema</h2>
+    <p>Este sistema tiene como principal funcionalidad permitir una fácil gestión del inventario de equipos tecnológicos (teléfonos, computadoras e impresoras) de la Distribuidora El Loro. Además de permitir generar distintos reportes que pueden ser de utilidad para el equipo de soporte técnico.</p>
+    <h2 id="reqs">Requerimientos del sistema</h2>
+    <p>Programas y herramientas necesarias para la correcta funcionalidad del sistema:</p>
+    <ul>
+        <li><a href="#xampp">XAMPP</a></li>
+        <li><a href="#sql">SQL Server</a></li>
+      </ul>
+      <div class="programas"><h2 id="xampp">XAMPP</h2><img class="icono" src="../../img/documentacion/favicon.ico" alt="xampp"></div>
+      <p>Pasos para la preparación del XAMPP:</p>
+      <ul>
+        <li><a href="#xampp1">Paso 1: Instalación</a></li>
+        <li><a href="#xampp2">Paso 2: Configuración.</a></li>
+        <li><a href="#xampp3">Paso 3: Añadir XAMPP al arranque (Opcional).</a></li>
+      </ul>
+      <h3 id="xampp1">Paso 1: Instalación.</h3>
+        <p>Descargar el instalador desde la página oficial de XAMPP y seguir los pasos para la Instalación.</p>
+      <img src="../../img/documentacion/xampp1.png" alt="xamppIns1">
+    <h3 id="xampp2">Paso 2: Configuración.</h3>
+    <p>2.1: Iniciar el Apache.</p>
+        <img src="../../img/documentacion/apache1.png" alt="xamppIns2">
+    <p>2.2: Para evitar errores, hacer lo siguiente:</p>
+    <p>Entrar a la configuración de Apache y modificar el archivo httpd.conf</p>
+    <img src="../../img/documentacion/apache2.png" alt="xamppIns3">
+    <p>Buscar las siguientes líneas y establecer el "Listen" y el "ServerName localhost" por 8080 (valor por defecto: 80)</p>
+    <img src="../../img/documentacion/apache3.png" alt="xamppIns4">
+    <img src="../../img/documentacion/apache4.png" alt="xamppIns5">
+    <p>Entrar nuevamente a la configuración de Apache y modificar el archivo httpd-ssl.conf</p>
+    <p>Buscar las siguientes líneas y establecer el "Listen" y el "VirtualHost_default" por 4436 (valor por defecto: 443)</p>
+    <img src="../../img/documentacion/apache5.png" alt="xamppIns6">
+    <img src="../../img/documentacion/apache6.png" alt="xamppIns7">
+    <p>Finalmente, entrar a la configuración de XAMPP</p>
+    <img src="../../img/documentacion/apache7.png" alt="xamppIns8">
+    <p>Buscar la opción "Service and Ports Settings"</p>
+    <img src="../../img/documentacion/apache8.png" alt="xamppIns9">
+    <p>Y reemplazar el Main Port y el SSL Port por los establecidos anteriormente</p>
+    <img src="../../img/documentacion/apache9.png" alt="xamppIns10">
+    <p>De esta forma, ya debería permitir la conexión al sistema para todos los miembros de la red local.</p>
+    <p>2.3: Como último detalle, activar la extensión "gd" para evitar errores con las imágenes de los reportes.</p>
+    <p>Entrar a la configuración de Apache y modificar el archivo php.ini</p>
+    <p>Buscar la línea "extension=gd", por defecto aparece con ";" detrás del texto, lo que quiere decir que la línea está comentada. Basta con eliminar el ";" para que funcione correctamente (reiniciar el apache para aplicar los cambios)</p>
+    <img src="../../img/documentacion/apache10.png" alt="xamppIns11">
+    <h3 id="xampp3">Paso 3: Añadir XAMPP al arranque (Opcional).</h3>
+    <a href="https://es.wikihow.com/abrir-XAMPP-al-iniciar-Windows">Tutorial</a>
+    <p id="principal">Con esto, se da por culminada la configuración del XAMPP.</p>
+    
+    <div class="programas"><h2 id="sql">SQL Server</h2><img class="icono" src="../../img/documentacion/sql1.png" alt="sql"></div>
+    <p>Pasos para la preparación del SQL Server:</p>
+      <ul>
+        <li><a href="#sql1">Paso 1: Instalación</a></li>
+        <li><a href="#sql2">Paso 2: Conexión del sistema con la base de datos.</a></li>
+        <li><a href="#sql3">Paso 3: Importar la base de datos.</a></li>
+      </ul>
+    <h3 id="sql1">Paso 1: Instalación.</h3>
+    <p>1.1: Descargar el instalador desde la página oficial de SQL Server y seguir los pasos para la instalación. <a href="https://www.youtube.com/watch?v=_fFz-_O2yvI">Tutorial</a></p>
+    <h3 id="sql2">Paso 2: Conexión del sistema con la base de datos.</h3>
+    <p>2.1: Una vez seguidos los pasos anteriores y después de crear una instancia SQL Server, se debe ingresar a ella desde el SQL Server Management Studio</p>
+    <img src="../../img/documentacion/sql2.png" alt="sqlIns1">
+    <p>2.2: Expandir la instancia creada, luego expandir la carpeta "Seguridad", hacer click izquierdo a la carpeta "Inicios de sesión" y hacer click en "Nuevo inicio de sesión"</p>
+    <img src="../../img/documentacion/sql3.png" alt="sqlIns2">
+    <p>2.3: Se abrirá la siguiente ventana, seleccionar la opción de SQL Server authentication, luego ingresar el nombre de usuario y contraseña de preferencia</p>
+    <img src="../../img/documentacion/sql4.png" alt="sqlIns3">
+    <p>2.4: En la misma ventana en la parte izquierda, seleccionar "Server Roles" y marcar las casilas necesarias (preferiblemente todas).</p>
+    <img src="../../img/documentacion/sql5.png" alt="sqlIns4">
+    <p>2.5: Ya realizados los pasos anteriores, guardar el nuevo inicio de sesión y buscar la siguiente ruta en el explorador de archivos: C:\xampp\htdocs\sistemaLoro\controlador y abrir el archivo"conexion.php"</p>
+    <p>2.6: Dentro del archivo, reemplazar los valores de "username" y "password" por el nombre de usuario y clave creados anteriormente.</p>
+    <img src="../../img/documentacion/sql6.png" alt="sqlIns5">
+    <h3 id="sql3">Paso 3: Importar la base de datos.</h3>
+    <p>3.1: En el SQL Server Management Studio, abrir una nueva consulta.</p>
+    <img src="../../img/documentacion/sql7.png" alt="sqlIns6">
+    <p>3.2: Buscar el archivo "BDSqlServer.txt", ubicado en la carpeta raíz del sistema, copiar su contenido e ingresarlo en la nueva consulta creada.</p>
+    <img src="../../img/documentacion/sql8.png" alt="sqlIns7">
+    <p>Una vez ejecutada la consulta (presionar Execute en la parte de arriba o presionar F5) la base de datos debería cargarse por completo sin ninguna complicación.</p>
+
+
+
+
+
+        
+    
+
+
+  </div>
+</body>
+</html>

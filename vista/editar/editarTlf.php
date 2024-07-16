@@ -25,11 +25,13 @@ $conexion = $conexionObj->ConexionBD();
     FROM telefonos
     INNER JOIN modelo_marca ON telefonos.id_modelo = modelo_marca.id_modelo
     INNER JOIN fabricante ON modelo_marca.id_fabricante = fabricante.id_fabricante
-    LEFT JOIN tlf_asignado ON telefonos.id_telefono = tlf_asignado.id_telefono
-    LEFT JOIN personal ON tlf_asignado.id_personal = personal.id_personal
+    LEFT JOIN 
+(SELECT * FROM tlf_asignado WHERE activo = 1) AS tlf_asignado_activo ON telefonos.id_telefono = tlf_asignado_activo.id_telefono
+LEFT JOIN 
+    personal ON tlf_asignado_activo.id_personal = personal.id_personal AND personal.activo = 1
     LEFT JOIN cargo_ruta ON personal.id_cargoruta = cargo_ruta.id_cargoruta
     LEFT JOIN area ON personal.id_area = area.id_area
-    WHERE telefonos.id_telefono = $id_telefono AND tlf_asignado.activo = 1";
+    WHERE telefonos.id_telefono = $id_telefono";
 
     $sql2="SELECT * FROM modelo_marca";
     $sql3="SELECT * FROM telefonos";

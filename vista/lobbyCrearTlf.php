@@ -7,6 +7,13 @@ if (!isset($_SESSION['user'])) {
     header("Location: ../login.php?error=timeout");
     exit();
 }
+if (isset($_SESSION["timeout"])) {
+    if ($_SESSION["timeout"] < time()) {
+        session_destroy();
+        header("Location: ../login.php?error=timeout");
+        exit();
+    }
+}
 ?>
 
 <!DOCTYPE html>

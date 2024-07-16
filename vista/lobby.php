@@ -9,7 +9,7 @@ if (!isset($_SESSION['user'])) {
 if (isset($_SESSION["timeout"])) {
     if ($_SESSION["timeout"] < time()) {
         session_destroy();
-        header("Location: ../sistemaLoro/login.php?error=timeout");
+        header("Location: ../login.php?error=timeout");
         exit();
     }
 }

@@ -1,5 +1,5 @@
--- Transcripción de MySQL a SQL Server
--- Base de datos: test
+﻿-- Transcripción de MySQL a SQL Server
+-- Base de datos: equip_corp
 
 -- Crear base de datos y cambiar a ella
 CREATE DATABASE equip_corp;

@@ -122,16 +122,18 @@ foreach ($pc as $fila) {
                   echo '<td>'. $fila['sucursal']. '</td>';
                   echo '<td>'. $fila['ram']. '</td>';
                   echo '<td>'. $fila['almacenamiento']. '</td>';
-                  echo '<td>';
-                  echo '<div><a href="../editar/editarPC.php?id='. $fila['id']. '" class="users-table--edit">Editar</a></div>';
-                  if ($_SESSION['permisos'] == 1) {
-                    echo '<div><a href="#" class="users-table--edit" onclick="eliminarFuncion('.$fila['id'].')">Eliminar</a></div>';
-                  }
-                  echo '<div><a href="../../reporte/auditoriaPcPdf.php?id='. $fila['id']. '" class="users-table--edit">Auditoría</a></div>';
-                  echo '<div><a href="../../reporte/fichaPcPdf.php?id='. $fila['id']. '" class="users-table--edit">Ficha</a></div>';
-                  echo '<div><a href="../../reporte/constanciaPc.php?id='. $fila['id']. '" class="users-table--edit">Constancia</a></div>';
-                  echo '</td>';
                   echo '<td>'. $fila['serial']. '</td>';
+                  echo '<td>';
+                  echo '<div style="display: flex;">';
+                  echo '<div><a href="../editar/editarPC.php?id='. $fila['id']. '" class="users-table--edit" title="Editar"><svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="humbleicons hi-pencil"><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 7.5l3 3M4 20v-3.5L15.293 5.207a1 1 0 011.414 0l2.086 2.086a1 1 0 010 1.414L7.5 20H4z"/></svg></a></div>';
+                  if ($_SESSION['permisos'] == 1) {
+                    echo '<div><a href="#" class="users-table--edit" title="Eliminar" onclick="eliminarFuncion('.$fila['id'].')"><svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="humbleicons hi-trash"><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6l.934 13.071A1 1 0 007.93 20h8.138a1 1 0 00.997-.929L18 6m-6 5v4m8-9H4m4.5 0l.544-1.632A2 2 0 0110.941 3h2.117a2 2 0 011.898 1.368L15.5 6"/></svg></a></div>';
+                  }
+                  echo '<div><a href="../../reporte/auditoriaPcPdf.php?id='. $fila['id']. '" class="users-table--edit" title="Reporte de auditoría"><svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="humbleicons hi-eye"><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M3 12c5.4-8 12.6-8 18 0-5.4 8-12.6 8-18 0z"/><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg></a></div>';
+                  echo '<div><a href="../../reporte/fichaPcPdf.php?id='. $fila['id']. '" class="users-table--edit" title="Ficha técnica"><svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="humbleicons hi-desktop"><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 20h8m-4 0v-4M4 5h16a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1V6a1 1 0 011-1z"/></svg></a></div>';
+                  echo '<div><a href="../../reporte/constanciaPc.php?id='. $fila['id']. '" class="users-table--edit" title="Constancia de entrega"><svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="humbleicons hi-print"><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M8 17H5a1 1 0 01-1-1v-5a2 2 0 012-2h12a2 2 0 012 2v5a1 1 0 01-1 1h-3M8 4h8v5H8V4zm0 11h8v4H8v-4z"/><circle xmlns="http://www.w3.org/2000/svg" cx="7" cy="12" r="1" fill="currentColor"/></svg></a></div>';
+                  echo '</div>';
+                  echo '</td>';
             }
                ?>
                </table>
@@ -159,8 +161,8 @@ $(document).ready(function() {
             { "title": "Sucursal", "defaultContent": "Sin sucursal" },
             { "title": "RAM", "defaultContent": "N/A" },
             { "title": "Almacen.","defaultContent": "N/A" },
-            { "title": "Acciones" },
             { "title": "Serial", "defaultContent": "N/A" },
+            { "title": "Acciones" },
         ]
     });
     // Recuperar el valor del filtro del localStorage y aplicarlo
