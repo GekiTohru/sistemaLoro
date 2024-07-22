@@ -26,7 +26,7 @@ $id_imp=$_GET['id'];
 
 $sql="SELECT *
 FROM mant_imp
-WHERE id_impresora = $id_imp";
+WHERE id_impresora = $id_imp AND activo = 1";
 
 $sql2="SELECT impresoras.modelo as nombre, fabricante.nombre as fabricante, area.nombre as area
 FROM impresoras
@@ -108,4 +108,5 @@ $pdf->Cell(100, 10, 'TOTAL DE MANTENIMIENTOS REALIZADOS: '.$contador, 1, 1,'C',1
 $pdf->Cell(100, 10, 'GASTOS TOTALES: '.$gasto.'$', 1, 1,'C',1);
 
 
-$pdf->Output();
+$pdf->Output('reporte_mantenimientoImp'.date('d_m_Y').'.pdf');
+

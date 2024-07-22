@@ -291,5 +291,5 @@ $pdf->Ln(5);
 $pdf->writeHTML($html, true, false, true, false, '');
 
 // Salida del PDF
-$pdf->Output();
+$pdf->Output('Constancia_'.$row['cargo'].'.pdf');
 }

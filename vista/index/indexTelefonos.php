@@ -36,7 +36,7 @@ FROM
 telefonos t
 INNER JOIN 
 modelo_marca mm ON t.id_modelo = mm.id_modelo
-INNER JOIN 
+LEFT JOIN 
 fabricante f ON mm.id_fabricante = f.id_fabricante
 LEFT JOIN 
 (SELECT * FROM tlf_asignado WHERE activo = 1) AS tlf_asignado_activo ON t.id_telefono = tlf_asignado_activo.id_telefono
@@ -108,18 +108,13 @@ foreach ($telefonos as $fila) {
                      <a href="indexTelefonos.php">Teléfonos</a>
                      <a href="indexPc.php">Computadoras</a>
                      <a href="indexImpresoras.php">Impresoras</a>
+                  <?php if ($_SESSION['permisos'] == 1) {
+                  echo'<a href="idxUsuarios.php">Usuarios</a>';
+                        }
+                  ?>
                  </div>
              </div>
-             <?php if ($_SESSION['permisos'] == 1) {
-           echo'<div class="dropdown">
-                <button class="dropbtn">Administrar</button>
-                <div class="dropdown-content">
-                    <a href="idxUsuarios.php">Gestionar usuarios</a>
-                    <a href="#">Opción de prueba</a>
-                </div>
-            </div>';
-                }
-                ?>
+             
         </div>
     </nav>
     <div class="wrap" style="width: 75%">
@@ -208,6 +203,7 @@ function eliminarFuncion(id) {
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
     cancelButtonColor: "#d33",
+    cancelButtonText: "Cancelar",
     confirmButtonText: "Sí, eliminar!"
   }).then((result) => {
     if (result.isConfirmed) {

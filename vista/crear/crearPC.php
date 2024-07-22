@@ -20,14 +20,14 @@ $conexionObj = new Cconexion();
 // Llamar al método ConexionBD para obtener la conexión
 $conexion = $conexionObj->ConexionBD();
 
-    $sql2="SELECT * FROM tipo_equipo";
+    $sql2="SELECT * FROM tipo_equipo WHERE activo = 1";
     $sql3="SELECT * FROM fabricante WHERE equipo = 'PC'";
-    $sql4="SELECT * FROM personal";
-    $sql5="SELECT * FROM red_lan";
-    $sql6="SELECT * FROM pc_sis_op";
-    $sql7="SELECT * FROM tipo_almacenamiento";
-    $sql8="SELECT * FROM sistema_admin";
-    $sql9="SELECT * FROM sucursal";
+    $sql4="SELECT * FROM personal WHERE activo = 1";
+    $sql5="SELECT * FROM red_lan WHERE activo = 1";
+    $sql6="SELECT * FROM pc_sis_op WHERE activo = 1";
+    $sql7="SELECT * FROM tipo_almacenamiento WHERE activo = 1";
+    $sql8="SELECT * FROM sistema_admin WHERE activo = 1";
+    $sql9="SELECT * FROM sucursal WHERE activo = 1";
 
 $stmt2 = $conexion->prepare($sql2);
 $stmt2->execute();
@@ -75,9 +75,123 @@ $row = $result3[0]; // equivalente a mysqli_fetch_array($query3)
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script type="importmap">
+        {
+            "imports": {
+                "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/42.0.0/ckeditor5.js",
+                "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/42.0.0/"
+            }
+        }
+    </script>
 
-    
+    <script type="module">
+        import {
+            ClassicEditor,
+            Essentials,
+            Bold,
+            Italic,
+            Font,
+            Paragraph
+        } from 'ckeditor5';
 
+        let editorInstance;
+
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                plugins: [Essentials, Bold, Italic, Font, Paragraph],
+                toolbar: {
+                    items: [
+                        'undo', 'redo', '|', 'bold', 'italic', '|',
+                        'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'
+                    ]
+                }
+            })
+            .then(editor => {
+                editorInstance = editor;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+        $(document).ready(function() {
+            $('#nuevo').submit(function(event) {
+                event.preventDefault();
+
+                // Obtener el contenido del editor
+                let content = editorInstance.getData();
+
+                // Reemplazar hsl por rgb en el contenido
+                content = replaceHslWithRgb(content);
+
+                // Actualizar el campo de textarea con el contenido modificado
+                editorInstance.setData(content);
+
+                // Actualizar el textarea oculto antes de enviar el formulario
+                document.querySelector('#editor-hidden').value = content;
+
+                // Enviar el formulario
+                crear();
+            });
+        });
+
+        function crear() {
+            $.ajax({
+                type: 'POST',
+                url: '../../controlador/crear/crearPCFuncion.php',
+                data: $('#nuevo').serialize(),
+                success: function(data) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "PC creado correctamente",
+                        showConfirmButton: false,
+                        timer: 3000, 
+                        allowOutsideClick: true,
+                        willClose: () => {
+                            window.location.href = '../../vista/index/indexPC.php';
+                        }
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', status, error);
+                }
+            });
+        }
+
+        function hslToRgb(h, s, l) {
+            s /= 100;
+            l /= 100;
+            let c = (1 - Math.abs(2 * l - 1)) * s,
+                x = c * (1 - Math.abs((h / 60) % 2 - 1)),
+                m = l - c / 2,
+                r = 0,
+                g = 0,
+                b = 0;
+            if (0 <= h && h < 60) {
+                r = c; g = x; b = 0;
+            } else if (60 <= h && h < 120) {
+                r = x; g = c; b = 0;
+            } else if (120 <= h && h < 180) {
+                r = 0; g = c; b = x;
+            } else if (180 <= h && h < 240) {
+                r = 0; g = x; b = c;
+            } else if (240 <= h && h < 300) {
+                r = x; g = 0; b = c;
+            } else if (300 <= h && h < 360) {
+                r = c; g = 0; b = x;
+            }
+            r = Math.round((r + m) * 255);
+            g = Math.round((g + m) * 255);
+            b = Math.round((b + m) * 255);
+
+            return `rgb(${r}, ${g}, ${b})`;
+        }
+
+        function replaceHslWithRgb(content) {
+            return content.replace(/background-color:hsl\((\d+), (\d+)%, (\d+)%\);/g, function(match, h, s, l) {
+                return `background-color:${hslToRgb(h, s, l)};`;
+            });
+        }
+    </script>
 
 </head>
 <header>
@@ -94,21 +208,15 @@ $row = $result3[0]; // equivalente a mysqli_fetch_array($query3)
             <div class="dropdown">
                  <button class="dropbtn">Gestionar</button>
                  <div class="dropdown-content">
-                     <a href="../indexTelefonos.php">Teléfonos</a>
-                     <a href="../indexPc.php">Computadoras</a>
-                     <a href="../indexImpresoras.php">Impresoras</a>
+                     <a href="../index/indexTelefonos.php">Teléfonos</a>
+                     <a href="../index/indexPc.php">Computadoras</a>
+                     <a href="../index/indexImpresoras.php">Impresoras</a>
+                     <?php if ($_SESSION['permisos'] == 1) {
+                  echo'<a href="../index/idxUsuarios.php">Usuarios</a>';
+                        }
+                  ?>
                  </div>
-             </div>
-             <?php if ($_SESSION['permisos'] == 1) {
-           echo'<div class="dropdown">
-                <button class="dropbtn">Administrar</button>
-                <div class="dropdown-content">
-                    <a href="../idxUsuarios.php">Gestionar usuarios</a>
-                    <a href="#">Opción de prueba</a>
-                </div>
-            </div>';
-                }
-                ?>
+             
         </div>
     </nav>
     <div class="users-table">
@@ -514,40 +622,9 @@ $row = $result3[0]; // equivalente a mysqli_fetch_array($query3)
                 <div class="inputs" style="width: 600px">
                 <label for="editor">Observación</label>
                 <textarea style="width: 1000px; height: 200px" type="text" name="nota" id="editor" placeholder="" value=""></textarea>
+                <input type="hidden" id="editor-hidden" name="nota">         
+            </div>
                 </div>
-                </div>
-        <script type="importmap">
-            {
-                "imports": {
-                    "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/42.0.0/ckeditor5.js",
-                    "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/42.0.0/"
-                }
-            }
-        </script>
-
-        <script type="module">
-            import {
-                ClassicEditor,
-                Essentials,
-                Bold,
-                Italic,
-                Font,
-                Paragraph
-            } from 'ckeditor5';
-
-            ClassicEditor
-                .create( document.querySelector( '#editor' ), {
-                    plugins: [ Essentials, Bold, Italic, Font, Paragraph ],
-                    toolbar: {
-                        items: [
-                            'undo', 'redo', '|', 'bold', 'italic', '|',
-                            'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'
-                        ]
-                    }
-                } )
-                .then( /* ... */ )
-                .catch( /* ... */ );
-        </script>
 <script>
 $(document).ready(function() {
     $('#tipo_equipo, #personal, #fabricante, #red_lan, #pc_sis_op , #tipo_almacenamiento, #sistema_admin, #sucursal').select2({
@@ -556,38 +633,8 @@ $(document).ready(function() {
         debug: true,
     });
 });</script>
-
-
-                <input type="submit" value="Añadir nueva PC">
-                
+<input type="submit" value="Añadir nueva PC">
             </form>
         </div>
-        <script>
-    $(document).ready(function() {
-        $('#nuevo').submit(function(event) {
-            event.preventDefault();
-        });
-    });
-
-    function crear() {
-        Swal.fire({
-            icon: "success",
-            title: "PC creada correctamente",
-            showConfirmButton: false,
-            timer: 3000, 
-            allowOutsideClick: true,
-            willClose: () => {
-                window.location.href = '../../vista/index/indexPC.php';
-            }
-        });
-        $.ajax({
-            type: 'POST',
-            url: '../../controlador/crear/crearPCFuncion.php',
-            data: $('#nuevo').serialize(),
-            success: function(data) {
-            }
-        });
-    }
-</script>
         </body>
 </html>

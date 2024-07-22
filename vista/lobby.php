@@ -40,18 +40,12 @@ $_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
                      <a href="index/indexTelefonos.php">Teléfonos</a>
                      <a href="index/indexPc.php">Computadoras</a>
                      <a href="index/indexImpresoras.php">Impresoras</a>
+                     <?php if ($_SESSION['permisos'] == 1) {
+                  echo'<a href="index/idxUsuarios.php">Usuarios</a>';
+                        }
+                  ?>
                  </div>
              </div>
-             <?php if ($_SESSION['permisos'] == 1) {
-           echo'<div class="dropdown">
-                <button class="dropbtn">Administrar</button>
-                <div class="dropdown-content">
-                    <a href="index/idxUsuarios.php">Gestionar usuarios</a>
-                    <a href="#">Opción de prueba</a>
-                </div>
-            </div>';
-                }
-                ?>
         </div>
     </nav>
 

@@ -24,7 +24,7 @@ $conexion = $conexionObj->ConexionBD();
     $sql="SELECT telefonos.*, telefonos.id_telefono AS id, modelo_marca.nombre AS modelo, fabricante.nombre AS fabricante, personal.nombre AS asignado, cargo_ruta.nombre AS cargo, area.nombre AS area
     FROM telefonos
     INNER JOIN modelo_marca ON telefonos.id_modelo = modelo_marca.id_modelo
-    INNER JOIN fabricante ON modelo_marca.id_fabricante = fabricante.id_fabricante
+    LEFT JOIN fabricante ON modelo_marca.id_fabricante = fabricante.id_fabricante
     LEFT JOIN 
 (SELECT * FROM tlf_asignado WHERE activo = 1) AS tlf_asignado_activo ON telefonos.id_telefono = tlf_asignado_activo.id_telefono
 LEFT JOIN 
@@ -33,14 +33,14 @@ LEFT JOIN
     LEFT JOIN area ON personal.id_area = area.id_area
     WHERE telefonos.id_telefono = $id_telefono";
 
-    $sql2="SELECT * FROM modelo_marca";
-    $sql3="SELECT * FROM telefonos";
-    $sql4="SELECT * FROM personal";
-    $sql5="SELECT * FROM cargo_ruta";
-    $sql6="SELECT * FROM area";
-    $sql7="SELECT * FROM tlf_sisver";
-    $sql8="SELECT * FROM operadora";
-    $sql9="SELECT * FROM sucursal";
+    $sql2="SELECT * FROM modelo_marca WHERE activo = 1";
+    $sql3="SELECT * FROM telefonos WHERE activo = 1";
+    $sql4="SELECT * FROM personal WHERE activo = 1";
+    $sql5="SELECT * FROM cargo_ruta WHERE activo = 1";
+    $sql6="SELECT * FROM area WHERE activo = 1";
+    $sql7="SELECT * FROM tlf_sisver WHERE activo = 1";
+    $sql8="SELECT * FROM operadora WHERE activo = 1";
+    $sql9="SELECT * FROM sucursal WHERE activo = 1";
 
     $stmt = $conexion->prepare($sql);
     $stmt->execute();
@@ -123,6 +123,123 @@ $apps = explode(',', $row0['app_conf']);
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script type="importmap">
+        {
+            "imports": {
+                "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/42.0.0/ckeditor5.js",
+                "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/42.0.0/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import {
+            ClassicEditor,
+            Essentials,
+            Bold,
+            Italic,
+            Font,
+            Paragraph
+        } from 'ckeditor5';
+
+        let editorInstance;
+
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                plugins: [Essentials, Bold, Italic, Font, Paragraph],
+                toolbar: {
+                    items: [
+                        'undo', 'redo', '|', 'bold', 'italic', '|',
+                        'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'
+                    ]
+                }
+            })
+            .then(editor => {
+                editorInstance = editor;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+        $(document).ready(function() {
+            $('#nuevo').submit(function(event) {
+                event.preventDefault();
+
+                // Obtener el contenido del editor
+                let content = editorInstance.getData();
+
+                // Reemplazar hsl por rgb en el contenido
+                content = replaceHslWithRgb(content);
+
+                // Actualizar el campo de textarea con el contenido modificado
+                editorInstance.setData(content);
+
+                // Actualizar el textarea oculto antes de enviar el formulario
+                document.querySelector('#editor-hidden').value = content;
+
+                // Enviar el formulario
+                editar();
+            });
+        });
+
+        function editar() {
+            $.ajax({
+                type: 'POST',
+                url: '../../controlador/editar/editarTlfFuncion.php',
+                data: $('#nuevo').serialize(),
+                success: function(data) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Teléfono editado correctamente",
+                        showConfirmButton: false,
+                        timer: 3000, 
+                        allowOutsideClick: true,
+                        willClose: () => {
+                            window.location.href = '../../vista/index/indexTelefonos.php';
+                        }
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', status, error);
+                }
+            });
+        }
+
+        function hslToRgb(h, s, l) {
+            s /= 100;
+            l /= 100;
+            let c = (1 - Math.abs(2 * l - 1)) * s,
+                x = c * (1 - Math.abs((h / 60) % 2 - 1)),
+                m = l - c / 2,
+                r = 0,
+                g = 0,
+                b = 0;
+            if (0 <= h && h < 60) {
+                r = c; g = x; b = 0;
+            } else if (60 <= h && h < 120) {
+                r = x; g = c; b = 0;
+            } else if (120 <= h && h < 180) {
+                r = 0; g = c; b = x;
+            } else if (180 <= h && h < 240) {
+                r = 0; g = x; b = c;
+            } else if (240 <= h && h < 300) {
+                r = x; g = 0; b = c;
+            } else if (300 <= h && h < 360) {
+                r = c; g = 0; b = x;
+            }
+            r = Math.round((r + m) * 255);
+            g = Math.round((g + m) * 255);
+            b = Math.round((b + m) * 255);
+
+            return `rgb(${r}, ${g}, ${b})`;
+        }
+
+        function replaceHslWithRgb(content) {
+            return content.replace(/background-color:hsl\((\d+), (\d+)%, (\d+)%\);/g, function(match, h, s, l) {
+                return `background-color:${hslToRgb(h, s, l)};`;
+            });
+        }
+    </script>
 </head>
 <header>
 <div style="height: 50px;"></div>
@@ -138,21 +255,15 @@ $apps = explode(',', $row0['app_conf']);
             <div class="dropdown">
                  <button class="dropbtn">Gestionar</button>
                  <div class="dropdown-content">
-                     <a href="../indexTelefonos.php">Teléfonos</a>
-                     <a href="../indexPc.php">Computadoras</a>
-                     <a href="../indexImpresoras.php">Impresoras</a>
+                     <a href="../index/indexTelefonos.php">Teléfonos</a>
+                     <a href="../index/indexPc.php">Computadoras</a>
+                     <a href="../index/indexImpresoras.php">Impresoras</a>
+                     <?php if ($_SESSION['permisos'] == 1) {
+                  echo'<a href="../index/idxUsuarios.php">Usuarios</a>';
+                        }
+                  ?>
                  </div>
-             </div>
-             <?php if ($_SESSION['permisos'] == 1) {
-           echo'<div class="dropdown">
-                <button class="dropbtn">Administrar</button>
-                <div class="dropdown-content">
-                    <a href="../idxUsuarios.php">Gestionar usuarios</a>
-                    <a href="#">Opción de prueba</a>
-                </div>
-            </div>';
-                }
-                ?>
+             
         </div>
     </nav>
     <div class="users-table">
@@ -160,7 +271,7 @@ $apps = explode(',', $row0['app_conf']);
 
         <div class="users-form">
         <h2><?= $row0['cargo']; ?></h2>
-            <form id="nuevo" onsubmit="return editar()">
+        <form id="nuevo">
             <input type="hidden" name="id_telefono" value="<?= $row0['id']?>">
                 <div id="fechas" style="display: flex">
                 <div style="margin: 10px">
@@ -372,7 +483,8 @@ $apps = explode(',', $row0['app_conf']);
 <div class="inputs" style="width: 600px">
                 <label for="editor">Observación</label>
                 <textarea style="width: 1000px; height: 200px" type="text" name="nota" id="editor" placeholder="Mantiene la configuración inicial."><?= $row0['nota']?></textarea>
-                </div>
+                <input type="hidden" id="editor-hidden" name="nota">    
+            </div>
 </div>
 <script>
   document.addEventListener('DOMContentLoaded', (event) => {
@@ -409,38 +521,7 @@ $apps = explode(',', $row0['app_conf']);
     actualizarConsumoHidden();
   });
 </script>
-<script type="importmap">
-            {
-                "imports": {
-                    "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/42.0.0/ckeditor5.js",
-                    "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/42.0.0/"
-                }
-            }
-        </script>
 
-        <script type="module">
-            import {
-                ClassicEditor,
-                Essentials,
-                Bold,
-                Italic,
-                Font,
-                Paragraph
-            } from 'ckeditor5';
-
-            ClassicEditor
-                .create( document.querySelector( '#editor' ), {
-                    plugins: [ Essentials, Bold, Italic, Font, Paragraph ],
-                    toolbar: {
-                        items: [
-                            'undo', 'redo', '|', 'bold', 'italic', '|',
-                            'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'
-                        ]
-                    }
-                } )
-                .then( /* ... */ )
-                .catch( /* ... */ );
-        </script>
 
   <div id="statuses" style="display: flex; flex-wrap: wrap;">
   <div class="inputs">
@@ -532,33 +613,6 @@ $(document).ready(function() {
                 <input type="submit" value="Actualizar teléfono">
             </form>
         </div>
-        <script>
-    $(document).ready(function() {
-        $('#nuevo').submit(function(event) {
-            event.preventDefault();
-        });
-    });
-
-    function editar() {
-        Swal.fire({
-            icon: "success",
-            title: "Teléfono editado correctamente",
-            showConfirmButton: false,
-            timer: 3000, 
-            allowOutsideClick: true,
-            willClose: () => {
-                window.location.href = '../../vista/index/indexTelefonos.php';
-            }
-        });
-        $.ajax({
-            type: 'POST',
-            url: '../../controlador/editar/editarTlfFuncion.php',
-            data: $('#nuevo').serialize(),
-            success: function(data) {
-            }
-        });
-    }
-</script>
 
         </body>
 </html>

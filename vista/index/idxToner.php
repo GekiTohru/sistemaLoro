@@ -65,18 +65,13 @@ $imp = $stmt->fetchAll(PDO::FETCH_ASSOC);
                      <a href="indexTelefonos.php">Teléfonos</a>
                      <a href="indexPc.php">Computadoras</a>
                      <a href="indexImpresoras.php">Impresoras</a>
+                  <?php if ($_SESSION['permisos'] == 1) {
+                  echo'<a href="idxUsuarios.php">Usuarios</a>';
+                        }
+                  ?>
                  </div>
              </div>
-             <?php if ($_SESSION['permisos'] == 1) {
-           echo'<div class="dropdown">
-                <button class="dropbtn">Administrar</button>
-                <div class="dropdown-content">
-                    <a href="idxUsuarios.php">Gestionar usuarios</a>
-                    <a href="#">Opción de prueba</a>
-                </div>
-            </div>';
-                }
-                ?>
+             
         </div>
     </nav>
     <div class="users-table">
@@ -92,10 +87,12 @@ $imp = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   echo '<td>'. $fila['modelo']. '</td>';
                   echo '<td>'. $fila['color']. '</td>';
                   echo '<td>';
-                  echo '<div><a href="../editar/editarToner.php?id='. $fila['id']. '" class="users-table--edit">Editar</a></div>';
+                  echo '<div style="display: flex;">';
+                  echo '<div><a href="../editar/editarToner.php?id='. $fila['id']. '" class="users-table--edit" title="Editar"><svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="humbleicons hi-pencil"><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 7.5l3 3M4 20v-3.5L15.293 5.207a1 1 0 011.414 0l2.086 2.086a1 1 0 010 1.414L7.5 20H4z"/></svg></a></div>';
                   if ($_SESSION['permisos'] == 1) {
-                    echo '<div><a href="#" class="users-table--edit" onclick="eliminarFuncion('.$fila['id'].')">Eliminar</a></div>';
+                    echo '<div><a href="#" class="users-table--edit" title="Eliminar" onclick="eliminarFuncion('.$fila['id'].')"><svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="humbleicons hi-trash"><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6l.934 13.071A1 1 0 007.93 20h8.138a1 1 0 00.997-.929L18 6m-6 5v4m8-9H4m4.5 0l.544-1.632A2 2 0 0110.941 3h2.117a2 2 0 011.898 1.368L15.5 6"/></svg></a></div>';
                   }
+                  echo '</div>';
                   echo '</td>';
             }
                ?>

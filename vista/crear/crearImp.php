@@ -20,8 +20,8 @@ $conexionObj = new Cconexion();
 // Llamar al método ConexionBD para obtener la conexión
 $conexion = $conexionObj->ConexionBD();
 
-    $sql2="SELECT * FROM fabricante WHERE equipo = 'Impresora'";
-    $sql3="SELECT * FROM area";
+    $sql2="SELECT * FROM fabricante WHERE equipo = 'Impresora' AND activo = 1";
+    $sql3="SELECT * FROM area WHERE activo = 1";
     $sql4="SELECT * FROM toner WHERE activo = 1";    
 
     $stmt2 = $conexion->prepare($sql2);
@@ -68,27 +68,21 @@ $row1 = $result4[0];
             <div class="dropdown">
                  <button class="dropbtn">Gestionar</button>
                  <div class="dropdown-content">
-                     <a href="../indexTelefonos.php">Teléfonos</a>
-                     <a href="../indexPc.php">Computadoras</a>
-                     <a href="../indexImpresoras.php">Impresoras</a>
+                     <a href="../index/indexTelefonos.php">Teléfonos</a>
+                     <a href="../index/indexPc.php">Computadoras</a>
+                     <a href="../index/indexImpresoras.php">Impresoras</a>
+                     <?php if ($_SESSION['permisos'] == 1) {
+                  echo'<a href="../index/idxUsuarios.php">Usuarios</a>';
+                        }
+                  ?>
                  </div>
-             </div>
-             <?php if ($_SESSION['permisos'] == 1) {
-           echo'<div class="dropdown">
-                <button class="dropbtn">Administrar</button>
-                <div class="dropdown-content">
-                    <a href="../idxUsuarios.php">Gestionar usuarios</a>
-                    <a href="#">Opción de prueba</a>
-                </div>
-            </div>';
-                }
-                ?>
+             
         </div>
     </nav>
     <div class="users-table">
         <h2 style="text-align: center;">Añadir nueva Impresora</h2>
         <div class="users-form">
-            <form id="nuevo" onsubmit="return crear()">
+            <form id="nuevo">
                 <div style="display: flex">
                 <div style="display: block">
                 <div style="margin: 10px">
@@ -169,9 +163,10 @@ $(document).ready(function() {
             </form>
         </div>
         <script>
-    $(document).ready(function() {
+        $(document).ready(function() {
         $('#nuevo').submit(function(event) {
             event.preventDefault();
+            crear();
         });
     });
 

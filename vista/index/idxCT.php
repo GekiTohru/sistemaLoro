@@ -21,9 +21,11 @@ $conexionObj = new Cconexion();
 // Llamar al método ConexionBD para obtener la conexión
 $conexion = $conexionObj->ConexionBD();
 
-$sql = "SELECT cambio_toner.id_cambiotoner AS id, cambio_toner.fecha AS fecha, cambio_toner.contador AS contador, cambio_toner.costo AS costo, toner.modelo AS toner, toner.color AS color 
+$sql = "SELECT cambio_toner.id_cambiotoner AS id, cambio_toner.fecha AS fecha, cambio_toner.contador AS contador, cambio_toner.costo AS costo, toner.modelo AS toner, toner.color AS color, impresoras.modelo AS imp, fabricante.nombre AS marca 
 FROM cambio_toner
 INNER JOIN toner ON cambio_toner.id_toner = toner.id_toner
+INNER JOIN impresoras ON cambio_toner.id_impresora = impresoras.id_impresora
+INNER JOIN fabricante ON impresoras.id_fabricante = fabricante.id_fabricante
 WHERE cambio_toner.activo = 1
 ORDER BY fecha ASC";
 
@@ -66,22 +68,17 @@ $imp = $stmt->fetchAll(PDO::FETCH_ASSOC);
                      <a href="indexTelefonos.php">Teléfonos</a>
                      <a href="indexPc.php">Computadoras</a>
                      <a href="indexImpresoras.php">Impresoras</a>
+                  <?php if ($_SESSION['permisos'] == 1) {
+                  echo'<a href="idxUsuarios.php">Usuarios</a>';
+                        }
+                  ?>
                  </div>
              </div>
-             <?php if ($_SESSION['permisos'] == 1) {
-           echo'<div class="dropdown">
-                <button class="dropbtn">Administrar</button>
-                <div class="dropdown-content">
-                    <a href="idxUsuarios.php">Gestionar usuarios</a>
-                    <a href="#">Opción de prueba</a>
-                </div>
-            </div>';
-                }
-                ?>
+             
         </div>
     </nav>
     <div class="users-table">
-        <h2 style="text-align: center;">Toner registrados</h2>
+        <h2 style="text-align: center;">Cambios de tóner registrados</h2>
         <input type="hidden" id="filterInput">
         <table id="tablaToner" class="display responsive nowrap" style="width:100%">    
                 <?php
@@ -90,13 +87,14 @@ $imp = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   // Mostrar la fila de la tabla con los datos del teléfono y los nombres de los usuarios
                   echo '<tr>';
                   echo '<td>'. $fila['id']. '</td>';
+                  echo '<td>'. $fila['marca'] .' '. $fila['imp']. '</td>';
                   echo '<td>'. $fila['toner'] .' '. $fila['color']. '</td>';
                   echo '<td>'. $fila['contador']. '</td>';
                   echo '<td>'. $fila['costo']. '</td>';
                   echo '<td>'. $fila['fecha']. '</td>';
                   echo '<td>';
                   if ($_SESSION['permisos'] == 1) {
-                    echo '<div><a href="#" class="users-table--edit" onclick="eliminarFuncion('.$fila['id'].')">Eliminar</a></div>';
+                    echo '<div><a href="#" class="users-table--edit" title="Eliminar" onclick="eliminarFuncion('.$fila['id'].')"><svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="humbleicons hi-trash"><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6l.934 13.071A1 1 0 007.93 20h8.138a1 1 0 00.997-.929L18 6m-6 5v4m8-9H4m4.5 0l.544-1.632A2 2 0 0110.941 3h2.117a2 2 0 011.898 1.368L15.5 6"/></svg></a></div>';
                   }
                   echo '</td>';
             }
@@ -116,6 +114,7 @@ $(document).ready(function() {
 },"responsive": true,
         "columns": [
             { "title": "ID"},
+            { "title": "Impresora"},
             { "title": "Tóner" },
             { "title": "Contador" },
             { "title": "Costo" },

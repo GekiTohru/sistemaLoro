@@ -13,6 +13,13 @@ if (isset($_SESSION["timeout"])) {
     }
 }
 $_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
+include("C:/xampp/htdocs/sistemaLoro/controlador/conexion.php");
+$conexionObj = new Cconexion();
+
+// Llamar al método ConexionBD para obtener la conexión
+$conexion = $conexionObj->ConexionBD();
+require('../fpdf/fpdf.php');
+require_once('../TCPDF/tcpdf.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['data'])) {
     $data = json_decode($_POST['data'], true);
@@ -92,7 +99,8 @@ $pdf->setPrintFooter(false);
     $pdf->MultiCell(25, 10, $filtro_fechas, 0, 'L');
 
     
-    $pdf->Output('reporte_mantenimientos.pdf', 'I');
+    $pdf->Output('reporte_mantenimientosPC'.date('d_m_Y').'.pdf');
+
 } else {
     echo 'Invalid request';
 }

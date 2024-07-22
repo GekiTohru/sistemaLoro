@@ -147,5 +147,5 @@ $pdf->setX(20);
 $pdf->Cell(60, 10, 'Fecha de impresión: '.date('d/m/Y'), 1, 1, 'L');
 
 
-$pdf->Output();
+$pdf->Output('ficha_'.$row['cargo'].'.pdf');
 }

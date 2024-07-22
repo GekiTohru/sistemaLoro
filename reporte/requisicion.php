@@ -153,7 +153,7 @@ if ($stmt->rowCount() > 0) {
     $pdf->Cell(25, 10, $total_adaptador, 1, 1, 'C');
 
     // Output PDF
-    $pdf->Output('reporte_telefonos.pdf', 'I');
+    $pdf->Output('requisicion_accesorios'.date('d_m_Y').'.pdf');
 } else {
     echo "No se encontraron resultados.";
 }

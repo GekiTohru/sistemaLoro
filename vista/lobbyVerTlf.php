@@ -40,18 +40,12 @@ if (isset($_SESSION["timeout"])) {
                      <a href="index/indexTelefonos.php">Teléfonos</a>
                      <a href="index/indexPc.php">Computadoras</a>
                      <a href="index/indexImpresoras.php">Impresoras</a>
+                     <?php if ($_SESSION['permisos'] == 1) {
+                  echo'<a href="index/idxUsuarios.php">Usuarios</a>';
+                        }
+                  ?>
                  </div>
              </div>
-             <?php if ($_SESSION['permisos'] == 1) {
-           echo'<div class="dropdown">
-                <button class="dropbtn">Administrar</button>
-                <div class="dropdown-content">
-                    <a href="index/idxUsuarios.php">Gestionar usuarios</a>
-                    <a href="#">Opción de prueba</a>
-                </div>
-            </div>';
-                }
-                ?>
         </div>
     </nav>
     <div class="container" style="margin-top: 14%">
@@ -81,6 +75,7 @@ if (isset($_SESSION["timeout"])) {
     <button style="width:250px; margin-top: 20px" class="icon-slide-right" onclick="location.href='index/indexGeneral.php?tabla=tipo_equipo'">Gestionar Tipo de Equipo (PC)</button>    
     <button style="width:250px; margin-top: 20px" class="icon-slide-left" onclick="location.href='index/indexGeneral.php?tabla=tipo_almacenamiento'">Gestionar Tipo de Almacenamiento</button>    
     <button style="width:250px; margin-top: 20px" class="icon-slide-right" onclick="location.href='index/indexGeneral.php?tabla=red_lan'">Gestionar Tipos de red</button>    
+    <button style="width:250px; margin-top: 20px" class="icon-slide-left" onclick="location.href='index/idxMantenimientosPC.php'">Gestionar Mantenimientos (PC)</button>
         </div>
         <div id="impresora" style="margin-right: 3%">
         <div class="wrapper" style="margin-bottom: -10%; margin-left: 1%">
@@ -88,8 +83,10 @@ if (isset($_SESSION["timeout"])) {
 		<span data-text=""></span>
 	</div>
     <button style="width:250px; margin-top: 20px" class="icon-slide-right" onclick="location.href='index/indexImpresoras.php'">Gestionar Impresoras</button>
-    <button style="width:250px; margin-top: 20px" class="icon-slide-left" onclick="location.href='index/idxToner.php'">Gestionar Toner</button>
-        </div>
+    <button style="width:250px; margin-top: 20px" class="icon-slide-left" onclick="location.href='index/idxMantenimientosImp.php'">Gestionar Mantenimientos (Imp)</button>
+    <button style="width:250px; margin-top: 20px" class="icon-slide-right" onclick="location.href='index/idxToner.php'">Gestionar Toner</button>
+    <button style="width:250px; margin-top: 20px" class="icon-slide-left" onclick="location.href='index/idxCT.php'">Gestionar cambios de tóner</button>  
+    </div>
         <div id="general">
         <div class="wrapper" style="margin-bottom: -6%; margin-left: 1%">
 		<span data-text="General"></span>
@@ -101,8 +98,6 @@ if (isset($_SESSION["timeout"])) {
     <button style="width:250px; margin-top: 20px" class="icon-slide-left" onclick="location.href='index/indexGeneral.php?tabla=cargo_ruta'">Gestionar Cargos/Rutas</button>
     <button style="width:250px; margin-top: 20px" class="icon-slide-right" onclick="location.href='index/indexGeneral.php?tabla=sucursal'">Gestionar Sucursales</button>
     <button style="width:250px; margin-top: 20px" class="icon-slide-left" onclick="location.href='index/indexGeneral.php?tabla=sistema_admin'">Gestionar Sistemas Administrativos</button>
-    <button style="width:250px; margin-top: 20px" class="icon-slide-right" onclick="location.href='index/idxMantenimientos.php'">Gestionar Mantenimientos</button>
-    <button style="width:250px; margin-top: 20px" class="icon-slide-left" onclick="location.href='index/idxCT.php'">Gestionar cambios de tóner</button>
         </div>
     </div>
 </body>

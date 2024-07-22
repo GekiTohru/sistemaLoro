@@ -86,18 +86,13 @@ foreach ($pc as $fila) {
                      <a href="indexTelefonos.php">Teléfonos</a>
                      <a href="indexPc.php">Computadoras</a>
                      <a href="indexImpresoras.php">Impresoras</a>
+                  <?php if ($_SESSION['permisos'] == 1) {
+                  echo'<a href="idxUsuarios.php">Usuarios</a>';
+                        }
+                  ?>
                  </div>
              </div>
-             <?php if ($_SESSION['permisos'] == 1) {
-           echo'<div class="dropdown">
-                <button class="dropbtn">Administrar</button>
-                <div class="dropdown-content">
-                    <a href="idxUsuarios.php">Gestionar usuarios</a>
-                    <a href="#">Opción de prueba</a>
-                </div>
-            </div>';
-                }
-                ?>
+             
         </div>
     </nav>
     <div class="users-table">

@@ -62,7 +62,7 @@ $tables = [
     "pc_sis_op" => "SELECT pc_sis_op.id_pcso AS id, pc_sis_op.nombre AS nombre FROM pc_sis_op WHERE pc_sis_op.activo = 1",
     "cargo_ruta" => "SELECT cargo_ruta.id_cargoruta AS id, cargo_ruta.nombre AS nombre FROM cargo_ruta WHERE cargo_ruta.activo = 1",
     "operadora" => "SELECT operadora.id_operadora AS id, operadora.nombre AS nombre FROM operadora WHERE operadora.activo = 1",
-    "modelo_marca" => "SELECT modelo_marca.id_modelo AS id, modelo_marca.nombre AS modelo, fabricante.nombre AS fabricante, modelo_marca.ram AS RAM, modelo_marca.rom AS ROM, modelo_marca.tipo AS tipo FROM modelo_marca INNER JOIN fabricante ON modelo_marca.id_fabricante =  fabricante.id_fabricante WHERE modelo_marca.activo = 1",
+    "modelo_marca" => "SELECT modelo_marca.id_modelo AS id, modelo_marca.nombre AS modelo, fabricante.nombre AS fabricante, modelo_marca.ram AS RAM, modelo_marca.rom AS ROM, modelo_marca.tipo AS tipo FROM modelo_marca LEFT JOIN fabricante ON modelo_marca.id_fabricante =  fabricante.id_fabricante WHERE modelo_marca.activo = 1",
     "fabricante" => "SELECT fabricante.id_fabricante AS id, fabricante.nombre AS nombre FROM fabricante WHERE fabricante.activo = 1"
 ];
 
@@ -121,18 +121,13 @@ if (isset($_GET['tabla'])) {
                      <a href="indexTelefonos.php">Teléfonos</a>
                      <a href="indexPc.php">Computadoras</a>
                      <a href="indexImpresoras.php">Impresoras</a>
+                  <?php if ($_SESSION['permisos'] == 1) {
+                  echo'<a href="idxUsuarios.php">Usuarios</a>';
+                        }
+                  ?>
                  </div>
              </div>
-             <?php if ($_SESSION['permisos'] == 1) {
-           echo'<div class="dropdown">
-                <button class="dropbtn">Administrar</button>
-                <div class="dropdown-content">
-                    <a href="idxUsuarios.php">Gestionar usuarios</a>
-                    <a href="#">Opción de prueba</a>
-                </div>
-            </div>';
-                }
-                ?>
+             
         </div>
     </nav>
 
@@ -172,9 +167,11 @@ if (isset($_GET['tabla'])) {
                                     <td><?= $value ?></td>
                                 <?php endforeach; ?>
                                 <td>
-                                <div><a href="../editar/editar<?= $edit[$table] ?>.php?id=<?= $fila['id'] ?>&redirect=<?= "../vista/index/indexGeneral.php?tabla=$table" ?>" class="users-table--edit">Editar</a></div>
+                                <div style="display: flex;">
+                                <div><a href="../editar/editar<?= $edit[$table] ?>.php?id=<?= $fila['id'] ?>&redirect=<?= "../vista/index/indexGeneral.php?tabla=$table" ?>" class="users-table--edit" title="Editar"><svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="humbleicons hi-pencil"><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 7.5l3 3M4 20v-3.5L15.293 5.207a1 1 0 011.414 0l2.086 2.086a1 1 0 010 1.414L7.5 20H4z"/></svg></a></div>
                                     <?php if ($_SESSION['permisos'] == 1): ?>
-                                        <div><a href="#" class="users-table--edit" onclick="eliminarFuncion('<?= $fila['id'] ?>', '<?= $table ?>', '<?= $idColumns[$table] ?>')">Eliminar</a></div>
+                                    <div><a href="#" class="users-table--edit" onclick="eliminarFuncion('<?= $fila['id'] ?>', '<?= $table ?>', '<?= $idColumns[$table] ?>')"><svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="humbleicons hi-trash"><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6l.934 13.071A1 1 0 007.93 20h8.138a1 1 0 00.997-.929L18 6m-6 5v4m8-9H4m4.5 0l.544-1.632A2 2 0 0110.941 3h2.117a2 2 0 011.898 1.368L15.5 6"/></svg></a></div>
+                                </div>
                                 <?php endif; ?>
                                 </td>
                             </tr>

@@ -58,18 +58,13 @@ $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
                      <a href="indexTelefonos.php">Teléfonos</a>
                      <a href="indexPc.php">Computadoras</a>
                      <a href="indexImpresoras.php">Impresoras</a>
+                  <?php if ($_SESSION['permisos'] == 1) {
+                  echo'<a href="idxUsuarios.php">Usuarios</a>';
+                        }
+                  ?>
                  </div>
              </div>
-             <?php if ($_SESSION['permisos'] == 1) {
-           echo'<div class="dropdown">
-                <button class="dropbtn">Administrar</button>
-                <div class="dropdown-content">
-                    <a href="idxUsuarios.php">Gestionar usuarios</a>
-                    <a href="#">Opción de prueba</a>
-                </div>
-            </div>';
-                }
-                ?>
+             
         </div>
     </nav>
     <button style="width:250px; margin-top: 20px" class="icon-slide-right" onclick="location.href='../crear/crearUsuario.php'">Nuevo usuario!</button>    
@@ -99,10 +94,12 @@ $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <td><?= 'Usuario' ?></td>
                     <?php endif; ?>
                 <td>
-                    <div><a href="../editar/editarUsuario.php?id=<?= $fila['id_usuario'] ?>" class="users-table--edit">Editar</a></div>
+                    <div style="display: flex;">
+                    <div><a href="../editar/editarUsuario.php?id=<?= $fila['id_usuario'] ?>" class="users-table--edit" title="Editar"><svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="humbleicons hi-pencil"><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 7.5l3 3M4 20v-3.5L15.293 5.207a1 1 0 011.414 0l2.086 2.086a1 1 0 010 1.414L7.5 20H4z"/></svg></a></div>
                     <?php if ($_SESSION['permisos'] == 1): ?>
-                        <div><a href="../../controlador/eliminarFuncion.php?tabla=usuario&id_columna=id_usuario&id=<?= $fila['id_usuario'] ?>&redirect=idxUsuarios.php" class="users-table--edit" onclick="return confirm('¿Estás seguro de eliminar este elemento?')">Eliminar</a></div>
+                        <div><a href="../../controlador/eliminarFuncion.php?tabla=usuario&id_columna=id_usuario&id=<?= $fila['id_usuario'] ?>&redirect=idxUsuarios.php" class="users-table--edit" onclick="return confirm('¿Estás seguro de eliminar este elemento?')"><svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="humbleicons hi-trash"><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6l.934 13.071A1 1 0 007.93 20h8.138a1 1 0 00.997-.929L18 6m-6 5v4m8-9H4m4.5 0l.544-1.632A2 2 0 0110.941 3h2.117a2 2 0 011.898 1.368L15.5 6"/></svg></a></div>
                         <?php endif; ?>
+                    </div>
                     </td>
             </tr>
         <?php endforeach; ?>

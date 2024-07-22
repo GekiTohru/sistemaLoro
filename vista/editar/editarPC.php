@@ -35,14 +35,14 @@ LEFT JOIN area ON personal.id_area = area.id_area
 LEFT JOIN sucursal ON computadoras.id_sucursal = sucursal.id_sucursal
 WHERE computadoras.id_pc = $id_PC";
 
-$sql2="SELECT * FROM tipo_equipo";
-$sql3="SELECT * FROM fabricante WHERE equipo = 'PC'";
+$sql2="SELECT * FROM tipo_equipo WHERE activo = 1";
+$sql3="SELECT * FROM fabricante WHERE equipo = 'PC' AND activo = 1";
 $sql4="SELECT * FROM personal WHERE activo = 1";
-$sql5="SELECT * FROM red_lan";
-$sql6="SELECT * FROM pc_sis_op";
-$sql7="SELECT * FROM tipo_almacenamiento";
-$sql8="SELECT * FROM sistema_admin";
-$sql9="SELECT * FROM sucursal";
+$sql5="SELECT * FROM red_lan WHERE activo = 1";
+$sql6="SELECT * FROM pc_sis_op WHERE activo = 1";
+$sql7="SELECT * FROM tipo_almacenamiento WHERE activo = 1";
+$sql8="SELECT * FROM sistema_admin WHERE activo = 1";
+$sql9="SELECT * FROM sucursal WHERE activo = 1";
 
 
 $stmt = $conexion->prepare($sql);
@@ -135,6 +135,124 @@ $accesorios = explode(',', $row0['accesorios']);
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/42.0.0/ckeditor5.js",
+                "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/42.0.0/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import {
+            ClassicEditor,
+            Essentials,
+            Bold,
+            Italic,
+            Font,
+            Paragraph
+        } from 'ckeditor5';
+
+        let editorInstance;
+
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                plugins: [Essentials, Bold, Italic, Font, Paragraph],
+                toolbar: {
+                    items: [
+                        'undo', 'redo', '|', 'bold', 'italic', '|',
+                        'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'
+                    ]
+                }
+            })
+            .then(editor => {
+                editorInstance = editor;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+        $(document).ready(function() {
+            $('#nuevo').submit(function(event) {
+                event.preventDefault();
+
+                // Obtener el contenido del editor
+                let content = editorInstance.getData();
+
+                // Reemplazar hsl por rgb en el contenido
+                content = replaceHslWithRgb(content);
+
+                // Actualizar el campo de textarea con el contenido modificado
+                editorInstance.setData(content);
+
+                // Actualizar el textarea oculto antes de enviar el formulario
+                document.querySelector('#editor-hidden').value = content;
+
+                // Enviar el formulario
+                editar();
+            });
+        });
+
+        function editar() {
+            $.ajax({
+                type: 'POST',
+                url: '../../controlador/editar/editarPCFuncion.php',
+                data: $('#nuevo').serialize(),
+                success: function(data) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "PC editado correctamente",
+                        showConfirmButton: false,
+                        timer: 3000, 
+                        allowOutsideClick: true,
+                        willClose: () => {
+                            window.location.href = '../../vista/index/indexPC.php';
+                        }
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', status, error);
+                }
+            });
+        }
+
+        function hslToRgb(h, s, l) {
+            s /= 100;
+            l /= 100;
+            let c = (1 - Math.abs(2 * l - 1)) * s,
+                x = c * (1 - Math.abs((h / 60) % 2 - 1)),
+                m = l - c / 2,
+                r = 0,
+                g = 0,
+                b = 0;
+            if (0 <= h && h < 60) {
+                r = c; g = x; b = 0;
+            } else if (60 <= h && h < 120) {
+                r = x; g = c; b = 0;
+            } else if (120 <= h && h < 180) {
+                r = 0; g = c; b = x;
+            } else if (180 <= h && h < 240) {
+                r = 0; g = x; b = c;
+            } else if (240 <= h && h < 300) {
+                r = x; g = 0; b = c;
+            } else if (300 <= h && h < 360) {
+                r = c; g = 0; b = x;
+            }
+            r = Math.round((r + m) * 255);
+            g = Math.round((g + m) * 255);
+            b = Math.round((b + m) * 255);
+
+            return `rgb(${r}, ${g}, ${b})`;
+        }
+
+        function replaceHslWithRgb(content) {
+            return content.replace(/background-color:hsl\((\d+), (\d+)%, (\d+)%\);/g, function(match, h, s, l) {
+                return `background-color:${hslToRgb(h, s, l)};`;
+            });
+        }
+    </script>
 </head>
 <header>
 <div style="height: 50px;"></div>
@@ -150,27 +268,21 @@ $accesorios = explode(',', $row0['accesorios']);
             <div class="dropdown">
                  <button class="dropbtn">Gestionar</button>
                  <div class="dropdown-content">
-                     <a href="../indexTelefonos.php">Teléfonos</a>
-                     <a href="../indexPc.php">Computadoras</a>
-                     <a href="../indexImpresoras.php">Impresoras</a>
+                     <a href="../index/indexTelefonos.php">Teléfonos</a>
+                     <a href="../index/indexPc.php">Computadoras</a>
+                     <a href="../index/indexImpresoras.php">Impresoras</a>
+                     <?php if ($_SESSION['permisos'] == 1) {
+                  echo'<a href="../index/idxUsuarios.php">Usuarios</a>';
+                        }
+                  ?>
                  </div>
-             </div>
-             <?php if ($_SESSION['permisos'] == 1) {
-           echo'<div class="dropdown">
-                <button class="dropbtn">Administrar</button>
-                <div class="dropdown-content">
-                    <a href="../idxUsuarios.php">Gestionar usuarios</a>
-                    <a href="#">Opción de prueba</a>
-                </div>
-            </div>';
-                }
-                ?>
+             
         </div>
     </nav>
     <div class="users-table">
         <h2 style="text-align: center;">Editar Información de PC</h2>
 <div class="users-form">
-            <form id="nuevo" onsubmit="return editar()">
+            <form id="nuevo">
             <input type="hidden" name="id_pc" value="<?= $row0['id']?>">
                 <div style="display: flex">
                 <div id="fechas" style="display: block; width: 300px">
@@ -536,39 +648,8 @@ $accesorios = explode(',', $row0['accesorios']);
                 <div class="inputs" style="width: 600px">
                 <label for="editor">Observación</label>
                 <textarea style="width: 1000px; height: 200px" type="text" name="nota" id="editor" placeholder="" value=""><?= $row0['nota']?></textarea>
-                </div>
-                <script type="importmap">
-            {
-                "imports": {
-                    "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/42.0.0/ckeditor5.js",
-                    "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/42.0.0/"
-                }
-            }
-        </script>
-
-        <script type="module">
-            import {
-                ClassicEditor,
-                Essentials,
-                Bold,
-                Italic,
-                Font,
-                Paragraph
-            } from 'ckeditor5';
-
-            ClassicEditor
-                .create( document.querySelector( '#editor' ), {
-                    plugins: [ Essentials, Bold, Italic, Font, Paragraph ],
-                    toolbar: {
-                        items: [
-                            'undo', 'redo', '|', 'bold', 'italic', '|',
-                            'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'
-                        ]
-                    }
-                } )
-                .then( /* ... */ )
-                .catch( /* ... */ );
-        </script>
+                <input type="hidden" id="editor-hidden" name="nota">     
+            </div>
 
 <script>
 $(document).ready(function() {
@@ -586,32 +667,5 @@ $(document).ready(function() {
                 </div> 
             </form>
         </div>
-        <script>
-    $(document).ready(function() {
-        $('#nuevo').submit(function(event) {
-            event.preventDefault();
-        });
-    });
-
-    function editar() {
-        Swal.fire({
-            icon: "success",
-            title: "PC editada correctamente",
-            showConfirmButton: false,
-            timer: 3000, 
-            allowOutsideClick: true,
-            willClose: () => {
-                window.location.href = '../../vista/index/indexPC.php';
-            }
-        });
-        $.ajax({
-            type: 'POST',
-            url: '../../controlador/editar/editarPCFuncion.php',
-            data: $('#nuevo').serialize(),
-            success: function(data) {
-            }
-        });
-    }
-</script>
         </body>
 </html>

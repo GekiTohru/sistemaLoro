@@ -58,28 +58,22 @@ $conexion = $conexionObj->ConexionBD();
             <div class="dropdown">
                  <button class="dropbtn">Gestionar</button>
                  <div class="dropdown-content">
-                     <a href="../indexTelefonos.php">Teléfonos</a>
-                     <a href="../indexPc.php">Computadoras</a>
-                     <a href="../indexImpresoras.php">Impresoras</a>
+                     <a href="../index/indexTelefonos.php">Teléfonos</a>
+                     <a href="../index/indexPc.php">Computadoras</a>
+                     <a href="../index/indexImpresoras.php">Impresoras</a>
+                     <?php if ($_SESSION['permisos'] == 1) {
+                  echo'<a href="../index/idxUsuarios.php">Usuarios</a>';
+                        }
+                  ?>
                  </div>
-             </div>
-             <?php if ($_SESSION['permisos'] == 1) {
-           echo'<div class="dropdown">
-                <button class="dropbtn">Administrar</button>
-                <div class="dropdown-content">
-                    <a href="../idxUsuarios.php">Gestionar usuarios</a>
-                    <a href="#">Opción de prueba</a>
-                </div>
-            </div>';
-                }
-                ?>
+             
         </div>
     </nav>
     <div class="users-table">
         <h2 style="text-align: center;">Añadir nuevo personal</h2>
 
         <div class="users-form">
-            <form id="nuevo" onsubmit="return crear()">
+            <form id="nuevo">
             <div style="display: flex; flex-wrap: wrap;">
                 <div id="selecciones" style="display: block; margin-right: 75px">
                 <div style="margin: 10px; margin-right: 100px">
@@ -121,9 +115,10 @@ $(document).ready(function() {
         </div>
         
         <script>
-    $(document).ready(function() {
+        $(document).ready(function() {
         $('#nuevo').submit(function(event) {
             event.preventDefault();
+            crear();
         });
     });
 

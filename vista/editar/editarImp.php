@@ -84,27 +84,21 @@ $id_area_seleccionado = $row0['id_area'];
             <div class="dropdown">
                  <button class="dropbtn">Gestionar</button>
                  <div class="dropdown-content">
-                     <a href="../indexTelefonos.php">Teléfonos</a>
-                     <a href="../indexPc.php">Computadoras</a>
-                     <a href="../indexImpresoras.php">Impresoras</a>
+                     <a href="../index/indexTelefonos.php">Teléfonos</a>
+                     <a href="../index/indexPc.php">Computadoras</a>
+                     <a href="../index/indexImpresoras.php">Impresoras</a>
+                     <?php if ($_SESSION['permisos'] == 1) {
+                  echo'<a href="../index/idxUsuarios.php">Usuarios</a>';
+                        }
+                  ?>
                  </div>
-             </div>
-             <?php if ($_SESSION['permisos'] == 1) {
-           echo'<div class="dropdown">
-                <button class="dropbtn">Administrar</button>
-                <div class="dropdown-content">
-                    <a href="../idxUsuarios.php">Gestionar usuarios</a>
-                    <a href="#">Opción de prueba</a>
-                </div>
-            </div>';
-                }
-                ?>
+             
         </div>
     </nav>
     <div class="users-table">
         <h2 style="text-align: center;">Editar Impresora</h2>
         <div class="users-form">
-            <form id="nuevo" onsubmit="return editar()">
+            <form id="nuevo">
             <input type="hidden" name="id_imp" value="<?= $row0['id']?>">
                 <div style="display: flex">
                 <div style="display: block">
@@ -189,9 +183,10 @@ $(document).ready(function() {
             </form>
         </div>
         <script>
-    $(document).ready(function() {
+        $(document).ready(function() {
         $('#nuevo').submit(function(event) {
             event.preventDefault();
+            editar();
         });
     });
 

@@ -177,4 +177,4 @@ $pdf->SetFillColor(173, 255, 47);
 $pdf->SetFont('helvetica', 'B', 11);
 $pdf->Cell(100, 10, 'TOTAL DE CAMBIOS REALIZADOS: '.$count, 1, 1,'C',1);
 
-$pdf->Output();
+$pdf->Output('reporte_redimiento_toner'.date('d_m_Y').'.pdf');

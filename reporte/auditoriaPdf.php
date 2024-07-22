@@ -84,15 +84,10 @@ foreach ($usuariosPorTelefono as $idTelefono => $usuarios) {
 
 $apps = explode(',', $row['app_conf']); // explode convierte la cadena en un arreglo
 
-$style = '<style>
-.marker {
-    background-color: yellow;
-}
-</style>';
 $notaContent = preg_replace('/<\/?p>/', '', $row['nota']);
 
 // Contenido HTML con los estilos en línea
-$html = $style . '<span>Observaciones: ' . $notaContent . '</span>';
+$html = '<span>Observaciones: ' . $notaContent . '</span>';
 
 
 // Crear nuevo documento PDF
@@ -237,5 +232,5 @@ $pdf->Cell(120, 10, '', 0, 0, 'C');
 $pdf->Cell(35, 10, 'Soporte Técnico', 0, 0, 'C');
 
 // Salida del PDF
-$pdf->Output();
+$pdf->Output($row['cargo'].'.pdf');
 }

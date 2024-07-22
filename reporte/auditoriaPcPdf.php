@@ -65,16 +65,10 @@ foreach ($usuariosPorPC as $idPC => $usuarios) {
   $apps = explode(',', $row['programas']);
   $accesorios = explode(',', $row['accesorios']); 
 
-
-$style = '<style>
-.marker {
-    background-color: yellow;
-}
-</style>';
 $notaContent = preg_replace('/<\/?p>/', '', $row['nota']);
 
 // Contenido HTML con los estilos en línea
-$html = $style . '<span><b>Observaciones:</b> ' . $notaContent . '</span>';
+$html = '<span><b>Observaciones:</b> ' . $notaContent . '</span>';
 
 
 
@@ -136,50 +130,6 @@ $pdf->Cell(50, 10, 'SOFTWARE INSTALADO', 1, 1, 'C', 1);
 $pdf->Cell(90, 10, '', 0, 0, 'C');
 
 
-/*foreach ($apps as $app) {
-    $pdf->SetX(100);
-    switch ($app) {
-        case 'AnyDesk':
-            $pdf->Cell(50, 10, 'AnyDesk', 1, 1, 'C');
-            break;
-        case 'AVG Antivirus':
-            $pdf->Cell(50, 10, 'AVG Antivirus', 1, 1, 'C');
-            break;
-        case 'Crystal Reports':
-            $pdf->Cell(50, 10, 'Crystal Reports', 1, 1, 'C');
-            break;
-        case 'Google Chrome':
-            $pdf->Cell(50, 10, 'Google Chrome', 1, 1, 'C');
-            break;
-        case 'Microsoft Edge':
-            $pdf->Cell(50, 10, 'Microsoft Edge', 1, 1, 'C');
-            break;
-        case 'Office':
-            $pdf->Cell(50, 10, 'Office', 1, 1, 'C');
-            break;
-        case 'WinRAR':
-            $pdf->Cell(50, 10, 'WinRAR', 1, 1, 'C');
-            break;
-        case 'Framework':
-            $pdf->Cell(50, 10, 'Framework', 1, 1, 'C');
-            break;
-        case 'Adobe Acrobat':
-            $pdf->Cell(50, 10, 'Adobe Acrobat', 1, 1, 'C');
-            break;
-        case 'Sistema ADN':
-            $pdf->Cell(50, 10, 'Sistema ADN', 1, 1, 'C');
-            break;
-        case 'INT Nómina':
-            $pdf->Cell(50, 10, 'INT Nómina', 1, 1, 'C');
-            break;
-        case 'INT Administrativo':
-            $pdf->Cell(50, 10, 'INT Administrativo', 1, 1, 'C');
-            break;
-        case 'WhatsApp':
-            $pdf->Cell(50, 10, 'WhatsApp', 1, 1, 'C');
-            break;
-    }
-}*/
 $applicationsHtml = '';
 foreach ($apps as $app) {
 
@@ -266,5 +216,6 @@ $pdf->Cell(95, 10, '', 0, 0, 'C');
 $pdf->Cell(35, 10, 'Soporte Técnico', 0, 0, 'C');
 
 // Salida del PDF
-$pdf->Output();
+$pdf->Output($row['cargo'].'.pdf');
+
 }

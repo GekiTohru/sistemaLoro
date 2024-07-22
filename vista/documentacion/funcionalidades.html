@@ -15,86 +15,188 @@
     <ul>
       <li><a href="doc.html#principal">Principal</a></li>
       <li><a href="doc.html#reqs">Requerimientos</a></li>
-      <li><a href="#funcionalidades">Funcionalidades</a></li>
-      <li><a href="#section4">Sección 4</a></li>
+      <li><a href="funcionalidades.html">Funcionalidades</a></li>
     </ul>
   </div>
   
   <!-- Contenido de la página -->
   <div class="content">
-    <h2 id="principal">Descripción del sistema</h2>
-    <p>Este sistema tiene como principal funcionalidad permitir una fácil gestión del inventario de equipos tecnológicos (teléfonos, computadoras e impresoras) de la Distribuidora El Loro. Además de permitir generar distintos reportes que pueden ser de utilidad para el equipo de soporte técnico.</p>
-    <h2 id="reqs">Requerimientos del sistema</h2>
-    <p>Programas y herramientas necesarias para la correcta funcionalidad del sistema:</p>
+    <h2 id="principal">Funciones del sistema</h2>
+    <p>Principales funcionalidades y pantallas del sistema:</p>
     <ul>
-        <li><a href="#xampp">XAMPP</a></li>
-        <li><a href="#sql">SQL Server</a></li>
+        <li><a href="#login">Login</a></li>
+        <li><a href="#lobbys">Lobbys</a></li>
+        <li><a href="#tlf">Módulo teléfonos</a></li>
+        <li><a href="#pc">Módulo PC</a></li>
+        <li><a href="#imp">Módulo impresoras</a></li>
+        <li><a href="#general">Módulo general</a></li>
+        <li><a href="#extra">Módulos adicionales</a></li>
+        <li><a href="#creacion">Creación de elementos</a></li>
+        <li><a href="#edicion">Edición de elementos</a></li>
+        <li><a href="#eliminacion">Eliminación de elementos</a></li>
+        <li><a href="#reportes">Generación de reportes</a></li>
       </ul>
-      <div class="programas"><h2 id="xampp">XAMPP</h2><img class="icono" src="../../img/documentacion/favicon.ico" alt="xampp"></div>
-      <p>Pasos para la preparación del XAMPP:</p>
+      <h2 id="login">Login</h2>
+      <p>Un inicio de sesión sencillo con usuario y contraseña. Solo existen 2 tipos de usuarios: Administrador y usuario regular.</p>
+      <img src="../../img/documentacion/sistema1.png" alt="login">
+      <h2 id="lobbys">Lobby principal</h2>
+      <p>Esta pantalla cuenta con un mensaje de bienvenida al usuario y 3 botones principales que redirigen a los 3 módulos principales del sistema.</p>
+      <img src="../../img/documentacion/sistema2.png" alt="lobby1">
+      <p>Adicionalmente, se puede apreciar en la zona superior de la pantalla la barra de navegación incluída en todas las pantallas. Esta facilita el movimiento a través de las mismas.</p>
+      <img src="../../img/documentacion/sistema3.png" alt="lobby2">
       <ul>
-        <li><a href="#xampp1">Paso 1: Instalación</a></li>
-        <li><a href="#xampp2">Paso 2: Configuración.</a></li>
-        <li><a href="#xampp3">Paso 3: Añadir XAMPP al arranque (Opcional).</a></li>
+        <li><p>Salir: Cierra la sesión</p></li>
+        <li><p>Inicio: Redirige al lobby</p></li>
+        <li><p>Añadir: Redirige al <a href="#lobbyCrear">lobby para crear</a> nuevos elementos</p></li>
+        <li><p>Ver y editar: Redirige al <a href="#lobbyVer">lobby para gestionar</a> los elementos existentes</p></li>
+        <li><p>Gestionar: Este muestra una pequeña lista desplegable que sirve como acceso directo para gestionar los teléfonos, computadoras, impresoras y usuarios</p></li>
       </ul>
-      <h3 id="xampp1">Paso 1: Instalación.</h3>
-        <p>Descargar el instalador desde la página oficial de XAMPP y seguir los pasos para la Instalación.</p>
-      <img src="../../img/documentacion/xampp1.png" alt="xamppIns1">
-    <h3 id="xampp2">Paso 2: Configuración.</h3>
-    <p>2.1: Iniciar el Apache.</p>
-        <img src="../../img/documentacion/apache1.png" alt="xamppIns2">
-    <p>2.2: Para evitar errores, hacer lo siguiente:</p>
-    <p>Entrar a la configuración de Apache y modificar el archivo httpd.conf</p>
-    <img src="../../img/documentacion/apache2.png" alt="xamppIns3">
-    <p>Buscar las siguientes líneas y establecer el "Listen" y el "ServerName localhost" por 8080 (valor por defecto: 80)</p>
-    <img src="../../img/documentacion/apache3.png" alt="xamppIns4">
-    <img src="../../img/documentacion/apache4.png" alt="xamppIns5">
-    <p>Entrar nuevamente a la configuración de Apache y modificar el archivo httpd-ssl.conf</p>
-    <p>Buscar las siguientes líneas y establecer el "Listen" y el "VirtualHost_default" por 4436 (valor por defecto: 443)</p>
-    <img src="../../img/documentacion/apache5.png" alt="xamppIns6">
-    <img src="../../img/documentacion/apache6.png" alt="xamppIns7">
-    <p>Finalmente, entrar a la configuración de XAMPP</p>
-    <img src="../../img/documentacion/apache7.png" alt="xamppIns8">
-    <p>Buscar la opción "Service and Ports Settings"</p>
-    <img src="../../img/documentacion/apache8.png" alt="xamppIns9">
-    <p>Y reemplazar el Main Port y el SSL Port por los establecidos anteriormente</p>
-    <img src="../../img/documentacion/apache9.png" alt="xamppIns10">
-    <p>De esta forma, ya debería permitir la conexión al sistema para todos los miembros de la red local.</p>
-    <p>2.3: Como último detalle, activar la extensión "gd" para evitar errores con las imágenes de los reportes.</p>
-    <p>Entrar a la configuración de Apache y modificar el archivo php.ini</p>
-    <p>Buscar la línea "extension=gd", por defecto aparece con ";" detrás del texto, lo que quiere decir que la línea está comentada. Basta con eliminar el ";" para que funcione correctamente (reiniciar el apache para aplicar los cambios)</p>
-    <img src="../../img/documentacion/apache10.png" alt="xamppIns11">
-    <h3 id="xampp3">Paso 3: Añadir XAMPP al arranque (Opcional).</h3>
-    <a href="https://es.wikihow.com/abrir-XAMPP-al-iniciar-Windows">Tutorial</a>
-    <p id="principal">Con esto, se da por culminada la configuración del XAMPP.</p>
-    
-    <div class="programas"><h2 id="sql">SQL Server</h2><img class="icono" src="../../img/documentacion/sql1.png" alt="sql"></div>
-    <p>Pasos para la preparación del SQL Server:</p>
+      <h2 id="lobbyCrear">Lobby de creación</h2>
+      <p>Este lobby permite acceder a los distintos módulos para crear cada uno de los elementos existentes en el sistema (teléfonos, computadoras, personal, cargos, etc...).</p>
+      <img src="../../img/documentacion/sistema4.png" alt="lobby3">
+      <h2 id="lobbyVer">Lobby de gestión</h2>
+      <p>Este lobby permite acceder a los distintos módulos para gestionar (ver, editar y eliminar) cada uno de los elementos existentes en el sistema (teléfonos, computadoras, personal, cargos, etc...).</p>
+      <img src="../../img/documentacion/sistema5.png" alt="lobby4">
+      <h2 id="tlf">Módulo de teléfonos</h2>
+      <p>Este es uno de los módulos principales. Muestra la información relevante de cada uno de los teléfonos corporativos registrados en la base de datos</p>
+      <img src="../../img/documentacion/sistema6.png" alt="tlf1">
       <ul>
-        <li><a href="#sql1">Paso 1: Instalación</a></li>
-        <li><a href="#sql2">Paso 2: Conexión del sistema con la base de datos.</a></li>
-        <li><a href="#sql3">Paso 3: Importar la base de datos.</a></li>
+        <li><p>Requisición de accesorios: Muestra un reporte PDF sobre todos los accesorios que se encuentran en mal estado para solicitar la reparación o reposición de los mismos.</p></li>
+        <li><p>Show (5) entries: Es un botón desplegable que permite mostrar 5, 10, 25 o todos los registros a la vez.</p></li>
+        <li><p>Search: Es una barra de búsqueda para filtrar los elementos por nombre. No es sensible a mayúsculas, sí es sensible a tildes y permite filtrar con información de cualquiera de los campos.</p></li>
+        <li><p>Título de columnas: Los títulos de las columnas (ID, Marca, Cargo, etc...) permiten ordenar de forma alfabética las columnas al hacer click sobre ellos.</p></li>
+        <li><p>Finalmente, los botones "Previous", "Next" y los números permiten desplazarse a través de las páginas según la cantidad de elementos que hayan en la tabla</p></li>
       </ul>
-    <h3 id="sql1">Paso 1: Instalación.</h3>
-    <p>1.1: Descargar el instalador desde la página oficial de SQL Server y seguir los pasos para la instalación. <a href="https://www.youtube.com/watch?v=_fFz-_O2yvI">Tutorial</a></p>
-    <h3 id="sql2">Paso 2: Conexión del sistema con la base de datos.</h3>
-    <p>2.1: Una vez seguidos los pasos anteriores y después de crear una instancia SQL Server, se debe ingresar a ella desde el SQL Server Management Studio</p>
-    <img src="../../img/documentacion/sql2.png" alt="sqlIns1">
-    <p>2.2: Expandir la instancia creada, luego expandir la carpeta "Seguridad", hacer click izquierdo a la carpeta "Inicios de sesión" y hacer click en "Nuevo inicio de sesión"</p>
-    <img src="../../img/documentacion/sql3.png" alt="sqlIns2">
-    <p>2.3: Se abrirá la siguiente ventana, seleccionar la opción de SQL Server authentication, luego ingresar el nombre de usuario y contraseña de preferencia</p>
-    <img src="../../img/documentacion/sql4.png" alt="sqlIns3">
-    <p>2.4: En la misma ventana en la parte izquierda, seleccionar "Server Roles" y marcar las casilas necesarias (preferiblemente todas).</p>
-    <img src="../../img/documentacion/sql5.png" alt="sqlIns4">
-    <p>2.5: Ya realizados los pasos anteriores, guardar el nuevo inicio de sesión y buscar la siguiente ruta en el explorador de archivos: C:\xampp\htdocs\sistemaLoro\controlador y abrir el archivo"conexion.php"</p>
-    <p>2.6: Dentro del archivo, reemplazar los valores de "username" y "password" por el nombre de usuario y clave creados anteriormente.</p>
-    <img src="../../img/documentacion/sql6.png" alt="sqlIns5">
-    <h3 id="sql3">Paso 3: Importar la base de datos.</h3>
-    <p>3.1: En el SQL Server Management Studio, abrir una nueva consulta.</p>
-    <img src="../../img/documentacion/sql7.png" alt="sqlIns6">
-    <p>3.2: Buscar el archivo "BDSqlServer.txt", ubicado en la carpeta raíz del sistema, copiar su contenido e ingresarlo en la nueva consulta creada.</p>
-    <img src="../../img/documentacion/sql8.png" alt="sqlIns7">
-    <p>Una vez ejecutada la consulta (presionar Execute en la parte de arriba o presionar F5) la base de datos debería cargarse por completo sin ninguna complicación.</p>
+      <p>Adicionalmente, están estos íconos que permiten hacer las siguientes acciones:</p>
+      <img src="../../img/documentacion/sistema7.png" alt="tlf2">
+      <ul>
+        <li><p>Lápiz: Sirve para editar la información teléfono.</p></li>
+        <li><p>Basura: Sirve para eliminar (deshabilitar) el teléfono. (Solo visible para usuarios con permisos administrativos)</p></li>
+        <li><p>Ojo: Genera el reporte PDF de auditoría para cuando se le realiza una revisión.</p></li>
+        <li><p>Impresora: Genera la constancia de entrega en caso de asignarle el teléfono a un nuevo usuario.</p></li>
+      </ul>
+      <h2 id="pc">Módulo de computadoras</h2>
+      <p>Otro de los módulos principales. Muestra la información relevante de cada una de las computadoras corporativas registradas en la base de datos</p>
+      <img src="../../img/documentacion/sistema8.png" alt="pc1">
+      <ul>
+        <li><p>Show (5) entries: Es un botón desplegable que permite mostrar 5, 10, 25 o todos los registros a la vez.</p></li>
+        <li><p>Search: Es una barra de búsqueda para filtrar los elementos por nombre. No es sensible a mayúsculas, sí es sensible a tildes y permite filtrar con información de cualquiera de los campos.</p></li>
+        <li><p>Título de columnas: Los títulos de las columnas (ID, Fabricante, Tipo, etc...) permiten ordenar de forma alfabética las columnas al hacer click sobre ellos.</p></li>
+        <li><p>Finalmente, los botones "Previous", "Next" y los números permiten desplazarse a través de las páginas según la cantidad de elementos que hayan en la tabla</p></li>
+      </ul>
+      <p>Hacer click en el símbolo de "+" al lado de la id despliega el resto de columnas que no caben en la pantalla, entre ellas se encuentran las acciones:</p>
+      <img src="../../img/documentacion/sistema9.png" alt="pc2">
+      <ul>
+        <li><p>Lápiz: Sirve para editar la información del equipo.</p></li>
+        <li><p>Basura: Sirve para eliminar (deshabilitar) el equipo. (Solo visible para usuarios con permisos administrativos)</p></li>
+        <li><p>Ojo: Genera el reporte PDF de auditoría para cuando se le realiza una revisión.</p></li>
+        <li><p>Monitor: Genera una ficha técnica con los principales componentes del equipo, junto a su área y el cargo al que está asignado. Esta ficha se imprime y se pega en el equipo cuando se le realiza un mantenimiento.</p></li>
+        <li><p>Impresora: Genera la constancia de entrega en caso de asignarle el equipo a un nuevo usuario. Solo se entrega constancia cuando el equipo en cuestión es una laptop.</p></li>
+      </ul>
+      <h2 id="imp">Módulo de impresoras</h2>
+      <p>El último de los módulos principales. Muestra la información relevante de cada una de las impresoras registradas en la base de datos</p>
+      <img src="../../img/documentacion/sistema10.png" alt="imp1">
+      <ul>
+        <li><p>Show (5) entries: Es un botón desplegable que permite mostrar 5, 10, 25 o todos los registros a la vez.</p></li>
+        <li><p>Search: Es una barra de búsqueda para filtrar los elementos por nombre. No es sensible a mayúsculas, sí es sensible a tildes y permite filtrar con información de cualquiera de los campos.</p></li>
+        <li><p>Título de columnas: Los títulos de las columnas (ID, Fabricante, Modelo, etc...) permiten ordenar de forma alfabética las columnas al hacer click sobre ellos.</p></li>
+        <li><p>Finalmente, los botones "Previous", "Next" y los números permiten desplazarse a través de las páginas según la cantidad de elementos que hayan en la tabla</p></li>
+      </ul>
+      <p>Adicionalmente, están estos íconos que permiten hacer las siguientes acciones:</p>
+      <img src="../../img/documentacion/sistema11.png" alt="imp2">
+      <ul>
+        <li><p>Lápiz: Sirve para editar la información de la impresora.</p></li>
+        <li><p>Llave inglesa: Sirve para registrar la información importante cuando se le realiza un mantenimiento a la impresora.</p></li>
+        <li><p>Impresora: Genera un reporte PDF con todos los mantenimientos realizados a la impresora.</p></li>
+        <li><p>Gotas: Sirve para registrar la información importante cuando se le realiza un cambio de tóner. (Solo visible para impresoras que usan tóner)</p></li>
+        <li><p>Gráfica de columnas: Genera un reporte PDF sobre el historial de cambios de tóner y sus rendimientos. (Solo visible para impresoras que usan tóner)</p></li>
+        <li><p>Basura: Sirve para eliminar (deshabilitar) la impresora. (Solo visible para usuarios con permisos administrativos)</p></li>
+      </ul>
+      <h2 id="general">Módulo general</h2>
+      <p>Este módulo contiene el resto de tablas adicionales comprimidas en un mismo lugar, y cuenta con un botón para seleccionar qué tabla se desea visualizar.</p>
+      <img src="../../img/documentacion/sistema12.png" alt="general1">
+      <img src="../../img/documentacion/sistema13.png" alt="general2">
+      <ul>
+        <li><p>Show (5) entries: Es un botón desplegable que permite mostrar 5, 10, 25 o todos los registros a la vez.</p></li>
+        <li><p>Search: Es una barra de búsqueda para filtrar los elementos por nombre. No es sensible a mayúsculas, sí es sensible a tildes y permite filtrar con información de cualquiera de los campos.</p></li>
+        <li><p>Título de columnas: Los títulos de las columnas (ID, Nombre, etc...) permiten ordenar de forma alfabética las columnas al hacer click sobre ellos.</p></li>
+        <li><p>Finalmente, los botones "Previous", "Next" y los números permiten desplazarse a través de las páginas según la cantidad de elementos que hayan en la tabla</p></li>
+      </ul>
+      <p>Adicionalmente, están estos íconos que permiten hacer las siguientes acciones:</p>
+      <img src="../../img/documentacion/sistema14.png" alt="general3">
+      <ul>
+        <li><p>Lápiz: Sirve para editar la información de un elemento.</p></li>
+        <li><p>Basura: Sirve para eliminar (deshabilitar) un elemento. (Solo visible para usuarios con permisos administrativos)</p></li>
+      </ul>
+      <h2 id="extra">Módulos adicionales</h2>
+      <p>El sistema cuenta con 4 módulos adicionales a los anteriormente mencionados: tóner, usuarios, cambio tóner y mantenimientos (PC). Mientras que los primeros 3 no tienen ninguna característica que los haga diferir mucho de los demás (aparte de las colúmnas), el módulo de mantenimientos sí tiene un detalle adicional:</p>
+      <img src="../../img/documentacion/sistema15.png" alt="adicionales">
+      <ul>
+        <li><p>Filtrar desde-hasta: Como su nombre indica, sirven para seleccionar una fecha inicial y una fecha final para posteriormente filtrar el reporte de mantenimientos en base a esas fechas.</p></li>
+        <li><p>Generar: Genera un reporte PDF en el que se muestran todos los mantenimientos realizados a las computadoras, en base a los filtros seleccionados anteriormente. Si no se selecciona ninguna fecha, se mostrarán todos. Si se selecciona únicamente una fecha, se filtrará desde esa fecha hasta hoy, o en su defecto, desde el principio hasta la fecha seleccionada.</p></li>
+      </ul>
+      <h2 id="creacion">Módulos de creación</h2>
+      <p>Cada tabla de la base de datos cuenta con su propio módulo de creación. Todos tienen similitudes entre sí, así que usaré el módulo de creación de teléfonos como ejemplo para explicarlos.</p>
+      <p>En el primer segmento, se aprecian 3 tipos de entradas: fecha, selección única y selección múltiple.</p>
+      <img src="../../img/documentacion/sistema16.png" alt="creacion1">
+      <ul>
+      <li><p>Fechas: Estas pueden ser ingresadas manualmente o hacer click en el ícono del calendario para seleccionarlas.</p>
+        <img src="../../img/documentacion/sistema17.png" alt="creacion2"></li>
+      <li><p>Selección única: Muestran una lista de elementos existentes en la base de datos del tipo seleccionado. Cuemta con una barra de búsqueda para filtrar el nombre y facilitar la búsqueda. (Estos cámpos no pueden quedar vacíos)</p>
+        <img src="../../img/documentacion/sistema18.png" alt="creacion3"></li>
+      <li><p>Selección múltiple: Permiten seleccionar más de un elemento según sea necesario (en este caso, accesorios y aplicaciones). Es obligatorio seleccionar al menos una opción. Adicionalmente, si en el apartado de aplicaciones y configuración básica se selecciona la opción "Otra" se abre un nuevo campo para ingresar las aplicaciones adicionales.</p>
+        <img src="../../img/documentacion/sistema19.png" alt="creacion4"></li>
+      </ul>
+      <p>En el segundo segmento, se aprecia solo un tipo de entrada de texto simple.</p>
+      <img src="../../img/documentacion/sistema20.png" alt="creacion5">
+      <p>Los campos de "Almacenamiento ocupado" y "Consumo de datos" y cuentan con un pequeño campo de selección para elegir si la unidad de medida del valor ingresado es en "GB" o "MB". No colocar la unidad de medida directamente dentro del campo. En caso de ser un valor decimal, separar las décimas con puntos (.) y colocar máximo 2 decimales.</p>
+      <p>En el tercer y último segmento, se pueden visualizar otros 2 tipos de entradas, una de texto para colocar obsevaciones, la cual permite remarcar el texto y aplicarle los estilos básicos como negrita y cursiva (este campo se puede dejar vacío, su valor por defecto será: "Mantiene la configuración inicial."), y otra de selección simple para elegir el estado de los accesorios. Finalmente, en la parte inferior se encuentra el botón para crear el teléfono.</p>
+      <img src="../../img/documentacion/sistema21.png" alt="creacion6">
+      <h2 id="edicion">Módulos de edición</h2>
+      <p>Cada tabla de la base de datos cuenta con su propio módulo de edición. Las tablas principales destacan en algunos aspectos sobre las demás que son más sencillas, a continuación se explicará su funcionamiento general y se hará énfasis en dichos aspectos.</p>
+      <p>Empezando por el módulo de edición de teléfonos, en su primer segmento se aprecian los mismos 3 tipos de entradas que en el módulo de creación: fecha, selección única y selección múltiple. Solo hay 2 diferencias, la primera es que se muestran seleccionadas las opciones que corresponden a ese teléfono, y la segunda es el funcionamiento de los asignados, que ahora trabaja de la siguiente manera:</p>
+      <ul>
+        <li><p>Sin cambios: Es la opción por defecto, esta mantiene al asignado sin realizar ningún cambio.</p></li>
+        <li><p>Sin asignar: Si se presiona el símbolo de la "X", el asignado es eliminado y el dispositivo queda sin asignar.</p></li>
+        <li><p>Asignado adicional?: Si se selecciona esta casilla, permite añadir un usuario extra al teléfono en caso de estar asignado a más de una persona.</p></li>
+      </ul>
+      <img src="../../img/documentacion/sistema22.png" alt="edicion1">
+      <p>Este es el único segmento con cambios significativos, el resto se rigen por la misma lógica. Cabe recalcar que en este módulo, las entradas de "Almacenamiento ocupado", "Consumo de datos" y la casilla de la aplicación "WhatsApp" son obligatorias, además de que debe tener mínimo un accesorio seleccionado.</p>
+      <p>Continuando con el módulo de computadoras, solo vale la pena destacar el último segmento, en el que se puede visualizar una casilla de "Se realizó mantenimiento?" que como su nombre indica, debe ser seleccionada si se le realizó algún tipo de mantenimiento al equipo para guardar el registro.</p>
+      <img src="../../img/documentacion/sistema23.png" alt="edicion2">
+      <p>Por último, en el módulo de impresoras, se puede visualizar una casilla de "Tóner adicional?" bajo la selección de tóner, la cuál se rige bajo la misma lógica que la de los asignados en los teléfonos. Debe ser seleccionada si se le quiere añadir un tóner adicional.</p>
+      <img src="../../img/documentacion/sistema24.png" alt="edicion3">
+      <h2 id="eliminacion">Módulo de eliminación</h2>
+      <p>Este módulo es sencillo, todos las tablas utilizan el mismo. Basta con presionar el ícono del cubo de basura para eliminar el elemento deseado. Esta eliminación es lógica, es decir que el elemento no se elimina de la base de datos, en su lugar se desactiva para que no se siga mostrando.</p>
+      <img src="../../img/documentacion/sistema25.png" alt="eliminacion">
+      <h2 id="reportes">Generación de reportes.</h2>
+      <p>El sistema tiene la capacidad de generar los siguientes reportes:</p>
+      <ul>
+      <h3>Para teléfonos:</h3>
+        <li><p>Auditoría: Este reporte se genera cuando se le realiza una revisión a un teléfono, este incluye información acerca de: estado de los accesorios, aplicaciones instaladas, consumo de datos y una observación de ser necesario.</p></li>
+      <img src="../../img/documentacion/sistema26.png" alt="reporte1">
+        <li><p>Constancia: Este reporte se genera cuando se le hace entrega de un teléfono corporativo a un nuevo usuario. Contiene la información principal del teléfono y los términos y condiciones.</p></li>
+      <img src="../../img/documentacion/sistema27.png" alt="reporte2">
+        <li><p>Requisición de accesorios: En este reporte se pueden visualizar los accesorios que se encuentran en mal estado por cada teléfono y modelo, con el objetivo de solicitar un reemplazo para dichos accesorios.</p></li>
+      <img src="../../img/documentacion/sistema28.png" alt="reporte3">
+      <h3>Para computadoras:</h3>
+        <li><p>Auditoría: Este reporte se genera cuando se le realiza una revisión a una PC, este incluye información acerca de: estado de los accesorios, programas instalados y una observación de ser necesario.</p></li>
+      <img src="../../img/documentacion/sistema29.png" alt="reporte4">
+        <li><p>Constancia: Este reporte se genera cuando se le hace entrega de una laptop corporativa a un nuevo usuario. Contiene la información principal de la laptop y los términos y condiciones.</p></li>
+      <img src="../../img/documentacion/sistema30.png" alt="reporte5">
+        <li><p>Ficha técnica: Este reporte por lo general se genera después de realizarle un mantenimiento a una PC. En este se muestran las características principales del equipo, el área en la que se encuentra, la fecha del mantenimiento y la fecha en la que corresponde el próximo (6 meses después del último).</p></li>
+      <img src="../../img/documentacion/sistema31.png" alt="reporte6">
+        <li><p>Reporte de mantenimientos: En este reporte se registran todos los mantenimientos realizados en el intervalo de tiempo seleccionado.</p></li>
+      <img src="../../img/documentacion/sistema32.png" alt="reporte7">
+      <h3>Para impresoras:</h3>
+      <li><p>Reporte de mantenimientos: En este reporte se registran los mantenimientos realizados a cada impresora individualmente.</p></li>
+      <img src="../../img/documentacion/sistema33.png" alt="reporte8">
+      <li><p>Reporte de rendimiento de tóners: En este reporte se registran los cambios de tóner realizados a cada impresora, junto con sus rendimientos en el tiempo que fueron usados.</p></li>
+      <img src="../../img/documentacion/sistema34.png" alt="reporte9">
+      <p>Con ese último, se da por concluido el listado de reportes creados hasta la fecha.</p>
+
+    </ul>
+
 
 
 
