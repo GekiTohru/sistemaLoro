@@ -64,7 +64,7 @@ $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   ?>
                  </div>
              </div>
-             
+            <a href="../documentacion/doc.html" class="navbtn">Documentación</a>
         </div>
     </nav>
     <button style="width:250px; margin-top: 20px" class="icon-slide-right" onclick="location.href='../crear/crearUsuario.php'">Nuevo usuario!</button>    

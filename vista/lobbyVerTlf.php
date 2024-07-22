@@ -46,6 +46,7 @@ if (isset($_SESSION["timeout"])) {
                   ?>
                  </div>
              </div>
+            <a href="documentacion/doc.html" class="navbtn">Documentación</a> 
         </div>
     </nav>
     <div class="container" style="margin-top: 14%">

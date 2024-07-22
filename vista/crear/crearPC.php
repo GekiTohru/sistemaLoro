@@ -216,8 +216,8 @@ $row = $result3[0]; // equivalente a mysqli_fetch_array($query3)
                         }
                   ?>
                  </div>
-             
-        </div>
+                </div>
+            <a href="../documentacion/doc.html" class="navbtn">Documentación</a>
     </nav>
     <div class="users-table">
         <h2 style="text-align: center;">Añadir nueva PC</h2>

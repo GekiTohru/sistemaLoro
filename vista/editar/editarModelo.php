@@ -98,8 +98,8 @@ list($numero_ram, $unidad_ram) = separarNumeroYUnidad($row0['ram']);
                         }
                   ?>
                  </div>
-             
-        </div>
+                </div>
+            <a href="../documentacion/doc.html" class="navbtn">Documentación</a>
     </nav>
     <div class="users-table">
         <h2 style="text-align: center;">Editar Modelo</h2>

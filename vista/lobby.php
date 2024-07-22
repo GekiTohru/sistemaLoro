@@ -45,7 +45,8 @@ $_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
                         }
                   ?>
                  </div>
-             </div>
+                </div>
+            <a href="documentacion/doc.html" class="navbtn">Documentación</a> 
         </div>
     </nav>
 

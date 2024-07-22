@@ -90,7 +90,7 @@ $telefonosPorPersonal[$idPersonal][] = $nombreTlf;
                   ?>
                  </div>
              </div>
-             
+            <a href="../documentacion/doc.html" class="navbtn">Documentación</a>
         </div>
     </nav>
     <div class="users-table">

@@ -127,7 +127,7 @@ if (isset($_GET['tabla'])) {
                   ?>
                  </div>
              </div>
-             
+            <a href="../documentacion/doc.html" class="navbtn">Documentación</a>
         </div>
     </nav>
 

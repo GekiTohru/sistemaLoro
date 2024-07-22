@@ -263,8 +263,8 @@ $apps = explode(',', $row0['app_conf']);
                         }
                   ?>
                  </div>
-             
-        </div>
+                </div>
+            <a href="../documentacion/doc.html" class="navbtn">Documentación</a>
     </nav>
     <div class="users-table">
         <h2 style="text-align: center;">Editar Información de teléfono</h2>

@@ -209,8 +209,8 @@ $result9 = $stmt9->fetchAll(PDO::FETCH_ASSOC);
                         }
                   ?>
                  </div>
-             
-        </div>
+                </div>
+            <a href="../documentacion/doc.html" class="navbtn">Documentación</a>
     </nav>
     <div class="users-table">
         <h2 style="text-align: center;">Añadir nuevo teléfono</h2>

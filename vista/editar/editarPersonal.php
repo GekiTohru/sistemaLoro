@@ -81,8 +81,8 @@ $id_area_seleccionado = $row0['id_area'];
                         }
                   ?>
                  </div>
-             
-        </div>
+                </div>
+            <a href="../documentacion/doc.html" class="navbtn">Documentación</a>
     </nav>
     <div class="users-table">
         <h2 style="text-align: center;">Editar personal</h2>

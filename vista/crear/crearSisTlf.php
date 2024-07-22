@@ -55,8 +55,8 @@ $conexion = $conexionObj->ConexionBD();
                         }
                   ?>
                  </div>
-             
-        </div>
+                </div>
+            <a href="../documentacion/doc.html" class="navbtn">Documentación</a>
     </nav>
     <div class="users-table">
         <h2 style="text-align: center;">Añadir nueva versión de Android</h2>
