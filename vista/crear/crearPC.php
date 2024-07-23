@@ -67,7 +67,7 @@ $row = $result3[0]; // equivalente a mysqli_fetch_array($query3)
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sistemaloro</title>
+    <title>Crear-PC</title>
     <link href="../../css/styles.css" rel="stylesheet">
     <script src="../../package/dist/sweetalert2.all.js"></script>
     <script src="../../package/dist/sweetalert2.all.min.js"></script>

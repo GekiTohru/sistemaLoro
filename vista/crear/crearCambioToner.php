@@ -38,7 +38,7 @@ $row0 = $result2[0];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sistemaloro</title>
+    <title>Crear-CT</title>
     <link href="../../css/styles.css" rel="stylesheet">
     <script src="../../package/dist/sweetalert2.all.js"></script>
     <script src="../../package/dist/sweetalert2.all.min.js"></script>
@@ -121,17 +121,17 @@ $row0 = $result2[0];
     function crear() {
         Swal.fire({
             icon: "success",
-            title: "Tóner creado correctamente",
+            title: "Cambio de tóner añadido correctamente",
             showConfirmButton: false,
             timer: 3000, 
             allowOutsideClick: true,
             willClose: () => {
-                window.location.href = '../../vista/index/idxToner';
+                window.location.href = '../../vista/index/idxCT.php';
             }
         });
         $.ajax({
             type: 'POST',
-            url: '../../controlador/editar/editarTonerFuncion.php',
+            url: '../../controlador/crear/crearCTFuncion.php',
             data: $('#nuevo').serialize(),
             success: function(data) {
             }

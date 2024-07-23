@@ -69,6 +69,11 @@ function checkPageBreak($pdf, $cellHeight) {
 if ($stmt->rowCount() > 0) {
     // Inicializar TCPDF
     $pdf = new TCPDF();
+    $pdf->SetCreator(PDF_CREATOR);
+    $pdf->SetAuthor('Soporte');
+    $pdf->SetTitle('Requisición');
+    $pdf->SetSubject('Requisición');
+    $pdf->SetKeywords('TCPDF, PDF, pc, requisición');
     $pdf->setPrintHeader(false);
     $pdf->setPrintFooter(false);
     $pdf->AddPage();

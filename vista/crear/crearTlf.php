@@ -61,7 +61,7 @@ $result9 = $stmt9->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sistemaloro</title>
+    <title>Crear-Tlf</title>
     <link href="../../css/styles.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/42.0.0/ckeditor5.css" />
     <script src="../../package/dist/sweetalert2.all.js"></script>

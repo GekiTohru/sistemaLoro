@@ -55,9 +55,9 @@ $pdf = new TCPDF();
 // Configurar información del documento
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('Soporte');
-$pdf->SetTitle('Ficha PC');
-$pdf->SetSubject('Ficha PC');
-$pdf->SetKeywords('TCPDF, PDF, pc, ficha');
+$pdf->SetTitle('Mantenimientos Imp');
+$pdf->SetSubject('Mantenimientos');
+$pdf->SetKeywords('TCPDF, PDF, pc, mantenimientos');
 
 
 // No agregar cabecera ni pie de página

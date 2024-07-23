@@ -21,7 +21,7 @@ if (isset($_SESSION["timeout"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lobby</title>
+    <title>LobbyVer</title>
     <link href="../css/styles.css" rel="stylesheet">
     <link href="../css/login.css" rel="stylesheet">
     <link href="../css/buttons.css" rel="stylesheet">
@@ -85,7 +85,7 @@ if (isset($_SESSION["timeout"])) {
 	</div>
     <button style="width:250px; margin-top: 20px" class="icon-slide-right" onclick="location.href='index/indexImpresoras.php'">Gestionar Impresoras</button>
     <button style="width:250px; margin-top: 20px" class="icon-slide-left" onclick="location.href='index/idxMantenimientosImp.php'">Gestionar Mantenimientos (Imp)</button>
-    <button style="width:250px; margin-top: 20px" class="icon-slide-right" onclick="location.href='index/idxToner.php'">Gestionar Toner</button>
+    <button style="width:250px; margin-top: 20px" class="icon-slide-right" onclick="location.href='index/idxToner.php'">Gestionar Tóner</button>
     <button style="width:250px; margin-top: 20px" class="icon-slide-left" onclick="location.href='index/idxCT.php'">Gestionar cambios de tóner</button>  
     </div>
         <div id="general">

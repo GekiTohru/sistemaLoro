@@ -96,7 +96,7 @@ $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8',
 // Configurar metadatos del documento
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('Francisco 2');
-$pdf->SetTitle('Auditoría');
+$pdf->SetTitle('Auditoría Tlf');
 $pdf->SetSubject('Auditoría');
 $pdf->SetKeywords('TCPDF, PDF, PC, loro, auditoria');
 

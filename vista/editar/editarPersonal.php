@@ -51,7 +51,7 @@ $id_area_seleccionado = $row0['id_area'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sistemaloro</title>
+    <title>Editar-Personal</title>
     <link href="../../css/styles.css" rel="stylesheet">
     <script src="../../package/dist/sweetalert2.all.js"></script>
     <script src="../../package/dist/sweetalert2.all.min.js"></script>

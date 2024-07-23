@@ -54,7 +54,7 @@ $_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
         <h1 style="margin-left: 20%">Bienvenido, <?php echo htmlspecialchars($_SESSION['nombre']); ?>!</h1>
     <button style="width:250px;" class="icon-slide-right" onclick="location.href='index/indexTelefonos.php'">Gestionar Teléfonos corporativos</button>    
     <button style="width:250px;" class="icon-slide-left" onclick="location.href='index/indexPC.php'">Gestionar Computadoras</button>
-    <button style="width:250px;" class="icon-slide-right" onclick="location.href='index/indexImpresoras.php'">Gestionar Impresoras</button>
+    <button style="width:250px;" class="icon-slide-right" onclick="location.href='index/indexImpresoras.php'">Gestionar<br>Impresoras</button><br>
     </div>
 </body>
 </html>

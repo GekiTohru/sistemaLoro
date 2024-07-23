@@ -105,9 +105,9 @@ $pdf = new MYPDF('L', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 // Configurar metadatos del documento
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('Francisco 2');
-$pdf->SetTitle('Auditoría');
-$pdf->SetSubject('Auditoría');
-$pdf->SetKeywords('TCPDF, PDF, PC, loro, auditoria');
+$pdf->SetTitle('Constancia PC');
+$pdf->SetSubject('Constancia');
+$pdf->SetKeywords('TCPDF, PDF, PC, loro, constancia');
 
 // Eliminar la cabecera y pie de página predeterminados
 $pdf->setPrintHeader(false);

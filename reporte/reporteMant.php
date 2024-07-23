@@ -42,7 +42,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['data'])) {
     
     // Crea un nuevo documento PDF
     $pdf = new TCPDF();
-
+    $pdf->SetCreator(PDF_CREATOR);
+    $pdf->SetAuthor('Soporte');
+    $pdf->SetTitle('Mantenimientos PC');
+    $pdf->SetSubject('Mantenimientos');
+    $pdf->SetKeywords('TCPDF, PDF, pc, mantenimientos');
 $pdf->setPrintHeader(false);
 $pdf->setPrintFooter(false);
     $pdf->AddPage();
