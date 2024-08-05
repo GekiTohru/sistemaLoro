@@ -187,6 +187,12 @@ select#selecciones{
   align-items: center;
 }
 
+.navbar-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
 .navbar-brand {
   color: white;
   text-decoration: none;

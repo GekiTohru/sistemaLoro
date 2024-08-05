@@ -80,7 +80,7 @@ foreach ($telefonos as $fila) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teléfonos</title>
-    <link href="../../css/styles.css" rel="stylesheet">
+    <link href="../../css/styles3.css" rel="stylesheet">
     <link href="../../css/buttons.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
@@ -89,37 +89,53 @@ foreach ($telefonos as $fila) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-    <script src="../../js/buttons.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
 </head>
 <header>
-    <div style="height: 50px;"></div>
-    <img src="../../img/logo.png" id="logo">
+<nav class="navbar navbar-expand-lg navbar-light bg-success">
+  <img src="../../img/loro.png" width="30" height="30" alt="">
+  <a class="navbar-brand text-white" href="../lobby.php">LORO</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+    <li class="nav-item">
+    <a class="nav-link text-white" href="../lobby.php">Inicio</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-white" href="../lobbyCrearTlf.php">Añadir</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white" href="../lobbyVerTlf.php">Ver y Editar</a>
+    </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Gestionar
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Teléfonos</a>
+          <a class="dropdown-item" href="indexPC.php">Computadoras</a>
+          <a class="dropdown-item" href="indexImpresoras.php">Impresoras</a>
+          <?php if ($_SESSION['permisos'] == 1) {
+                    echo'<a class="dropdown-item" href="idxUsuarios.php">Usuarios</a>';
+                }
+                ?>
+      </li>
+      <li class="nav-item">
+      <a class="nav-link text-white" href="../documentacion/doc.html">Documentación</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="../../controlador/cerrarSesion.php">Salir</a>
+      </li>
+    </ul>
+  </div>
+</nav>
 </header>
 <body>
-<nav class="navbar">
-        <div class="navbar-left">
-            <a href="../../controlador/cerrarSesion.php" class="navbtn">Salir</a>
-            <a href="../lobby.php" class="navbtn">Inicio</a>
-            <a href="../lobbyCrearTlf.php" class="navbtn">Añadir</a>
-            <a href="../lobbyVerTlf.php" class="navbtn">Ver y editar</a>
-            <div class="dropdown">
-                 <button class="dropbtn">Gestionar</button>
-                 <div class="dropdown-content">
-                     <a href="indexTelefonos.php">Teléfonos</a>
-                     <a href="indexPc.php">Computadoras</a>
-                     <a href="indexImpresoras.php">Impresoras</a>
-                  <?php if ($_SESSION['permisos'] == 1) {
-                  echo'<a href="idxUsuarios.php">Usuarios</a>';
-                        }
-                  ?>
-                 </div>
-             </div>
-            <a href="../documentacion/doc.html" class="navbtn">Documentación</a>
-        </div>
-    </nav>
-    <div class="wrap" style="width: 75%">
-</div>
-<button style="width:250px; margin-top: -20px" class="icon-slide-right" onclick="location.href='../../reporte/requisicion.php'">Requisición de accesorios</button>    
     <div class="users-table">
         <h2 style="text-align: center;">Teléfonos registrados</h2>
 <input type="hidden" id="filterInput">
@@ -151,6 +167,7 @@ foreach ($telefonos as $fila) {
                   echo '<div><a href="#" class="users-table--edit" title="Eliminar" onclick="eliminarFuncion('.$fila['id'].')"><svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="humbleicons hi-trash"><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6l.934 13.071A1 1 0 007.93 20h8.138a1 1 0 00.997-.929L18 6m-6 5v4m8-9H4m4.5 0l.544-1.632A2 2 0 0110.941 3h2.117a2 2 0 011.898 1.368L15.5 6"/></svg></a></div>';
                 }
                 echo '<div><a href="../../reporte/auditoriaPdf.php?id='. $fila['id']. '" class="users-table--edit" title="Reporte de auditoría"><svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="humbleicons hi-eye"><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M3 12c5.4-8 12.6-8 18 0-5.4 8-12.6 8-18 0z"/><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg></a></div>';
+                echo '<div><a href="idxRevTlfOne.php?id='. $fila['id']. '" class="users-table--edit" title="Consumo de datos"><svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 31.2002C16.35 31.2002 15 29.8502 15 28.2002C15 26.5502 16.35 25.2002 18 25.2002C19.65 25.2002 21 26.5502 21 28.2002C21 29.8502 19.65 31.2002 18 31.2002Z" fill="currentColor"/><path d="M23.5509 23.8504C23.2509 23.8504 22.9509 23.7004 22.6509 23.5504C20.1009 21.6004 16.0509 21.6004 13.5009 23.5504C12.9009 24.0004 11.8509 24.0004 11.4009 23.2504C10.9509 22.6504 10.9509 21.6004 11.7009 21.1504C13.3509 19.6504 15.6009 18.9004 18.0009 18.9004C20.4009 18.9004 22.6509 19.6504 24.4509 21.0004C25.0509 21.4504 25.2009 22.5004 24.7509 23.1004C24.3009 23.5504 24.0009 23.8504 23.5509 23.8504Z" fill="currentColor"/><path d="M28.2007 19.2002C27.9007 19.2002 27.4507 19.0502 27.1507 18.7502C24.6007 16.5002 21.3007 15.3002 17.8507 15.3002C14.4007 15.3002 11.2507 16.6502 8.70071 18.9002C8.10071 19.5002 7.20071 19.3502 6.60071 18.7502C6.00071 18.1502 6.15071 17.2502 6.75071 16.6502C9.75071 13.9502 13.8007 12.4502 18.0007 12.4502C22.2007 12.4502 26.2507 13.9502 29.2507 16.6502C29.8507 17.2502 29.8507 18.1502 29.4007 18.7502C29.1007 19.0502 28.6507 19.2002 28.2007 19.2002Z" fill="currentColor"/><path d="M3 14.85C2.55 14.85 2.25 14.7 1.95 14.4C1.35 13.8 1.35 12.9 1.95 12.3C6.3 8.25 12 6 18 6C24 6 29.7 8.25 34.05 12.15C34.65 12.75 34.65 13.65 34.05 14.25C33.45 14.85 32.55 14.85 31.95 14.25C28.2 10.95 23.25 9 18 9C12.75 9 7.8 10.95 4.05 14.4C3.75 14.7 3.3 14.85 3 14.85Z" fill="currentColor"/></svg></a></div>';
                 echo '<div><a href="../../reporte/constanciaTlf.php?id='. $fila['id']. '" class="users-table--edit" title="Constancia de entrega"><svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="humbleicons hi-print"><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M8 17H5a1 1 0 01-1-1v-5a2 2 0 012-2h12a2 2 0 012 2v5a1 1 0 01-1 1h-3M8 4h8v5H8V4zm0 11h8v4H8v-4z"/><circle xmlns="http://www.w3.org/2000/svg" cx="7" cy="12" r="1" fill="currentColor"/></svg></a></div>';
                 echo '</div>';
                 echo '</td>';
@@ -161,15 +178,27 @@ foreach ($telefonos as $fila) {
     <script type="text/javascript">
 $(document).ready(function() {
     var table = $('#tablaTelefonos').DataTable({
-        "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, "Todos"]],
-        "language": {
-  "ajax": {
-    "url": "js/dataTables/i18n/es_ES.json",
-    "dataType": "json"
-  }
-},"responsive": true,
+      "language": {
+    "sEmptyTable": "No hay datos disponibles en la tabla",
+    "sInfo": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+    "sInfoEmpty": "Mostrando 0 a 0 de 0 entradas",
+    "sInfoFiltered": "(filtrado de _MAX_ entradas totales)",
+    "sLengthMenu": "Mostrar _MENU_ entradas",
+    "sLoadingRecords": "Cargando...",
+    "sProcessing": "Procesando...",
+    "sSearch": "Buscar:",
+    "sZeroRecords": "No se encontraron resultados",
+    "oPaginate": {
+        "sFirst": "Primero",
+        "sLast": "Último",
+        "sNext": "Siguiente",
+        "sPrevious": "Anterior"
+    }
+  },
+        "responsive": true,
+        "lengthMenu": [[10, 25,  -1], [10, 25, "Todos"]],
         "columns": [
-            { "title": "ID"},
+            { "title": "ID" },
             { "title": "Marca" },
             { "title": "Modelo" },
             { "title": "Cargo", "defaultContent": "N/A" },
@@ -177,20 +206,21 @@ $(document).ready(function() {
             { "title": "Área", "defaultContent": "Sin área" },
             { "title": "Sucursal", "defaultContent": "Sin sucursal" },
             { "title": "RAM", "defaultContent": "N/A" },
-            { "title": "ROM","defaultContent": "N/A" },
+            { "title": "ROM", "defaultContent": "N/A" },
             { "title": "Acciones" }
         ]
     });
+
     // Recuperar el valor del filtro del localStorage y aplicarlo
     var filterValue = sessionStorage.getItem('filterValue_telefono');
-        if (filterValue) {
-            table.search(filterValue).draw();
-        }
+    if (filterValue) {
+        table.search(filterValue).draw();
+    }
 
-        // Guardar el valor del filtro en localStorage cada vez que se busca
-        $('#tablaTelefonos_filter input').on('input', function() {
-            sessionStorage.setItem('filterValue_telefono', $(this).val());
-        });
+    // Guardar el valor del filtro en localStorage cada vez que se busca
+    $('#tablaTelefonos_filter input').on('input', function() {
+        sessionStorage.setItem('filterValue_telefono', $(this).val());
+    });
 });
 </script>
 

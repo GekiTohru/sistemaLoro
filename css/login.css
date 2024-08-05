@@ -8,7 +8,9 @@ body {
     justify-content: center;
     height: 100vh;
     background-image: url('../img/fondo.jpg');
-    background-size: cover;
+    background-size: 100% 100vh; /* imagen de fondo que se adapta al ancho y alto de la pantalla */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 h2 {
@@ -91,7 +93,6 @@ h1 {
   height: 2em;
   width: 100%;
   display: flex;
-  position: relative;
 }
 
 .wrapper.invert span {
@@ -107,8 +108,6 @@ h1 {
   font-family: Impact, 'Anton', Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   font-weight: 10;
   font-style: italic;
-  display: block;
-  position: absolute;
   color: var(--color);
   letter-spacing: -.005em;
 }
@@ -134,4 +133,13 @@ span:first-child {
 span:last-child {
   --color: #ffba11;
   transform: translate(.255em,.25em);
+}
+@media (max-width: 480px) {
+
+  body {
+    background-image: url('../img/fondoTlfLogin.jpg'); /* imagen de fondo para teléfonos */
+    background-size: 100% 100vh; /* imagen de fondo que se adapta al ancho y alto de la pantalla */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
 }

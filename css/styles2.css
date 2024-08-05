@@ -1,0 +1,280 @@
+/* Estilos generales para la página de inicio de sesión */
+body {
+  font-family: Arial, sans-serif;
+  background-image: url('../img/fondo.jpg');
+  background-size: 100% 100vh; /* imagen de fondo que se adapta al ancho y alto de la pantalla */
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+
+h1 {
+  background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco semi-transparente */
+  width: 80%; /* ancho relativo */
+  max-width: 405px; /* ancho máximo */
+  text-align: center;
+  padding: 10px 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+  margin-left: auto; /* margen automático en la izquierda */
+  margin-right: auto; /* margen automático en la derecha */
+}
+
+
+.contenedor {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.columna{
+  display: flex;
+  flex-wrap: wrap;
+  width: 25%;
+  height: 100%;
+  align-items:baseline;
+  justify-content: center;
+
+}
+
+.col-button{
+align-items: baseline;
+margin: 1%;
+}
+
+.col-button button{
+width: 250px;
+align-self: center;
+}
+
+/* Media queries para adaptar los estilos a diferentes tamaños de pantalla */
+@media (max-width: 1200px) {
+  h1 {
+    font-size: 24px; /* reducir tamaño de fuente en pantallas más pequeñas */
+  }
+  .container {
+    max-width: 600px; /* reducir ancho del contenedor en pantallas más pequeñas */
+  }
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 18px; /* reducir tamaño de fuente en pantallas más pequeñas */
+  }
+  .container {
+    max-width: 100%; /* reducir ancho del contenedor en pantallas más pequeñas */
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 14px; /* reducir tamaño de fuente en pantallas más pequeñas */
+  }
+  body {
+    background-image: url('../img/fondoTlf.png'); /* imagen de fondo para teléfonos */
+  }
+  .contenedor {
+    display: block;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .columna{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    width: 100%;
+
+  }
+  
+  .col-button{
+  margin: 2%;
+
+  }
+  
+  .col-button button{
+  width: 250px;
+  align-self: center;
+  }
+  .subtitles {
+  font: 40px sans-serif ;
+  font-style: italic;
+  display: flex;
+  justify-content: center;
+}
+}
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+.wrapper {
+  font-size: 30px;
+  height: 2em;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: baseline
+}
+
+.wrapper.invert span {
+  color: black;
+}
+  
+  span {
+  --color: #57ff6d;
+  font-family: Impact, 'Anton', Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-weight: 10;
+  font-style: italic;
+  color: var(--color);
+}
+
+span::before, span::after {
+  content: attr(data-text);
+  position: relative;
+}
+
+span::before {
+  position: absolute;
+  -webkit-text-stroke: 0.1em black;
+  z-index: 0;
+}
+
+
+span:last-child {
+  --color: #ffba11;
+}
+.users-table {
+  width: 100%;
+  overflow-x: auto;
+  margin: 20px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.users-form {
+  text-align: center;
+}
+
+.users-form h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Estilos para el formulario */
+.users-form form {
+  display: inline-block;
+  text-align: left;
+  margin: 0 auto;
+  width: 90%; /* Ajusta el ancho del formulario */
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.users-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+.users-form input[type="text"],
+.users-form input[type="date"],
+.users-form select,
+.users-form input[type="email"],
+.users-form input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+/* Estilos para los checkboxes */
+.users-form label input[type="checkbox"] {
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+/* Estilos para el botón */
+.users-form input[type="submit"] {
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+}
+
+.users-form input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+/* Estilos para el select */
+.users-form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.users-form select::-ms-expand {
+  display: none;
+}
+
+.users-form select:focus {
+  outline: none;
+  border-color: #4CAF50;
+}
+
+.inputs {
+  width: 150px;
+  margin: 10px;
+}
+.inputs input[type="text"], .inputs select {
+  display: inline-block;
+  width: 150px; /* ajusta el ancho según sea necesario */
+  margin-right: 10px;
+}
+
+.accesorioscheck label {
+  /* estilos para los labels */
+  display: block;
+  margin-bottom: 25px;
+  width: 180px;
+}
+
+
+.accesorioscheck input[type="checkbox"] {
+  /* estilos para los inputs de tipo checkbox */
+  margin-right: 10px;
+}
+
+.nopoint{
+  pointer-events: none;
+}
+
+div#selecciones{
+width: 250px;
+}
+label#selecciones{
+  width: 250px;
+  }
+select#selecciones{
+  width: 250px;
+}
+.navbar-nav .nav-link:hover {
+  color: rgb(255, 255, 255) !important; /* Cambia el color de texto a blanco */
+  background-color: #337ab7; /* Cambia el fondo a un azul claro */
+  transition: background-color 0.2s ease; /* Agrega un efecto de transición */
+  border-radius: 7rem;
+}

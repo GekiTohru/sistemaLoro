@@ -116,13 +116,15 @@ $apps = explode(',', $row0['app_conf']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar-Tlf</title>
-    <link href="../../css/styles.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/42.0.0/ckeditor5.css" />
     <script src="../../package/dist/sweetalert2.all.js"></script>
     <script src="../../package/dist/sweetalert2.all.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link href="../../css/styles3.css" rel="stylesheet">
     <script type="importmap">
         {
             "imports": {
@@ -154,6 +156,7 @@ $apps = explode(',', $row0['app_conf']);
                     ]
                 }
             })
+            
             .then(editor => {
                 editorInstance = editor;
             })
@@ -242,38 +245,55 @@ $apps = explode(',', $row0['app_conf']);
     </script>
 </head>
 <header>
-<div style="height: 50px;"></div>
-    <img src="../../img/logo.png" id="logo">
+<nav class="navbar navbar-expand-lg navbar-light bg-success">
+  <img src="../../img/loro.png" width="30" height="30" alt="">
+  <a class="navbar-brand text-white" href="../lobby.php">LORO</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+    <li class="nav-item">
+    <a class="nav-link text-white" href="../lobby.php">Inicio</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-white" href="../lobbyCrearTlf.php">Añadir</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white" href="../lobbyVerTlf.php">Ver y Editar</a>
+    </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Gestionar
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="../index/indexTelefonos.php">Teléfonos</a>
+          <a class="dropdown-item" href="../index/indexPC.php">Computadoras</a>
+          <a class="dropdown-item" href="../index/indexImpresoras.php">Impresoras</a>
+          <?php if ($_SESSION['permisos'] == 1) {
+                    echo'<a class="dropdown-item" href="../index/idxUsuarios.php">Usuarios</a>';
+                }
+                ?>
+      </li>
+      <li class="nav-item">
+      <a class="nav-link text-white" href="../documentacion/doc.html">Documentación</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="../../controlador/cerrarSesion.php">Salir</a>
+      </li>
+    </ul>
+  </div>
+</nav>
 </header>
 <body>
-<nav class="navbar">
-        <div class="navbar-left">
-            <a href="../../controlador/cerrarSesion.php" class="navbtn">Salir</a>
-            <a href="../lobby.php" class="navbtn">Inicio</a>
-            <a href="../lobbyCrearTlf.php" class="navbtn">Añadir</a>
-            <a href="../lobbyVerTlf.php" class="navbtn">Ver y editar</a>
-            <div class="dropdown">
-                 <button class="dropbtn">Gestionar</button>
-                 <div class="dropdown-content">
-                     <a href="../index/indexTelefonos.php">Teléfonos</a>
-                     <a href="../index/indexPc.php">Computadoras</a>
-                     <a href="../index/indexImpresoras.php">Impresoras</a>
-                     <?php if ($_SESSION['permisos'] == 1) {
-                  echo'<a href="../index/idxUsuarios.php">Usuarios</a>';
-                        }
-                  ?>
-                 </div>
-                </div>
-            <a href="../documentacion/doc.html" class="navbtn">Documentación</a>
-    </nav>
     <div class="users-table">
         <h2 style="text-align: center;">Editar Información de teléfono</h2>
-
+        <h3 style="text-align: center;"><?= $row0['cargo']; ?></h3>
         <div class="users-form">
-        <h2><?= $row0['cargo']; ?></h2>
         <form id="nuevo">
             <input type="hidden" name="id_telefono" value="<?= $row0['id']?>">
-                <div id="fechas" style="display: flex">
+                <div id="fechas" style="display: flex; flex-wrap:wrap">
                 <div style="margin: 10px">
                 <label for="fecha_recep" style="width: 210px;">Fecha de recepción</label>
                 <input type="date" name="fecha_recep" id="fecha_recep" style="width: 200px" value="<?= $row0['fecha_recep']?>">
@@ -343,7 +363,7 @@ $apps = explode(',', $row0['app_conf']);
                 ?></select>
                 </div>
                 </div>
-                <div style="margin-right: 75px">
+                <div>
                 <label class="nopoint" for="cabezal-cargador" style="width: 250px; height: 10px;">Seleccione los accesorios:</label><br>
                 <div class="accesorioscheck" id="accesorios">     
                 <label><input type="checkbox" id="cabezal-cargador" name="accesorios[]" value="cabezal cargador" <?= in_array('cabezal cargador', $accesorios) ? 'checked' : ''; ?>> Cabezal cargador</label>
@@ -355,9 +375,11 @@ $apps = explode(',', $row0['app_conf']);
                 <label><input type="checkbox" id="estuche" name="accesorios[]" value="estuche" <?= in_array('estuche', $accesorios) ? 'checked' : ''; ?>> Estuche</label>
                 </div>
                 </div>
+  <img id="bg_img" src="../../img/lorobandera.png" width="30%" height="30%" alt="">
+
                 <div>
                 <label class="nopoint" for="whatsapp" style="width: 300px; height: 10px;">Aplicaciones y configuración básica:</label><br>
-                <div class="accesorioscheck" id="apps_conf" style="width: 360px; height: 300px; display: flex; flex-wrap: wrap;">       
+                <div class="accesorioscheck" id="apps_conf" style=" display: flex; flex-wrap: wrap;">       
                     <label><input type="checkbox" id="whatsapp" name="apps_conf[]" value="whatsapp" required <?= in_array('whatsapp', $apps) ? 'checked' : ''; ?>>WhatsAapp</label>
                     <label><input type="checkbox" id="gmail" name="apps_conf[]" value="gmail" <?= in_array('gmail', $apps) ? 'checked' : ''; ?>>Gmail</label>
                     <label><input type="checkbox" id="adn" name="apps_conf[]" value="adn" <?= in_array('adn', $apps) ? 'checked' : ''; ?>>ADN</label>
@@ -370,7 +392,7 @@ $apps = explode(',', $row0['app_conf']);
                     <label><input type="checkbox" id="tema_por_defecto" name="apps_conf[]" value="tema por defecto" <?= in_array('tema por defecto', $apps) ? 'checked' : ''; ?>>Tema por defecto</label>
                     <label><input type="checkbox" id="otra" name="apps_conf[]" value="otra" <?= in_array('otra', $apps) ? 'checked' : ''; ?>>Otra</label>
                 </div>
-                <div id="otra_app_container" style="display: none;">
+                <div id="otra_app_container" style="display: none; width: 80%">
                     <label for="otra_app">Especifique otras aplicaciones:</label>
                     <input type="text" id="otra_app" name="otra_app" value="<?= $row0['otra_app']?>">
                 </div>
@@ -461,7 +483,7 @@ $apps = explode(',', $row0['app_conf']);
                 <label for="precio">Precio</label>
                 <input type="text" name="precio" id="precio" placeholder="Ingrese el precio" value="<?= $row0['precio']?>">
                 </div>
-                <div class="inputs" style="width: 225px">
+                <div class="inputs" style="width: 600px">
     <label for="almacenamiento-num" style="width: 200px">Almacenamiento ocupado</label>
     <input type="text" id="almacenamiento-num" style="width: 130px; margin-right: -3px" placeholder="Almacenamiento" required value="<?= $numero_almacenamiento ?>">
     <select id="unidad" style="width: 80px">
@@ -480,9 +502,9 @@ $apps = explode(',', $row0['app_conf']);
 <input type="hidden" name="almacenamiento" id="almacenamiento-hidden" value="<?= $numero_almacenamiento . $unidad_almacenamiento ?>">
 <input type="hidden" name="consumo_datos" id="consumo-hidden" value="<?= $numero_consumo . $unidad_consumo ?>">
 
-<div class="inputs" style="width: 600px">
+<div class="notas" style="width: 600px">
                 <label for="editor">Observación</label>
-                <textarea style="width: 1000px; height: 200px" type="text" name="nota" id="editor" placeholder="Mantiene la configuración inicial."><?= $row0['nota']?></textarea>
+                <textarea type="text" name="nota" id="editor" placeholder="Mantiene la configuración inicial."><?= $row0['nota']?></textarea>
                 <input type="hidden" id="editor-hidden" name="nota">    
             </div>
 </div>
@@ -610,7 +632,12 @@ $(document).ready(function() {
         debug: true,
     });
 });</script>
+                <div style="display:flex; flex-wrap:wrap">
                 <input type="submit" value="Actualizar teléfono">
+                <div style="margin-left: 25px; margin-top: 10px">
+                <label><input type="checkbox" id="revision" name="revision" value="revision" checked> Se le realizó una revisión?</label>
+                </div>
+                </div>
             </form>
         </div>
 

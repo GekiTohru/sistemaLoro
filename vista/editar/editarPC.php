@@ -128,13 +128,15 @@ $accesorios = explode(',', $row0['accesorios']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar-PC</title>
-    <link href="../../css/styles.css" rel="stylesheet">
     <script src="../../package/dist/sweetalert2.all.js"></script>
     <script src="../../package/dist/sweetalert2.all.min.js"></script>
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/42.0.0/ckeditor5.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link href="../../css/styles3.css" rel="stylesheet">
 
     <script type="importmap">
         {
@@ -255,36 +257,55 @@ $accesorios = explode(',', $row0['accesorios']);
     </script>
 </head>
 <header>
-<div style="height: 50px;"></div>
-<img src="../../img/logo.png" id="logo">
+<nav class="navbar navbar-expand-lg navbar-light bg-success">
+    <img src="../../img/loro.png" width="30" height="30" alt="">
+    <a class="navbar-brand text-white" href="../lobby.php">LORO</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link text-white" href="../lobby.php">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="../lobbyCrearTlf.php">Añadir</a>
+      </li>
+      <li class="nav-item">
+      <a class="nav-link text-white" href="../lobbyVerTlf.php">Ver y Editar</a>
+      </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Gestionar
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="../index/indexTelefonos.php">Teléfonos</a>
+            <a class="dropdown-item" href="../index/indexPC.php">Computadoras</a>
+            <a class="dropdown-item" href="../index/indexImpresoras.php">Impresoras</a>
+            <?php if ($_SESSION['permisos'] == 1) {
+                      echo'<a class="dropdown-item" href="../index/idxUsuarios.php">Usuarios</a>';
+                  }
+                  ?>
+        </li>
+        <li class="nav-item">
+      <a class="nav-link text-white" href="../documentacion/doc.html">Documentación</a>
+      </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="../../controlador/cerrarSesion.php">Salir</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
 </header>
 <body>
-<nav class="navbar">
-        <div class="navbar-left">
-            <a href="../../controlador/cerrarSesion.php" class="navbtn">Salir</a>
-            <a href="../lobby.php" class="navbtn">Inicio</a>
-            <a href="../lobbyCrearTlf.php" class="navbtn">Añadir</a>
-            <a href="../lobbyVerTlf.php" class="navbtn">Ver y editar</a>
-            <div class="dropdown">
-                 <button class="dropbtn">Gestionar</button>
-                 <div class="dropdown-content">
-                     <a href="../index/indexTelefonos.php">Teléfonos</a>
-                     <a href="../index/indexPc.php">Computadoras</a>
-                     <a href="../index/indexImpresoras.php">Impresoras</a>
-                     <?php if ($_SESSION['permisos'] == 1) {
-                  echo'<a href="../index/idxUsuarios.php">Usuarios</a>';
-                        }
-                  ?>
-                 </div>
-                </div>
-            <a href="../documentacion/doc.html" class="navbtn">Documentación</a>
-    </nav>
     <div class="users-table">
         <h2 style="text-align: center;">Editar Información de PC</h2>
+        <h3 style="text-align: center;"><?= $row0['cargo']; ?></h3>
 <div class="users-form">
             <form id="nuevo">
             <input type="hidden" name="id_pc" value="<?= $row0['id']?>">
-                <div style="display: flex">
+                <div style="display: flex; flex-wrap:wrap">
                 <div id="fechas" style="display: block; width: 300px">
                 <div style="margin: 10px">
                 <label for="fecha_recep" style="width: 210px">Fecha del últ. mant.</label>
@@ -407,9 +428,24 @@ $accesorios = explode(',', $row0['accesorios']);
                 </div>
                 </div>
                 </div>
-                <div style="margin-right: 25px">
+<img style id="bg_img" src="../../img/lorobandera.png" width="35%" height="50%" alt="">
+
+                <div>
+                <label class="nopoint" for="cargador">Seleccione los accesorios:</label><br>
+                <div class="accesorioscheck" id="accesorios" style="display: flex; flex-wrap: wrap;">       
+                    <label><input type="checkbox" id="cargador" name="accesorios[]" value="Cargador" <?= in_array('Cargador', $accesorios) ? 'checked' : ''; ?>> Cargador</label>
+                    <label><input type="checkbox" id="cable_mickey" name="accesorios[]" value="Cable mickey" <?= in_array('Cable mickey', $accesorios) ? 'checked' : ''; ?>> Cable tipo mickey</label>
+                    <label><input type="checkbox" id="guaya" name="accesorios[]" value="Guaya de seguridad" <?= in_array('Guaya de seguridad', $accesorios) ? 'checked' : ''; ?>> Guaya de seguridad</label>
+                    <label><input type="checkbox" id="mouse" name="accesorios[]" value="Mouse" <?= in_array('Mouse', $accesorios) ? 'checked' : ''; ?>> Mouse</label>
+                    <label><input type="checkbox" id="estuche" name="accesorios[]" value="Estuche" <?= in_array('Estuche', $accesorios) ? 'checked' : ''; ?>> Estuche</label>
+                    <label><input type="checkbox" id="adaptador" name="accesorios[]" value="Adaptador red" <?= in_array('Adaptador red', $accesorios) ? 'checked' : ''; ?>> Adaptador red</label>
+                    <label><input type="checkbox" id="cubreteclado" name="accesorios[]" value="Cubreteclado" <?= in_array('Cubreteclado', $accesorios) ? 'checked' : ''; ?>> Cubreteclado</label>
+                    <label><input type="checkbox" id="funda" name="accesorios[]" value="Funda" <?= in_array('Funda', $accesorios) ? 'checked' : ''; ?>> Funda</label>
+                </div>
+                </div>
+                <div>
                 <label class="nopoint" for="anydesk1">Seleccione los programas:</label><br>
-                <div class="accesorioscheck" id="accesorios" style="width: 360px; height: 300px; display: flex; flex-wrap: wrap;">       
+                <div class="accesorioscheck" id="accesorios" style="display: flex; flex-wrap: wrap;">       
                     <label><input type="checkbox" id="anydesk1" name="programas[]" value="AnyDesk" <?= in_array('AnyDesk', $programas) ? 'checked' : ''; ?>> AnyDesk</label>
                     <label><input type="checkbox" id="avg_antivirus" name="programas[]" value="AVG Antivirus" <?= in_array('AVG Antivirus', $programas) ? 'checked' : ''; ?>> AVG Antivirus</label>
                     <label><input type="checkbox" id="crystal_reports" name="programas[]" value="Crystal Reports" <?= in_array('Crystal Reports', $programas) ? 'checked' : ''; ?>> Crystal Reports</label>
@@ -422,19 +458,6 @@ $accesorios = explode(',', $row0['accesorios']);
                     <label><input type="checkbox" id="adobe_acrobat" name="programas[]" value="Adobe Acrobat" <?= in_array('Adobe Acrobat', $programas) ? 'checked' : ''; ?>> Adobe Acrobat</label>
                     <label><input type="checkbox" id="int_nomina" name="programas[]" value="INT Nómina" <?= in_array('INT Nómina', $programas) ? 'checked' : ''; ?>> INT Nómina</label>
                     <label><input type="checkbox" id="int_administrativo" name="programas[]" value="INT Administrativo" <?= in_array('INT Administrativo', $programas) ? 'checked' : ''; ?>> INT Administrativo</label>
-                </div>
-                </div>
-                <div style="margin-right: 75px">
-                <label class="nopoint" for="cargador">Seleccione los accesorios:</label><br>
-                <div class="accesorioscheck" id="accesorios" style="width: 300px; display: flex; flex-wrap: wrap;">       
-                    <label><input type="checkbox" id="cargador" name="accesorios[]" value="Cargador" <?= in_array('Cargador', $accesorios) ? 'checked' : ''; ?>> Cargador</label>
-                    <label><input type="checkbox" id="cable_mickey" name="accesorios[]" value="Cable mickey" <?= in_array('Cable mickey', $accesorios) ? 'checked' : ''; ?>> Cable tipo mickey</label>
-                    <label><input type="checkbox" id="guaya" name="accesorios[]" value="Guaya de seguridad" <?= in_array('Guaya de seguridad', $accesorios) ? 'checked' : ''; ?>> Guaya de seguridad</label>
-                    <label><input type="checkbox" id="mouse" name="accesorios[]" value="Mouse" <?= in_array('Mouse', $accesorios) ? 'checked' : ''; ?>> Mouse</label>
-                    <label><input type="checkbox" id="estuche" name="accesorios[]" value="Estuche" <?= in_array('Estuche', $accesorios) ? 'checked' : ''; ?>> Estuche</label>
-                    <label><input type="checkbox" id="adaptador" name="accesorios[]" value="Adaptador red" <?= in_array('Adaptador red', $accesorios) ? 'checked' : ''; ?>> Adaptador red</label>
-                    <label><input type="checkbox" id="cubreteclado" name="accesorios[]" value="Cubreteclado" <?= in_array('Cubreteclado', $accesorios) ? 'checked' : ''; ?>> Cubreteclado</label>
-                    <label><input type="checkbox" id="funda" name="accesorios[]" value="Funda" <?= in_array('Funda', $accesorios) ? 'checked' : ''; ?>> Funda</label>
                 </div>
                 </div>
                 </div>
@@ -503,7 +526,7 @@ $accesorios = explode(',', $row0['accesorios']);
     <label for="mac_wifi">MAC WiFi</label>
     <input type="text" name="mac_wifi" id="mac_wifi" placeholder="Ingrese la dirección MAC WiFi" value="<?= $row0['mac_wifi']?>">
 </div>
-                <div class="inputs" style="width: 225px">
+                <div class="inputs" style="width: 100%">
                 <label for="rom-num" style="width: 200px">Almacenamiento</label>
 <input type="text" id="rom-num" style="width: 130px; margin-right: -3px" placeholder="Almacenamiento" value="<?= $numero_almacenamiento ?>" required>
 <select id="unidad" style="width: 80px">
@@ -511,7 +534,7 @@ $accesorios = explode(',', $row0['accesorios']);
 <option value="GB" <?= $unidad_almacenamiento == 'GB' ? 'selected' : '' ?>>GB</option>
 </select>
 </div> 
-<div class="inputs" style="width: 225px">
+<div class="inputs" style="width: 100%">
 <label for="ram-num" style="width: 200px">RAM</label>
     <input type="text" id="ram-num" style="width: 130px; margin-right: -3px" placeholder="RAM" value="<?= $numero_ram ?>" required>
     <select id="unidad1" style="width: 80px">
@@ -645,7 +668,7 @@ $accesorios = explode(',', $row0['accesorios']);
               
                 </div>
                 </div>
-                <div class="inputs" style="width: 600px">
+                <div class="notas" style="width: 100%">
                 <label for="editor">Observación</label>
                 <textarea style="width: 1000px; height: 200px" type="text" name="nota" id="editor" placeholder="" value=""><?= $row0['nota']?></textarea>
                 <input type="hidden" id="editor-hidden" name="nota">     
@@ -659,10 +682,10 @@ $(document).ready(function() {
         debug: true,
     });
 });</script>    
-                <div style="display:flex">
+                <div style="display:flex; flex-wrap:wrap">
                 <input type="submit" value="Actualizar computadora">  
                 <div style="margin-left: 25px; margin-top: 10px">
-                <label><input type="checkbox" id="mantenimiento" name="mantenimiento" value="mantenimiento"> Se le realizó mantenimiento?</label>
+                <label><input type="checkbox" id="mantenimiento" name="mantenimiento" value="mantenimiento" checked> Se le realizó mantenimiento?</label>
                 </div>
                 </div> 
             </form>

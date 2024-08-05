@@ -16,6 +16,7 @@ button.swipe-overlay, button.swipe-overlay-out, button.border-color, button.bord
   color: #2196F3;
   border-color: #2196F3;
   background: transparent;
+  
 }
 
 button.swipe-overlay, button.swipe-overlay-out, button.border-color, button.border-text-color, button.border-dotted, button.border-dashed, button.radius-decrease, button.radius-increase, button.slide-down, button.slide-left, button.slide-right, button.slide-up, button.radial-out, button.radial-in, button.bg-text-show-border:hover, button.bg-show, button.bg-hide:hover {

@@ -77,6 +77,8 @@ $cargador = $_POST['cargador'];
 $cable_usb = $_POST['cable_usb'];
 $adaptador = $_POST['adaptador'];
 $extra = isset($_POST['extra']) ? $_POST['extra'] : 0;
+$revision = isset($_POST['revision']) ? $_POST['revision'] : 0;
+
 
 
 $sql1 = "UPDATE telefonos SET 
@@ -205,7 +207,16 @@ $asignacion_existente = $num_filas > 0;
             }
         }
     }
-    
+    if ($revision == true) {
+        $sql4 = "INSERT INTO revision_consumo(fecha, id_telefono, consumo_datos)
+        VALUES (:fecha, :id_telefono, :consumo)";
+        $stmt4 = $conexion->prepare($sql4);
+        $stmt4->execute([
+            ':fecha' => $fecha_ult_rev,
+            ':id_telefono' => $id_telefono,
+            ':consumo' => $consumo_datos
+        ]);
+    }
 
     if ($ok) {
         echo 'ok';

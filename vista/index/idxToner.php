@@ -37,7 +37,6 @@ $imp = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tóner</title>
-    <link href="../../css/styles.css" rel="stylesheet">
     <link href="../../css/buttons.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
@@ -46,34 +45,53 @@ $imp = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-    <script src="js/buttons.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link href="../../css/styles3.css" rel="stylesheet">
 </head>
 <header>
-    <div style="height: 50px;"></div>
-    <img src="../../img/logo.png" id="logo">
+<nav class="navbar navbar-expand-lg navbar-light bg-success">
+  <img src="../../img/loro.png" width="30" height="30" alt="">
+  <a class="navbar-brand text-white" href="../lobby.php">LORO</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+    <li class="nav-item">
+    <a class="nav-link text-white" href="../lobby.php">Inicio</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-white" href="../lobbyCrearTlf.php">Añadir</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white" href="../lobbyVerTlf.php">Ver y Editar</a>
+    </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Gestionar
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="indexTelefonos.php">Teléfonos</a>
+          <a class="dropdown-item" href="indexPC.php">Computadoras</a>
+          <a class="dropdown-item" href="indexImpresoras.php">Impresoras</a>
+          <?php if ($_SESSION['permisos'] == 1) {
+                    echo'<a class="dropdown-item" href="idxUsuarios.php">Usuarios</a>';
+                }
+                ?>
+      </li>
+      <li class="nav-item">
+      <a class="nav-link text-white" href="../documentacion/doc.html">Documentación</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="../../controlador/cerrarSesion.php">Salir</a>
+      </li>
+    </ul>
+  </div>
+</nav>
 </header>
 <body>
-<nav class="navbar">
-        <div class="navbar-left">
-            <a href="../../controlador/cerrarSesion.php" class="navbtn">Salir</a>
-            <a href="../lobby.php" class="navbtn">Inicio</a>
-            <a href="../lobbyCrearTlf.php" class="navbtn">Añadir</a>
-            <a href="../lobbyVerTlf.php" class="navbtn">Ver y editar</a>
-            <div class="dropdown">
-                 <button class="dropbtn">Gestionar</button>
-                 <div class="dropdown-content">
-                     <a href="indexTelefonos.php">Teléfonos</a>
-                     <a href="indexPc.php">Computadoras</a>
-                     <a href="indexImpresoras.php">Impresoras</a>
-                  <?php if ($_SESSION['permisos'] == 1) {
-                  echo'<a href="idxUsuarios.php">Usuarios</a>';
-                        }
-                  ?>
-                 </div>
-             </div>
-            <a href="../documentacion/doc.html" class="navbtn">Documentación</a>
-        </div>
-    </nav>
     <div class="users-table">
         <h2 style="text-align: center;">Toner registrados</h2>
         <input type="hidden" id="filterInput">
@@ -104,11 +122,23 @@ $(document).ready(function() {
    var table = $('#tablaToner').DataTable({
         "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, "Todos"]],
         "language": {
-  "ajax": {
-    "url": "js/dataTables/i18n/es_ES.json",
-    "dataType": "json"
-  }
-},"responsive": true,
+    "sEmptyTable": "No hay datos disponibles en la tabla",
+    "sInfo": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+    "sInfoEmpty": "Mostrando 0 a 0 de 0 entradas",
+    "sInfoFiltered": "(filtrado de _MAX_ entradas totales)",
+    "sLengthMenu": "Mostrar _MENU_ entradas",
+    "sLoadingRecords": "Cargando...",
+    "sProcessing": "Procesando...",
+    "sSearch": "Buscar:",
+    "sZeroRecords": "No se encontraron resultados",
+    "oPaginate": {
+        "sFirst": "Primero",
+        "sLast": "Último",
+        "sNext": "Siguiente",
+        "sPrevious": "Anterior"
+    }
+  },
+        "responsive": true,
         "columns": [
             { "title": "ID"},
             { "title": "Modelo" },

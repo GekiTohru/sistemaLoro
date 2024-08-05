@@ -28,82 +28,175 @@ $stmt->execute();
 $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Usuarios</title>
-    <link href="../../css/styles.css" rel="stylesheet">
     <link href="../../css/buttons.css" rel="stylesheet">
-    <script src="../../js/buttons.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
+    <script src="../../package/dist/sweetalert2.all.js"></script>
+    <script src="../../package/dist/sweetalert2.all.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link href="https://cdn.datatables.net/v/dt/dt-2.0.8/b-3.0.2/date-1.5.2/r-3.0.2/sc-2.4.3/sl-2.0.3/datatables.min.css" rel="stylesheet">
-    <script type="text/javascript" src="lib/datatables/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link href="../../css/styles3.css" rel="stylesheet">
 </head>
 <header>
-    <div style="height: 50px;"></div>
-    <img src="../../img/logo.png" id="logo">
+<nav class="navbar navbar-expand-lg navbar-light bg-success">
+  <img src="../../img/loro.png" width="30" height="30" alt="">
+  <a class="navbar-brand text-white" href="../lobby.php">LORO</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+    <li class="nav-item">
+    <a class="nav-link text-white" href="../lobby.php">Inicio</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-white" href="../lobbyCrearTlf.php">Añadir</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white" href="../lobbyVerTlf.php">Ver y Editar</a>
+    </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Gestionar
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="indexTelefonos.php">Teléfonos</a>
+          <a class="dropdown-item" href="indexPC.php">Computadoras</a>
+          <a class="dropdown-item" href="indexImpresoras.php">Impresoras</a>
+          <?php if ($_SESSION['permisos'] == 1) {
+                    echo'<a class="dropdown-item" href="#">Usuarios</a>';
+                }
+                ?>
+      </li>
+      <li class="nav-item">
+      <a class="nav-link text-white" href="../documentacion/doc.html">Documentación</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="../../controlador/cerrarSesion.php">Salir</a>
+      </li>
+    </ul>
+  </div>
+</nav>
 </header>
 <body>
-<nav class="navbar">
-        <div class="navbar-left">
-            <a href="../../controlador/cerrarSesion.php" class="navbtn">Salir</a>
-            <a href="../lobby.php" class="navbtn">Inicio</a>
-            <a href="../lobbyCrearTlf.php" class="navbtn">Añadir</a>
-            <a href="../lobbyVerTlf.php" class="navbtn">Ver y editar</a>
-            <div class="dropdown">
-                 <button class="dropbtn">Gestionar</button>
-                 <div class="dropdown-content">
-                     <a href="indexTelefonos.php">Teléfonos</a>
-                     <a href="indexPc.php">Computadoras</a>
-                     <a href="indexImpresoras.php">Impresoras</a>
-                  <?php if ($_SESSION['permisos'] == 1) {
-                  echo'<a href="idxUsuarios.php">Usuarios</a>';
-                        }
-                  ?>
-                 </div>
-             </div>
-            <a href="../documentacion/doc.html" class="navbtn">Documentación</a>
-        </div>
-    </nav>
-    <button style="width:250px; margin-top: 20px" class="icon-slide-right" onclick="location.href='../crear/crearUsuario.php'">Nuevo usuario!</button>    
-
     <div class="users-table">
         <h2 style="text-align: center;">Usuarios registrados</h2>
         <input type="hidden" id="filterInput">
-<table id="tablaPersonal" class="display">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Usuario</th>
-            <th>Nombre</th>
-            <th>Permisos</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($user as $fila): ?>
-            <tr>
-                <td><?= $fila['id_usuario'] ?></td>
-                <td><?= $fila['usuario'] ?></td>
-                <td><?= $fila['nombre'] ?></td>
-                <?php if ($fila['permisos'] == 1): ?>
-                        <td><?= 'Administrador' ?></td>
-                        <?php else: ?>
-                        <td><?= 'Usuario' ?></td>
-                    <?php endif; ?>
-                <td>
-                    <div style="display: flex;">
-                    <div><a href="../editar/editarUsuario.php?id=<?= $fila['id_usuario'] ?>" class="users-table--edit" title="Editar"><svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="humbleicons hi-pencil"><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 7.5l3 3M4 20v-3.5L15.293 5.207a1 1 0 011.414 0l2.086 2.086a1 1 0 010 1.414L7.5 20H4z"/></svg></a></div>
-                    <?php if ($_SESSION['permisos'] == 1): ?>
-                        <div><a href="../../controlador/eliminarFuncion.php?tabla=usuario&id_columna=id_usuario&id=<?= $fila['id_usuario'] ?>&redirect=idxUsuarios.php" class="users-table--edit" onclick="return confirm('¿Estás seguro de eliminar este elemento?')"><svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="humbleicons hi-trash"><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6l.934 13.071A1 1 0 007.93 20h8.138a1 1 0 00.997-.929L18 6m-6 5v4m8-9H4m4.5 0l.544-1.632A2 2 0 0110.941 3h2.117a2 2 0 011.898 1.368L15.5 6"/></svg></a></div>
-                        <?php endif; ?>
-                    </div>
-                    </td>
-            </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+        <table id="tablaUser" class="display responsive nowrap" style="width:100%">    
+                <?php
+                foreach ($user as $fila) {
+                  echo '<tr>';
+                  echo '<td>'. $fila['id_usuario']. '</td>';
+                  echo '<td>'. $fila['usuario']. '</td>';
+                  echo '<td>'. $fila['nombre']. '</td>';
+                  if ($fila['permisos'] == 1) {
+                  echo '<td>'. 'Administrador'. '</td>';
+                  }else{
+                  echo '<td>'. 'Usuario'. '</td>';
+                  }
+                  echo '<td>';
+                  echo '<div style="display: flex;">';
+                  echo '<div><a href="../editar/editarUsuario.php?id='. $fila['id_usuario']. '" class="users-table--edit" title="Editar"><svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="humbleicons hi-pencil"><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 7.5l3 3M4 20v-3.5L15.293 5.207a1 1 0 011.414 0l2.086 2.086a1 1 0 010 1.414L7.5 20H4z"/></svg></a></div>';
+                  if ($_SESSION['permisos'] == 1) {
+                    echo '<div><a href="#" class="users-table--edit" title="Eliminar" onclick="eliminarFuncion('.$fila['id_usuario'].')"><svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="humbleicons hi-trash"><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6l.934 13.071A1 1 0 007.93 20h8.138a1 1 0 00.997-.929L18 6m-6 5v4m8-9H4m4.5 0l.544-1.632A2 2 0 0110.941 3h2.117a2 2 0 011.898 1.368L15.5 6"/></svg></a></div>';
+                  }
+                  echo '</div>';
+                  echo '</td>';
+            }
+               ?>
+               </table>
+    </div>
+
+    <script type="text/javascript">
+$(document).ready(function() {
+   var table = $('#tablaUser').DataTable({
+        "lengthMenu": [[10, 25, -1], [10, 25, "Todos"]],
+        "language": {
+    "sEmptyTable": "No hay datos disponibles en la tabla",
+    "sInfo": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+    "sInfoEmpty": "Mostrando 0 a 0 de 0 entradas",
+    "sInfoFiltered": "(filtrado de _MAX_ entradas totales)",
+    "sLengthMenu": "Mostrar _MENU_ entradas",
+    "sLoadingRecords": "Cargando...",
+    "sProcessing": "Procesando...",
+    "sSearch": "Buscar:",
+    "sZeroRecords": "No se encontraron resultados",
+    "oPaginate": {
+        "sFirst": "Primero",
+        "sLast": "Último",
+        "sNext": "Siguiente",
+        "sPrevious": "Anterior"
+    }
+  },
+        "responsive": true,
+        "columns": [
+            { "title": "ID"},
+            { "title": "Usuario" },
+            { "title": "Nombre" },
+            { "title": "Permisos" },
+            { "title": "Acciones" }
+        ]
+    });
+        // Recuperar el valor del filtro del localStorage y aplicarlo
+        var filterValue = sessionStorage.getItem('filterValue_user');
+        if (filterValue) {
+            table.search(filterValue).draw();
+        }
+
+        // Guardar el valor del filtro en localStorage cada vez que se busca
+        $('#tablaUser_filter input').on('input', function() {
+            sessionStorage.setItem('filterValue_user', $(this).val());
+        });
+});
+</script>
+<script>
+function eliminarFuncion(id) {
+  Swal.fire({
+    title: "¿Estás seguro?",
+    text: "No podrás revertir esto!",
+    icon: "warning",
+    showCancelButton: true,
+    cancelButtonText: "Cancelar",
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, eliminar!"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Realizar la petición AJAX para eliminar el archivo
+      $.ajax({
+        type: "GET",
+        url: "../../controlador/eliminarFuncion.php",
+        data: {
+          tabla: "usuario",
+          id_columna: "id_usuario",
+          id: id,
+          redirect: "../vista/index/idxUsuarios.php"
+        }
+      }).done(function() {
+        Swal.fire({
+          title: "Eliminado!",
+          text: "El archivo ha sido eliminado.",
+          icon: "success",
+          confirmButtonText: "OK",
+          allowOutsideClick: false
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = "../index/idxUsuarios.php";
+          }
+        });
+      });
+    }
+  });
+}
+</script>
 </body>
 </html>
