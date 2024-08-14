@@ -94,15 +94,17 @@ $conexion = $conexionObj->ConexionBD();
                     crear();
             });
         });
+
         function crear() {
             $.ajax({
                 type: 'POST',
                 url: '../../controlador/crear/crearMIFuncion.php',
                 data: $('#nuevo').serialize(),
                 success: function(data) {
+            if (data === 'ok') {
                     Swal.fire({
                         icon: "success",
-                        title: "Mantenimiento creado correctamente",
+                        title: "Mantenimiento añadido correctamente",
                         showConfirmButton: false,
                         timer: 3000, 
                         allowOutsideClick: true,
@@ -110,12 +112,17 @@ $conexion = $conexionObj->ConexionBD();
                             window.location.href = '../../vista/index/idxMantenimientosImp.php';
                         }
                     });
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', status, error);
-                }
-            });
+                }else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error al crear el mantenimiento",
+                    text: data, // Display the error message returned by the server
+                    showConfirmButton: true
+                });
+            }
         }
+    });
+}
 function hslToRgb(h, s, l) {
 s /= 100;
 l /= 100;

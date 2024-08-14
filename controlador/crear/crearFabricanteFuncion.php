@@ -39,6 +39,6 @@ $stmt = $conexion->prepare($sql);
 $stmt->execute();
 if ($stmt) {
     echo 'ok';
-  } else {
-    echo 'error';
-  }
+} else {
+    echo 'Error: ' . $stmt->errorInfo()[2];
+}

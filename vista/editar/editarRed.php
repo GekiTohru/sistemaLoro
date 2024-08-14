@@ -112,24 +112,33 @@ $conexion = $conexionObj->ConexionBD();
     });
 
     function editar() {
-        Swal.fire({
-            icon: "success",
-            title: "Tipo de red editado correctamente",
-            showConfirmButton: false,
-            timer: 3000, 
-            allowOutsideClick: true,
-            willClose: () => {
-                window.location.href = '../../vista/index/indexGeneral.php?tabla=red_lan';
+            $.ajax({
+                type: 'POST',
+                url: '../../controlador/editar/editarFuncion.php',
+                data: $('#nuevo').serialize(),
+                success: function(data) {
+            if (data === 'ok') {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Tipo de red editado correctamente",
+                        showConfirmButton: false,
+                        timer: 3000, 
+                        allowOutsideClick: true,
+                        willClose: () => {
+                            window.location.href = '../../vista/index/indexGeneral.php?tabla=red_lan';
+                        }
+                    });
+                }else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error al editar el tipo de red",
+                    text: data, // Display the error message returned by the server
+                    showConfirmButton: true
+                });
             }
-        });
-        $.ajax({
-            type: 'POST',
-            url: '../../controlador/editar/editarFuncion.php',
-            data: $('#nuevo').serialize(),
-            success: function(data) {
-            }
-        });
-    }
+        }
+    });
+}
 </script>    
 
         </body>

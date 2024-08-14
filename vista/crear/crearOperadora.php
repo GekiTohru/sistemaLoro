@@ -102,24 +102,33 @@ $conexion = $conexionObj->ConexionBD();
     });
 
     function crear() {
-        Swal.fire({
-            icon: "success",
-            title: "Operadora creada correctamente",
-            showConfirmButton: false,
-            timer: 3000, 
-            allowOutsideClick: true,
-            willClose: () => {
-                window.location.href = '../../vista/index/indexGeneral.php?tabla=operadora';
+            $.ajax({
+                type: 'POST',
+                url: '../../controlador/crear/crearFuncion.php',
+                data: $('#nuevo').serialize(),
+                success: function(data) {
+            if (data === 'ok') {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Operadora añadida correctamente",
+                        showConfirmButton: false,
+                        timer: 3000, 
+                        allowOutsideClick: true,
+                        willClose: () => {
+                            window.location.href = '../../vista/index/indexGeneral.php?tabla=operadora';
+                        }
+                    });
+                }else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error al crear la operadora",
+                    text: data, // Display the error message returned by the server
+                    showConfirmButton: true
+                });
             }
-        });
-        $.ajax({
-            type: 'POST',
-            url: '../../controlador/crear/crearFuncion.php',
-            data: $('#nuevo').serialize(),
-            success: function(data) {
-            }
-        });
-    }
+        }
+    });
+}
 </script>
 
         </body>

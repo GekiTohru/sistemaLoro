@@ -37,6 +37,6 @@ $stmt->bindParam(':permisos', $permisos);
 
 if ($stmt->execute()) {
     echo 'ok';
-  } else {
-    echo 'error';
-  }
+} else {
+    echo 'Error: ' . $stmt->errorInfo()[2];
+}

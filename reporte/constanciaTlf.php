@@ -182,6 +182,9 @@ foreach ($accesorios as $acc) {
         case 'hidrogel':
             $accesoriosText .= "• Hidrogel\n";
             break;
+        case 'sin accesorios':
+            $accesoriosText .= "• Sin accesorios\n";
+            break;
     }
 }
 

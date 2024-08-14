@@ -56,5 +56,5 @@ $stmt->bindParam(':id_modelo', $id_modelo);
 if ($stmt->execute()) {
     echo 'ok';
 } else {
-    echo 'error';
+    echo 'Error: ' . $stmt->errorInfo()[2];
 }

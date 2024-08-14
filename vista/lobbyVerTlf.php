@@ -93,7 +93,13 @@ if (isset($_SESSION["timeout"])) {
     <button class="icon-slide-left" onclick="location.href='index/indexGeneral.php?tabla=operadora'">Gestionar Operadoras</button>
     </div>
     <div class="col-button">
-    <button class="icon-slide-right" onclick="location.href='index/idxRevTlfAll.php'">Gestionar Consumo de datos</button>
+    <button class="icon-slide-right" onclick="location.href='index/idxPlan.php'">Gestionar Planes de datos</button>
+    </div>
+    <div class="col-button">
+    <button class="icon-slide-left" onclick="location.href='index/idxRevTlfAll.php'">Gestionar Consumo de datos</button>
+    </div>
+    <div class="col-button">
+    <button class="icon-slide-right" onclick="location.href='index/idxReporteDigitel.php'">Gestionar Estado de consumos</button>
     </div>
     <div class="col-button">
     <button class="icon-slide-left" onclick="location.href='../../reporte/requisicion.php'">Requisición de accesorios</button>
@@ -136,7 +142,7 @@ if (isset($_SESSION["timeout"])) {
         <button class="icon-slide-right" onclick="location.href='index/idxToner.php'">Gestionar Tóner</button>  
         </div>
         <div class="col-button">
-        <button class="icon-slide-left" onclick="location.href='index/idxCT.php'">Gestionar cambios de tóner</button>
+        <button class="icon-slide-left" onclick="location.href='index/idxCT.php'">Gestionar Cambios de tóner</button>
         </div>
         </div>
     <div class="columna">

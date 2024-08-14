@@ -41,10 +41,15 @@ $personal = isset($_POST['id_personal']) ? $_POST['id_personal'] : '';
 $sisver = $_POST['sisver'];
 $operadora = $_POST['operadora'];
 $sucursal = $_POST['sucursal'];
-$accesorios = $_POST['accesorios'];
-$accesorios_string = implode(',', array_map(function($value) {
-    return $value;
-}, $accesorios));
+$plan = $_POST['plan'];
+if (isset($_POST['accesorios']) && is_array($_POST['accesorios'])) {
+    $accesorios = $_POST['accesorios'];
+    $accesorios_string = implode(',', array_map(function($value) {
+        return $value;
+    }, $accesorios));
+} else {
+    $accesorios_string = 'sin accesorios'; // o cualquier otro valor predeterminado
+}
 $apps = $_POST['apps_conf'];
 $apps_string = implode(',', array_map(function($value1) {
     return $value1;
@@ -89,6 +94,7 @@ $sql1 = "UPDATE telefonos SET
         id_sisver = :id_sisver, 
         id_operadora = :id_operadora, 
         id_sucursal = :id_sucursal, 
+        id_plan = :id_plan, 
         accesorios = :accesorios, 
         app_conf = :app_conf,
         otra_app = :otra_app,
@@ -129,6 +135,7 @@ $sql1 = "UPDATE telefonos SET
         ':id_sisver' => $sisver,
         ':id_operadora' => $operadora,
         ':id_sucursal' => $sucursal,
+        ':id_plan' => $plan,
         ':accesorios' => $accesorios_string,
         ':app_conf' => $apps_string,
         ':otra_app' => $otra,
@@ -218,9 +225,9 @@ $asignacion_existente = $num_filas > 0;
         ]);
     }
 
-    if ($ok) {
-        echo 'ok';
-    } else {
-        echo 'error';
-    }
+if ($stmt1->execute()) {
+    echo 'ok';
+} else {
+    echo 'Error: ' . $stmt1->errorInfo()[2];
+}
     

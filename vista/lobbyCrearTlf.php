@@ -90,6 +90,9 @@ if (isset($_SESSION["timeout"])) {
     <div class="col-button">
     <button class="icon-slide-left" onclick="location.href='crear/crearOperadora.php'">Nueva Operadora</button>
     </div>
+    <div class="col-button">
+    <button class="icon-slide-right" onclick="location.href='crear/crearPlan.php'">Nuevo Plan de datos</button>
+    </div>
     </div>
         <div class="columna">
         <div class="wrapper">
@@ -105,10 +108,10 @@ if (isset($_SESSION["timeout"])) {
     <button class="icon-slide-right" onclick="location.href='crear/crearTipoEquipo.php'">Nuevo Tipo de equipo (PC)</button>
 	</div>
     <div class="col-button">
-    <button class="icon-slide-left" onclick="location.href='crear/crearAlmacenamiento.php'">Nuevo tipo de almacenamiento</button>
+    <button class="icon-slide-left" onclick="location.href='crear/crearAlmacenamiento.php'">Nuevo Tipo de almacenamiento</button>
     </div>
     <div class="col-button">
-    <button class="icon-slide-right" onclick="location.href='crear/crearRed.php'">Nuevo tipo de red</button>    
+    <button class="icon-slide-right" onclick="location.href='crear/crearRed.php'">Nuevo Tipo de red</button>    
     </div>
 </div>
 <div class="columna">
@@ -144,6 +147,13 @@ if (isset($_SESSION["timeout"])) {
     <div class="col-button">
     <button class="icon-slide-left" onclick="location.href='crear/crearSisadmin.php'">Nuevo Sistema Administrativo</button>
 	</div>
+    <?php
+    if ($_SESSION['permisos'] == 1) {
+        echo '<div class="col-button">
+              <button class="icon-slide-right" onclick="location.href=\'crear/crearUsuario.php\'">Nuevo Usuario</button>
+              </div>';
+    }
+?>
 	</div>
     </div>
 </body>

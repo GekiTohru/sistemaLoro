@@ -42,5 +42,5 @@ $stmt->bindParam(':id_user', $id_user);
 if ($stmt->execute()) {
     echo 'ok';
 } else {
-    echo 'error';
+    echo 'Error: ' . $stmt->errorInfo()[2];
 }

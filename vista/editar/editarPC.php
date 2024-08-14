@@ -198,27 +198,33 @@ $accesorios = explode(',', $row0['accesorios']);
         });
 
         function editar() {
-            $.ajax({
-                type: 'POST',
-                url: '../../controlador/editar/editarPCFuncion.php',
-                data: $('#nuevo').serialize(),
-                success: function(data) {
-                    Swal.fire({
-                        icon: "success",
-                        title: "PC editado correctamente",
-                        showConfirmButton: false,
-                        timer: 3000, 
-                        allowOutsideClick: true,
-                        willClose: () => {
-                            window.location.href = '../../vista/index/indexPC.php';
-                        }
-                    });
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', status, error);
-                }
-            });
+    $.ajax({
+        type: 'POST',
+        url: '../../controlador/editar/editarPCFuncion.php',
+        data: $('#nuevo').serialize(),
+        success: function(data) {
+            if (data === 'ok') {
+                Swal.fire({
+                    icon: "success",
+                    title: "PC editado correctamente",
+                    showConfirmButton: false,
+                    timer: 3000, 
+                    allowOutsideClick: true,
+                    willClose: () => {
+                        window.location.href = '../../vista/index/indexPC.php';
+                    }
+                });
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error al editar el PC",
+                    text: data, // Display the error message returned by the server
+                    showConfirmButton: true
+                });
+            }
         }
+    });
+}
 
         function hslToRgb(h, s, l) {
             s /= 100;
@@ -431,34 +437,72 @@ $accesorios = explode(',', $row0['accesorios']);
 <img style id="bg_img" src="../../img/lorobandera.png" width="35%" height="50%" alt="">
 
                 <div>
-                <label class="nopoint" for="cargador">Seleccione los accesorios:</label><br>
+                <label class="nopoint" for="sin-accesorios">Seleccione los accesorios:</label><br>
                 <div class="accesorioscheck" id="accesorios" style="display: flex; flex-wrap: wrap;">       
-                    <label><input type="checkbox" id="cargador" name="accesorios[]" value="Cargador" <?= in_array('Cargador', $accesorios) ? 'checked' : ''; ?>> Cargador</label>
-                    <label><input type="checkbox" id="cable_mickey" name="accesorios[]" value="Cable mickey" <?= in_array('Cable mickey', $accesorios) ? 'checked' : ''; ?>> Cable tipo mickey</label>
-                    <label><input type="checkbox" id="guaya" name="accesorios[]" value="Guaya de seguridad" <?= in_array('Guaya de seguridad', $accesorios) ? 'checked' : ''; ?>> Guaya de seguridad</label>
-                    <label><input type="checkbox" id="mouse" name="accesorios[]" value="Mouse" <?= in_array('Mouse', $accesorios) ? 'checked' : ''; ?>> Mouse</label>
-                    <label><input type="checkbox" id="estuche" name="accesorios[]" value="Estuche" <?= in_array('Estuche', $accesorios) ? 'checked' : ''; ?>> Estuche</label>
-                    <label><input type="checkbox" id="adaptador" name="accesorios[]" value="Adaptador red" <?= in_array('Adaptador red', $accesorios) ? 'checked' : ''; ?>> Adaptador red</label>
-                    <label><input type="checkbox" id="cubreteclado" name="accesorios[]" value="Cubreteclado" <?= in_array('Cubreteclado', $accesorios) ? 'checked' : ''; ?>> Cubreteclado</label>
-                    <label><input type="checkbox" id="funda" name="accesorios[]" value="Funda" <?= in_array('Funda', $accesorios) ? 'checked' : ''; ?>> Funda</label>
+                    <label><input type="checkbox" id="sin-accesorios" name="accesorios[]" value="sin accesorios" onclick="desmarcarAccesorios(this)" <?= in_array('sin accesorios', $accesorios) ? 'checked' : ''; ?>> Sin accesorios</label>      
+                    <label><input type="checkbox" id="cargador" name="accesorios[]" value="Cargador" onclick="desmarcarSinAccesorios(this)" <?= in_array('Cargador', $accesorios) ? 'checked' : ''; ?>> Cargador</label>
+                    <label><input type="checkbox" id="cable_mickey" name="accesorios[]" value="Cable mickey" onclick="desmarcarSinAccesorios(this)" <?= in_array('Cable mickey', $accesorios) ? 'checked' : ''; ?>> Cable tipo mickey</label>
+                    <label><input type="checkbox" id="guaya" name="accesorios[]" value="Guaya de seguridad" onclick="desmarcarSinAccesorios(this)" <?= in_array('Guaya de seguridad', $accesorios) ? 'checked' : ''; ?>> Guaya de seguridad</label>
+                    <label><input type="checkbox" id="mouse" name="accesorios[]" value="Mouse" onclick="desmarcarSinAccesorios(this)" <?= in_array('Mouse', $accesorios) ? 'checked' : ''; ?>> Mouse</label>
+                    <label><input type="checkbox" id="estuche" name="accesorios[]" value="Estuche" onclick="desmarcarSinAccesorios(this)" <?= in_array('Estuche', $accesorios) ? 'checked' : ''; ?>> Estuche</label>
+                    <label><input type="checkbox" id="adaptador" name="accesorios[]" value="Adaptador red" onclick="desmarcarSinAccesorios(this)" <?= in_array('Adaptador red', $accesorios) ? 'checked' : ''; ?>> Adaptador red</label>
+                    <label><input type="checkbox" id="cubreteclado" name="accesorios[]" value="Cubreteclado" onclick="desmarcarSinAccesorios(this)" <?= in_array('Cubreteclado', $accesorios) ? 'checked' : ''; ?>> Cubreteclado</label>
+                    <label><input type="checkbox" id="funda" name="accesorios[]" value="Funda" onclick="desmarcarSinAccesorios(this)" <?= in_array('Funda', $accesorios) ? 'checked' : ''; ?>> Funda</label>
                 </div>
+                <script>
+  function desmarcarAccesorios(checkbox) {
+    if (checkbox.checked) {
+      var accesorios = document.getElementsByName('accesorios[]');
+      for (var i = 0; i < accesorios.length; i++) {
+        if (accesorios[i].id !== 'sin-accesorios') {
+          accesorios[i].checked = false;
+        }
+      }
+    }
+  }
+
+  function desmarcarSinAccesorios(checkbox) {
+    if (checkbox.checked) {
+      document.getElementById('sin-accesorios').checked = false;
+    }
+  }
+</script>
                 </div>
                 <div>
-                <label class="nopoint" for="anydesk1">Seleccione los programas:</label><br>
+                <label class="nopoint" for="sin-programas">Seleccione los programas:</label><br>
                 <div class="accesorioscheck" id="accesorios" style="display: flex; flex-wrap: wrap;">       
-                    <label><input type="checkbox" id="anydesk1" name="programas[]" value="AnyDesk" <?= in_array('AnyDesk', $programas) ? 'checked' : ''; ?>> AnyDesk</label>
-                    <label><input type="checkbox" id="avg_antivirus" name="programas[]" value="AVG Antivirus" <?= in_array('AVG Antivirus', $programas) ? 'checked' : ''; ?>> AVG Antivirus</label>
-                    <label><input type="checkbox" id="crystal_reports" name="programas[]" value="Crystal Reports" <?= in_array('Crystal Reports', $programas) ? 'checked' : ''; ?>> Crystal Reports</label>
-                    <label><input type="checkbox" id="google_chrome" name="programas[]" value="Google Chrome" <?= in_array('Google Chrome', $programas) ? 'checked' : ''; ?>> Google Chrome</label>
-                    <label><input type="checkbox" id="microsoft_edge" name="programas[]" value="Microsoft Edge" <?= in_array('Microsoft Edge', $programas) ? 'checked' : ''; ?>> Microsoft Edge</label>
-                    <label><input type="checkbox" id="office" name="programas[]" value="Office" <?= in_array('Office', $programas) ? 'checked' : ''; ?>> Office</label>
-                    <label><input type="checkbox" id="winrar" name="programas[]" value="WinRAR" <?= in_array('WinRAR', $programas) ? 'checked' : ''; ?>> WinRAR</label>
-                    <label><input type="checkbox" id="framework" name="programas[]" value="Framework" <?= in_array('Framework', $programas) ? 'checked' : ''; ?>> Framework</label>
-                    <label><input type="checkbox" id="adn" name="programas[]" value="Sistema ADN" <?= in_array('Sistema ADN', $programas) ? 'checked' : ''; ?>> Sistema ADN</label>
-                    <label><input type="checkbox" id="adobe_acrobat" name="programas[]" value="Adobe Acrobat" <?= in_array('Adobe Acrobat', $programas) ? 'checked' : ''; ?>> Adobe Acrobat</label>
-                    <label><input type="checkbox" id="int_nomina" name="programas[]" value="INT Nómina" <?= in_array('INT Nómina', $programas) ? 'checked' : ''; ?>> INT Nómina</label>
-                    <label><input type="checkbox" id="int_administrativo" name="programas[]" value="INT Administrativo" <?= in_array('INT Administrativo', $programas) ? 'checked' : ''; ?>> INT Administrativo</label>
+                    <label><input type="checkbox" id="sin-programas" name="programas[]" value="sin programas" <?= in_array('sin programas', $programas) ? 'checked' : ''; ?> onclick="desmarcarProgramas(this)" > Sin programas</label>      
+                    <label><input type="checkbox" id="anydesk1" name="programas[]" value="AnyDesk" onclick="desmarcarSinProgramas(this)" <?= in_array('AnyDesk', $programas) ? 'checked' : ''; ?>> AnyDesk</label>
+                    <label><input type="checkbox" id="avg_antivirus" name="programas[]" value="AVG Antivirus" onclick="desmarcarSinProgramas(this)" <?= in_array('AVG Antivirus', $programas) ? 'checked' : ''; ?>> AVG Antivirus</label>
+                    <label><input type="checkbox" id="crystal_reports" name="programas[]" value="Crystal Reports" onclick="desmarcarSinProgramas(this)" <?= in_array('Crystal Reports', $programas) ? 'checked' : ''; ?>> Crystal Reports</label>
+                    <label><input type="checkbox" id="google_chrome" name="programas[]" value="Google Chrome" onclick="desmarcarSinProgramas(this)" <?= in_array('Google Chrome', $programas) ? 'checked' : ''; ?>> Google Chrome</label>
+                    <label><input type="checkbox" id="microsoft_edge" name="programas[]" value="Microsoft Edge" onclick="desmarcarSinProgramas(this)" <?= in_array('Microsoft Edge', $programas) ? 'checked' : ''; ?>> Microsoft Edge</label>
+                    <label><input type="checkbox" id="office" name="programas[]" value="Office" onclick="desmarcarSinProgramas(this)" <?= in_array('Office', $programas) ? 'checked' : ''; ?>> Office</label>
+                    <label><input type="checkbox" id="winrar" name="programas[]" value="WinRAR" onclick="desmarcarSinProgramas(this)" <?= in_array('WinRAR', $programas) ? 'checked' : ''; ?>> WinRAR</label>
+                    <label><input type="checkbox" id="framework" name="programas[]" value="Framework" onclick="desmarcarSinProgramas(this)" <?= in_array('Framework', $programas) ? 'checked' : ''; ?>> Framework</label>
+                    <label><input type="checkbox" id="adn" name="programas[]" value="Sistema ADN" onclick="desmarcarSinProgramas(this)" <?= in_array('Sistema ADN', $programas) ? 'checked' : ''; ?>> Sistema ADN</label>
+                    <label><input type="checkbox" id="adobe_acrobat" name="programas[]" value="Adobe Acrobat" onclick="desmarcarSinProgramas(this)" <?= in_array('Adobe Acrobat', $programas) ? 'checked' : ''; ?>> Adobe Acrobat</label>
+                    <label><input type="checkbox" id="int_nomina" name="programas[]" value="INT Nómina" onclick="desmarcarSinProgramas(this)" <?= in_array('INT Nómina', $programas) ? 'checked' : ''; ?>> INT Nómina</label>
+                    <label><input type="checkbox" id="int_administrativo" name="programas[]" value="INT Administrativo" onclick="desmarcarSinProgramas(this)" <?= in_array('INT Administrativo', $programas) ? 'checked' : ''; ?>> INT Administrativo</label>
                 </div>
+                <script>
+  function desmarcarProgramas(checkbox) {
+    if (checkbox.checked) {
+      var accesorios = document.getElementsByName('programas[]');
+      for (var i = 0; i < accesorios.length; i++) {
+        if (accesorios[i].id !== 'sin-programas') {
+          accesorios[i].checked = false;
+        }
+      }
+    }
+  }
+
+  function desmarcarSinProgramas(checkbox) {
+    if (checkbox.checked) {
+      document.getElementById('sin-programas').checked = false;
+    }
+  }
+</script>
                 </div>
                 </div>
                 <div id="entradas" style="display: flex; flex-wrap: wrap;">

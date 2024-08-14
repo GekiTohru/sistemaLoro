@@ -190,24 +190,33 @@ $(document).ready(function() {
     });
 
     function crear() {
-        Swal.fire({
-            icon: "success",
-            title: "Modelo creado correctamente",
-            showConfirmButton: false,
-            timer: 3000, 
-            allowOutsideClick: true,
-            willClose: () => {
-                window.location.href = '../../vista/index/indexGeneral.php?tabla=modelo_marca';
+            $.ajax({
+                type: 'POST',
+                url: '../../controlador/crear/crearModeloFuncion.php',
+                data: $('#nuevo').serialize(),
+                success: function(data) {
+            if (data === 'ok') {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Modelo añadido correctamente",
+                        showConfirmButton: false,
+                        timer: 3000, 
+                        allowOutsideClick: true,
+                        willClose: () => {
+                            window.location.href = '../../vista/index/indexGeneral.php?tabla=modelo_marca';
+                        }
+                    });
+                }else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error al crear el modelo",
+                    text: data, // Display the error message returned by the server
+                    showConfirmButton: true
+                });
             }
-        });
-        $.ajax({
-            type: 'POST',
-            url: '../../controlador/crear/crearModeloFuncion.php',
-            data: $('#nuevo').serialize(),
-            success: function(data) {
-            }
-        });
-    }
+        }
+    });
+}
 </script>    
         </body>
 </html>

@@ -88,11 +88,11 @@ function execute_query($conexion, $id, $form_data) {
         $stmt->bindParam(':nombre', $value);
         $stmt->bindParam(':id', $id);
         $stmt->execute();
-        if ($stmt) {
+        if ($stmt->execute()) {
             echo 'ok';
         } else {
-            echo 'error';
-        }        
+            echo 'Error: ' . $stmt->errorInfo()[2];
+        }       
             return;
         }
     }

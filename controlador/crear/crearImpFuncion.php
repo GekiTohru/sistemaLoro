@@ -64,7 +64,8 @@ $sql1 = "INSERT INTO impresoras (
   $stmt->bindParam(':mac_lan', $mac_lan);
   $stmt->bindParam(':estado', $estado);
   $stmt->bindParam(':ult_mant', $ult_mant);
-  
+  $stmt->execute();
+
   $id_imp_nuevo = $conexion->lastInsertId();
 
 if ($toner != '') {
@@ -75,8 +76,8 @@ $stmt2->bindParam(':toner', $toner);
 $stmt2->execute();
 }
 
-if ($stmt->execute() {
+if ($stmt->rowCount() > 0) {
   echo 'ok';
 } else {
-  echo 'error';
+  echo 'Error: ' . $stmt->errorInfo()[2];
 }

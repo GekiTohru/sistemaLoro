@@ -77,6 +77,13 @@ foreach ($imp as $fila) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link href="../../css/styles3.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css">
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+
 </head>
 <header>
 <nav class="navbar navbar-expand-lg navbar-light bg-success">
@@ -102,7 +109,7 @@ foreach ($imp as $fila) {
           Gestionar
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="indexTeléfonos.php">Teléfonos</a>
+          <a class="dropdown-item" href="indexTelefonos.php">Teléfonos</a>
           <a class="dropdown-item" href="indexPC.php">Computadoras</a>
           <a class="dropdown-item" href="#">Impresoras</a>
           <?php if ($_SESSION['permisos'] == 1) {
@@ -145,7 +152,7 @@ foreach ($imp as $fila) {
                   echo '<td>'. $fila['area']. '</td>';
                   echo '<td>';
                   echo '<div style="display: flex;">';
-                  echo '<div><a href="../editar/editarImp.php?id='. $fila['id']. '" class="users-table--edit" title="Editar"><svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="humbleicons hi-pencil"><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 7.5l3 3M4 20v-3.5L15.293 5.207a1 1 0 011.414 0l2.086 2.086a1 1 0 010 1.414L7.5 20H4z"/></svg></a></div>';
+                  echo '<div><a href="../editar/editarImp.php?id='. $fila['id']. '" class="users-table--edit" title="Editar"><img width="30" height="30" src="../../img/edit.svg" alt="Icono SVG"></a></div>';
                   echo '<div><a href="../crear/crearMantenimientoImp.php?id='. $fila['id']. '" class="users-table--edit" title="Realizar mantenimiento"><svg width="30" height="30" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M33.6721 10.4042C33.5204 9.94952 33.0651 9.49488 32.6098 9.49488C32.1546 9.34334 31.5476 9.49488 31.2441 9.94952L26.3879 14.799C25.7809 15.4052 24.8703 15.7083 23.9598 15.8598C23.0493 15.8598 22.2905 15.5567 21.5317 14.9505C20.9247 14.3444 20.4694 13.4351 20.4694 12.5258C20.4694 11.465 20.9247 10.4042 21.6835 9.64643L26.2361 5.10004C26.5396 4.79695 26.6914 4.19077 26.6914 3.73613C26.6914 3.28149 26.0844 2.52376 25.6291 2.37221C19.8624 0.250566 13.4887 2.06912 9.69479 7.07014C7.2667 10.2526 6.50793 14.3444 7.41846 18.2846L2.71404 22.9825C1.95527 23.7402 1.5 24.9526 1.5 26.0134C1.5 27.0742 1.95527 28.2866 2.71404 29.0443L6.65968 33.2876C7.41846 34.0454 8.6325 34.5 9.69479 34.5C10.7571 34.5 11.9711 34.0454 12.7299 33.2876L17.4343 28.5897C21.987 29.6505 26.8431 28.2866 30.3335 24.9526C34.2792 21.1639 35.4932 15.4052 33.6721 10.4042ZM28.3607 22.8309C25.6291 25.5588 21.5317 26.6196 17.7378 25.5588C17.1308 25.4072 16.6755 25.5588 16.2203 26.0134L10.9088 31.3175C10.4536 31.7722 9.54303 31.7722 8.93601 31.3175L4.83862 27.2258C4.53511 26.7711 4.38335 26.4681 4.38335 26.165C4.38335 25.8619 4.53511 25.4072 4.83862 25.2557L10.1501 19.9516C10.6053 19.4969 10.7571 19.0423 10.4536 18.4361C9.54303 15.1021 10.1501 11.465 12.1229 8.8887C14.2475 6.00932 17.4343 4.49386 20.7729 4.49386C21.2282 4.49386 21.6835 4.49386 22.1387 4.6454L19.4071 7.37324C18.0413 8.58561 17.2826 10.5557 17.2826 12.3743C17.2826 14.1928 18.0413 15.7083 19.2554 16.9206C20.4694 17.9815 21.987 18.5877 23.6563 18.5877C23.6563 18.5877 23.6563 18.5877 23.808 18.5877C25.4773 18.5877 27.1467 17.9815 28.3607 16.6176L31.2441 13.7382C31.8511 17.0722 30.637 20.4062 28.3607 22.8309Z" fill="currentColor"/></svg></a></div>';
                   echo '<div><a href="../../reporte/mantImp.php?id='. $fila['id']. '" class="users-table--edit" title="Ver mantenimientos"><svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="humbleicons hi-print"><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M8 17H5a1 1 0 01-1-1v-5a2 2 0 012-2h12a2 2 0 012 2v5a1 1 0 01-1 1h-3M8 4h8v5H8V4zm0 11h8v4H8v-4z"/><circle xmlns="http://www.w3.org/2000/svg" cx="7" cy="12" r="1" fill="currentColor"/></svg></a></div>';
                   if ($fila['toner'] != "Sin tóner") {
@@ -193,7 +200,26 @@ $(document).ready(function() {
             { "title": "Mac LAN" },
             { "title": "Área", "defaultContent": "Sin área" },
             { "title": "Acciones" }
-        ]
+        ],
+        "dom": 'Blfrtip',
+        "buttons": [
+    {
+        "extend": 'pdf',
+        "text": 'Imprimir PDF',
+        "title": 'Lista de Impresoras',
+        "exportOptions": {
+            "columns": ':not(:last-child)'
+        }
+    },
+    {
+        "extend": 'excel',
+        "text": 'Imprimir Excel',
+        "title": 'Lista de Impresoras',
+        "exportOptions": {
+            "columns": ':not(:last-child)'
+        }
+    }
+]
     });
         // Recuperar el valor del filtro del localStorage y aplicarlo
         var filterValue = sessionStorage.getItem('filterValue_imp');
@@ -207,6 +233,7 @@ $(document).ready(function() {
         });
 });
 </script>
+
 <script>
 function eliminarFuncion(id) {
   Swal.fire({

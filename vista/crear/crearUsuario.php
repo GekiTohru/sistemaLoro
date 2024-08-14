@@ -134,6 +134,35 @@ $conexion = $conexionObj->ConexionBD();
             }
         });
     }
+
+    function crear() {
+            $.ajax({
+                type: 'POST',
+                url: '../../controlador/crear/crearUsuarioFuncion.php',
+                data: $('#nuevo').serialize(),
+                success: function(data) {
+            if (data === 'ok') {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Usuario añadido correctamente",
+                        showConfirmButton: false,
+                        timer: 3000, 
+                        allowOutsideClick: true,
+                        willClose: () => {
+                            window.location.href = '../../vista/index/idxUsuarios.php';
+                        }
+                    });
+                }else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error al crear el usuario",
+                    text: data, // Display the error message returned by the server
+                    showConfirmButton: true
+                });
+            }
+        }
+    });
+} 
 </script>
 
         </body>

@@ -174,6 +174,10 @@ foreach ($apps as $app) {
             $applicationsHtml .= "• WhatsApp\n";
             break;
         }
+        case 'sin programas':
+            $applicationsHtml .= "• Sin programas\n";
+            break;
+        }
 
 }
 $applicationsHtml = rtrim($applicationsHtml, "\n");

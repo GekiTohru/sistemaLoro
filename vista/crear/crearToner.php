@@ -119,24 +119,33 @@ $conexion = $conexionObj->ConexionBD();
     });
 
     function crear() {
-        Swal.fire({
-            icon: "success",
-            title: "Tóner creado correctamente",
-            showConfirmButton: false,
-            timer: 3000, 
-            allowOutsideClick: true,
-            willClose: () => {
-                window.location.href = '../../vista/index/idxToner.php';
+            $.ajax({
+                type: 'POST',
+                url: '../../controlador/crear/crearTonerFuncion.php',
+                data: $('#nuevo').serialize(),
+                success: function(data) {
+            if (data === 'ok') {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Tóner añadido correctamente",
+                        showConfirmButton: false,
+                        timer: 3000, 
+                        allowOutsideClick: true,
+                        willClose: () => {
+                            window.location.href = '../../vista/index/idxToner.php';
+                        }
+                    });
+                }else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error al crear el tóner",
+                    text: data, // Display the error message returned by the server
+                    showConfirmButton: true
+                });
             }
-        });
-        $.ajax({
-            type: 'POST',
-            url: '../../controlador/crear/crearTonerFuncion.php',
-            data: $('#nuevo').serialize(),
-            success: function(data) {
-            }
-        });
-    }
+        }
+    });
+} 
 </script>
         </body>
 </html>

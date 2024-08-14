@@ -14,6 +14,20 @@ if (isset($_SESSION["timeout"])) {
     }
 }
 $_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
+
+include("C:/xampp/htdocs/sistemaLoro/controlador/conexion.php");
+$conexionObj = new Cconexion();
+
+// Llamar al método ConexionBD para obtener la conexión
+$conexion = $conexionObj->ConexionBD();
+
+
+$stmt = $conexion->prepare("SELECT COUNT(*) AS num_registros FROM telefonos WHERE activo=1");
+$stmt->execute();
+
+$result = $stmt->fetch();
+$tlf = $result['num_registros'];
+
 ?>
 
 <!DOCTYPE html>
@@ -27,6 +41,7 @@ $_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link href="../css/buttons.css" rel="stylesheet">
     <link href="../css/styles2.css" rel="stylesheet">
+    
 </head>
 
 <body>
@@ -75,11 +90,20 @@ $_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
 
 
     <div class="container">
-        <h1 >Bienvenido, <?php echo htmlspecialchars($_SESSION['nombre']); ?>!</h1>
+        <h1>Bienvenido, <?php echo htmlspecialchars($_SESSION['nombre']); ?>!</h1>
         <div style="display: flex; flex-wrap:wrap; justify-content:center">
-    <button style="width:250px; margin:5%;" class="icon-slide-right" onclick="location.href='index/indexTelefonos.php'">Gestionar Teléfonos corporativos</button>    
+        <!-- <div> -->
+    <button style="width:250px; margin:5%;" class="icon-slide-right" onclick="location.href='index/indexTelefonos.php'">Gestionar Teléfonos corporativos</button>
+    <!-- <h4>Teléfonos registrados: <?php echo $tlf; ?></h1> -->
+    <!-- </div> -->
+    <!-- <div> -->
     <button style="width:250px; margin:5%" class="icon-slide-left" onclick="location.href='index/indexPC.php'">Gestionar Computadoras</button>
+    <!-- <h4>Teléfonos registrados: <?php echo $tlf; ?></h1> -->
+    <!-- </div> -->
+    <!-- <div> -->
     <button style="width:250px; margin:5%" class="icon-slide-right" onclick="location.href='index/indexImpresoras.php'">Gestionar<br>Impresoras</button><br>
+    <!-- <h4>Teléfonos registrados: <?php echo $tlf; ?></h1> -->
+    <!-- </div> -->
     </div>
   </div>
 </body>

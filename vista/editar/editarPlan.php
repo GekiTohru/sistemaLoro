@@ -18,37 +18,31 @@ $_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
 $conexionObj = new Cconexion();
 
 // Llamar al método ConexionBD para obtener la conexión
-$conexion = $conexionObj->ConexionBD();
+$conexion = $conexionObj->ConexionBD(); 
+    $id_plan=$_GET['id']; 
+    $sql = "SELECT *, plan_tlf.id_plan AS id
+    FROM plan_tlf
+    WHERE plan_tlf.id_plan = $id_plan";
 
-$id_imp=$_GET['id'];
-
-$sql2="SELECT toner_asignado.*, toner_asignado.id_toner_asignado AS id, toner.modelo AS toner, toner.color AS color
-FROM toner_asignado
-INNER JOIN toner ON toner_asignado.id_toner = toner.id_toner
-WHERE toner_asignado.activo = 1 AND id_impresora = $id_imp";    
-
-$stmt2 = $conexion->prepare($sql2);
-$stmt2->execute();
-$result2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-
-$row0 = $result2[0];
-
+    
+$stmt = $conexion->prepare($sql);
+$stmt->execute();
+$result = $stmt->fetchAll(PDO::FETCH_ASSOC);       
+$row0 = $result[0];
 ?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear-CT</title>
+    <title>Editar-Plan</title>
     <script src="../../package/dist/sweetalert2.all.js"></script>
     <script src="../../package/dist/sweetalert2.all.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/42.0.0/ckeditor5.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link href="../../css/styles3.css" rel="stylesheet">
-
 </head>
 <header>
 <nav class="navbar navbar-expand-lg navbar-light bg-success">
@@ -94,71 +88,58 @@ $row0 = $result2[0];
 </header>
 <body>
     <div class="users-table">
-        <h2 style="text-align: center;">Nuevo cambio de tóner</h2>
+        <h2 style="text-align: center;">Editar Plan</h2>
+
         <div class="users-form">
             <form id="nuevo">
-            <input type="hidden" name="id_imp" value="<?= $_GET['id']?>">
-                <div style="display: flex">
-                <div style="display: block">
-                <div style="margin: 10px">
-                <label for="fecha" style="width: 210px">Fecha del cambio</label>
-                <input type="date" name="fecha" id="fecha" style="width: 200px" value="<?= date('Y-m-d') ?>">
-                </div>
-                <div style="margin: 10px">
-                <label for="toner">Tóner reemplazado</label>
-                <select name="toner" id="toner" style="width: 200px" data-placeholder="Seleccione una toner">
-                <?php
-                foreach ($result2 as $row) {
-                    echo "<option value='{$row['id_toner']}'>{$row['toner']} {$row['color']}</option>";
-                }
-                ?>
-                </select>
-                </div>
+            <input type="hidden" name="id_plan" value="<?= $row0['id']?>">
                 <div id="entradas" style="display: flex; flex-wrap: wrap;">
+                  <div class="inputs">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" name="nombre" id="nombre" placeholder="Ingrese el nombre" value="<?= $row0['nombre']?>" required>
+                  </div>
+                  <div class="inputs">
+                  <label for="gb">Límite de datos</label>
+                  <input type="text" name="gb" id="gb" placeholder="Ingrese el límite de datos" value="<?= $row0['gb']?>" required>
+                  </div>
                 <div class="inputs">
-                <label for="contador">Contador</label>
-                <input type="text" name="contador" id="contador" placeholder="Ingrese el contador" value="">
+                <label for="cuota">Cuota</label>
+                <input type="text" name="cuota" id="cuota" placeholder="Ingrese la cuota" value="<?= $row0['cuota']?>" required>
                 </div>
-                <div id="entradas" style="display: flex; flex-wrap: wrap;">
-                <div class="inputs">
-                <label for="costo">Costo tóner</label>
-                <input type="text" name="costo" id="costo" placeholder="Ingrese el costo" value="">
-                </div>
-            </div>
-            </div>
-
-                <input type="submit" value="Añadir nuevo cambio">
+</div>
+                <input type="submit" value="Editar Plan">
             </form>
         </div>
+        
         <script>
         $(document).ready(function() {
         $('#nuevo').submit(function(event) {
             event.preventDefault();
-            crear();
+            editar();
         });
     });
 
-    function crear() {
-            $.ajax({
-                type: 'POST',
-                url: '../../controlador/crear/crearCTFuncion.php',
-                data: $('#nuevo').serialize(),
-                success: function(data) {
+    function editar() {
+    $.ajax({
+        type: 'POST',
+        url: '../../controlador/editar/editarPlanFuncion.php',
+        data: $('#nuevo').serialize(),
+        success: function(data) {
             if (data === 'ok') {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Cambio de tóner añadido correctamente",
-                        showConfirmButton: false,
-                        timer: 3000, 
-                        allowOutsideClick: true,
-                        willClose: () => {
-                            window.location.href = '../../vista/index/idxCT.php';
-                        }
-                    });
-                }else {
+                Swal.fire({
+                    icon: "success",
+                    title: "Plan editado correctamente",
+                    showConfirmButton: false,
+                    timer: 3000, 
+                    allowOutsideClick: true,
+                    willClose: () => {
+                        window.location.href = '../../vista/index/idxPlan.php';
+                    }
+                });
+            } else {
                 Swal.fire({
                     icon: "error",
-                    title: "Error al crear el cambio de tóner",
+                    title: "Error al editar plan",
                     text: data, // Display the error message returned by the server
                     showConfirmButton: true
                 });

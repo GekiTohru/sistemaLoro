@@ -28,7 +28,7 @@ $conexion = $conexionObj->ConexionBD();
     LEFT JOIN area ON personal.id_area = area.id_area
     WHERE personal.id_personal = $id_personal";
 
-    $sql2="SELECT * FROM cargo_ruta WHERE activo = 1";
+$sql2 = "SELECT * FROM cargo_ruta WHERE activo = 1 ORDER BY nombre ASC";
     $sql3="SELECT * FROM area WHERE activo = 1";
 
     $stmt = $conexion->prepare($sql);
@@ -160,24 +160,33 @@ $(document).ready(function() {
     });
 
     function editar() {
-        Swal.fire({
-            icon: "success",
-            title: "Personal editado correctamente",
-            showConfirmButton: false,
-            timer: 3000, 
-            allowOutsideClick: true,
-            willClose: () => {
-                window.location.href = '../../vista/index/idxPersonal.php';
+    $.ajax({
+        type: 'POST',
+        url: '../../controlador/editar/editarPersonalFuncion.php',
+        data: $('#nuevo').serialize(),
+        success: function(data) {
+            if (data === 'ok') {
+                Swal.fire({
+                    icon: "success",
+                    title: "Personal editado correctamente",
+                    showConfirmButton: false,
+                    timer: 3000, 
+                    allowOutsideClick: true,
+                    willClose: () => {
+                        window.location.href = '../../vista/index/idxPersonal.php';
+                    }
+                });
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error al editar personal",
+                    text: data, // Display the error message returned by the server
+                    showConfirmButton: true
+                });
             }
-        });
-        $.ajax({
-            type: 'POST',
-            url: '../../controlador/editar/editarPersonalFuncion.php',
-            data: $('#nuevo').serialize(),
-            success: function(data) {
-            }
-        });
-    }
+        }
+    });
+}
 </script>
         </body>
 </html>

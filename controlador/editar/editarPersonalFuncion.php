@@ -25,17 +25,18 @@ $cargoruta = $_POST['cargoruta'];
 $area = $_POST['area'];
 $nombre = $_POST['nombre'];
 
+
 $sql1 = "UPDATE personal SET id_cargoruta = :cargoruta, id_area = :area, nombre = :nombre
 WHERE personal.id_personal = :id_personal";
 
 $stmt = $conexion->prepare($sql1);
-$stmt->bindParam(':cargoruta', $cargoruta);
 $stmt->bindParam(':area', $area);
 $stmt->bindParam(':nombre', $nombre);
 $stmt->bindParam(':id_personal', $id_personal);
+$stmt ->bindParam(':cargoruta', $cargoruta);    
 
 if ($stmt->execute()) {
     echo 'ok';
 } else {
-    echo 'error';
+    echo 'Error: ' . $stmt->errorInfo()[2];
 }

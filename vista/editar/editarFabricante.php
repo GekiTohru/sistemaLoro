@@ -138,6 +138,35 @@ $conexion = $conexionObj->ConexionBD();
             }
         });
     }
+
+    function editar() {
+    $.ajax({
+        type: 'POST',
+        url: '../../controlador/editar/editarFabricanteFuncion.php',
+        data: $('#nuevo').serialize(),
+        success: function(data) {
+            if (data === 'ok') {
+                Swal.fire({
+                    icon: "success",
+                    title: "Fabricante editado correctamente",
+                    showConfirmButton: false,
+                    timer: 3000, 
+                    allowOutsideClick: true,
+                    willClose: () => {
+                        window.location.href = '../../vista/index/indexGeneral.php?tabla=fabricante';
+                    }
+                });
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error al editar el fabricante",
+                    text: data, // Display the error message returned by the server
+                    showConfirmButton: true
+                });
+            }
+        }
+    });
+}
 </script>
 
         </body>

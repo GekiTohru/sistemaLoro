@@ -118,24 +118,33 @@ $conexion = $conexionObj->ConexionBD();
     });
 
     function editar() {
-        Swal.fire({
-            icon: "success",
-            title: "Tipo de equipo editado correctamente",
-            showConfirmButton: false,
-            timer: 3000, 
-            allowOutsideClick: true,
-            willClose: () => {
-                window.location.href = '../../vista/index/indexGeneral.php?tabla=tipo_equipo';
+            $.ajax({
+                type: 'POST',
+                url: '../../controlador/editar/editarTipoEquipoFuncion.php',
+                data: $('#nuevo').serialize(),
+                success: function(data) {
+            if (data === 'ok') {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Tipo de equipo editado correctamente",
+                        showConfirmButton: false,
+                        timer: 3000, 
+                        allowOutsideClick: true,
+                        willClose: () => {
+                            window.location.href = '../../vista/index/indexGeneral.php?tabla=tipo_equipo';
+                        }
+                    });
+                }else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error al editar el tipo de equipo",
+                    text: data, // Display the error message returned by the server
+                    showConfirmButton: true
+                });
             }
-        });
-        $.ajax({
-            type: 'POST',
-            url: '../../controlador/editar/editarTipoEquipoFuncion.php',
-            data: $('#nuevo').serialize(),
-            success: function(data) {
-            }
-        });
-    }
+        }
+    });
+}
 </script>
         </body>
 </html>

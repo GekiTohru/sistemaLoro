@@ -84,7 +84,7 @@ $conexion = $conexionObj->ConexionBD();
               if ($stmt) {
                 echo 'ok';
             } else {
-                echo 'error';
+                echo 'Error: ' . $stmt->errorInfo()[2];
             }
             
               return;

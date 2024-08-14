@@ -21,8 +21,8 @@ $conexionObj = new Cconexion();
 $conexion = $conexionObj->ConexionBD();
 
     
-    $sql2="SELECT * FROM cargo_ruta";
-    $sql3="SELECT * FROM area";
+    $sql2="SELECT * FROM cargo_ruta WHERE activo = 1";
+    $sql3="SELECT * FROM area WHERE activo = 1";
 
     $stmt2 = $conexion->prepare($sql2);
     $stmt2->execute();
@@ -143,24 +143,33 @@ $(document).ready(function() {
     });
 
     function crear() {
-        Swal.fire({
-            icon: "success",
-            title: "Personal creado correctamente",
-            showConfirmButton: false,
-            timer: 3000, 
-            allowOutsideClick: true,
-            willClose: () => {
-                window.location.href = '../../vista/index/idxPersonal.php';
+            $.ajax({
+                type: 'POST',
+                url: '../../controlador/crear/crearPersonalFuncion.php',
+                data: $('#nuevo').serialize(),
+                success: function(data) {
+            if (data === 'ok') {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Personal añadido correctamente",
+                        showConfirmButton: false,
+                        timer: 3000, 
+                        allowOutsideClick: true,
+                        willClose: () => {
+                            window.location.href = '../../vista/index/idxPersonal.php';
+                        }
+                    });
+                }else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error al crear el personal",
+                    text: data, // Display the error message returned by the server
+                    showConfirmButton: true
+                });
             }
-        });
-        $.ajax({
-            type: 'POST',
-            url: '../../controlador/crear/crearPersonalFuncion.php',
-            data: $('#nuevo').serialize(),
-            success: function(data) {
-            }
-        });
-    }
+        }
+    });
+}
 </script>
         </body>
 </html>

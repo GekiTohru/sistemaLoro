@@ -126,6 +126,34 @@ $conexion = $conexionObj->ConexionBD();
             }
         });
     }
+    function crear() {
+            $.ajax({
+                type: 'POST',
+                url: '../../controlador/crear/crearTipoEquipoFuncion.php',
+                data: $('#nuevo').serialize(),
+                success: function(data) {
+            if (data === 'ok') {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Tipo de equipo añadido correctamente",
+                        showConfirmButton: false,
+                        timer: 3000, 
+                        allowOutsideClick: true,
+                        willClose: () => {
+                            window.location.href = '../../vista/index/indexGeneral.php?tabla=tipo_equipo';
+                        }
+                    });
+                }else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error al crear el Tipo de equipo",
+                    text: data, // Display the error message returned by the server
+                    showConfirmButton: true
+                });
+            }
+        }
+    });
+}
 </script>
         </body>
 </html>

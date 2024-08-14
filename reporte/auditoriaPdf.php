@@ -174,6 +174,9 @@ foreach ($apps as $app) {
         case 'otra':
             $pdf->Cell(50, 10, 'OTRA', 1, 1, 'C');
             break;
+        case 'sin aplicaciones':
+            $pdf->Cell(50, 10, 'Sin aplicaciones', 1, 1, 'C');
+            break;
     }
 }
 if (!empty($row['otra_app'])) {
@@ -185,7 +188,7 @@ if (!empty($row['otra_app'])) {
     
     // Celda para mostrar el valor de $row['otra_app']
     $pdf->setX(100);
-    $pdf->Cell(0, 10, $row['otra_app'], 0, 1);
+    $pdf->MultiCell(0, 10, $row['otra_app'], 0, 1);
 }
 
 // Detalles de los accesorios

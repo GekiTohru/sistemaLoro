@@ -60,6 +60,6 @@ $sql1 = "INSERT INTO mant_imp (
   
   if ($stmt->execute()) {
     echo 'ok';
-  } else {
-    echo 'error';
-  }
+} else {
+    echo 'Error: ' . $stmt->errorInfo()[2];
+}

@@ -27,9 +27,6 @@ function check_empty($value) {
         return $value;
     }
 }
-
-try {
-    $conexion->beginTransaction();
     
     $id_pc = $_POST['id_pc'];
     $fecha_ult_mant = $_POST['fecha_ult_mant'];
@@ -44,10 +41,14 @@ try {
     $id_almacentipo = $_POST['tipo_almacenamiento'];
     $id_sisadmin = $_POST['sistema_admin'];
     $id_sucursal = $_POST['sucursal'];
-    $programas = $_POST['programas'];
-    $programas_string = implode(',', $programas);
-    $accesorios = $_POST['accesorios'];
-    $accesorios_string = implode(',', $accesorios);
+    $programas = 'sin programas';
+    if (isset($_POST['programas']) && is_array($_POST['programas'])) {
+        $programas = implode(',', $_POST['programas']);
+    };
+    $accesorios = 'sin accesorios';
+    if (isset($_POST['accesorios']) && is_array($_POST['accesorios'])) {
+        $accesorios = implode(',', $_POST['accesorios']);
+    };
     $nombre = check_empty($_POST['nombre']);
     $user_admin = check_empty($_POST['admin']);
     $motherboard = check_empty($_POST['motherboard']);
@@ -78,6 +79,8 @@ try {
     $cable_mickey = $_POST['cable_mickey'];
     $mantenimiento = isset($_POST['mantenimiento']) ? $_POST['mantenimiento'] : 0;
     $realizador = $_SESSION['nombre'];
+
+   
 
     $sql1 = "UPDATE computadoras SET
       fecha_ult_mant = :fecha_ult_mant,
@@ -138,8 +141,8 @@ try {
         ':id_almacentipo' => $id_almacentipo,
         ':id_sisadmin' => $id_sisadmin,
         ':id_sucursal' => $id_sucursal,
-        ':programas' => $programas_string,
-        ':accesorios' => $accesorios_string,
+        ':programas' => $programas,
+        ':accesorios' => $accesorios,
         ':nombre' => $nombre,
         ':user_admin' => $user_admin,
         ':motherboard' => $motherboard,
@@ -182,11 +185,9 @@ try {
         ]);
     }
 
-    $conexion->commit();
-
-    echo '<script language="javascript">alert("Computadora editada correctamente"); window.location.href = "../../vista/index/indexPC.php";</script>';
-} catch (PDOException $e) {
-    $conexion->rollBack();
-    echo '<script language="javascript">alert("Error al editar la computadora: ' . $e->getMessage() . '");</script>';
+if ($stmt1->execute()) {
+    echo 'ok';
+} else {
+    echo 'Error: ' . $stmt1->errorInfo()[2];
 }
 ?>

@@ -211,24 +211,33 @@ $(document).ready(function() {
     });
 
     function editar() {
-        Swal.fire({
-            icon: "success",
-            title: "Impresora editada correctamente",
-            showConfirmButton: false,
-            timer: 3000, 
-            allowOutsideClick: true,
-            willClose: () => {
-                window.location.href = '../../vista/index/indexImpresoras.php';
+    $.ajax({
+        type: 'POST',
+        url: '../../controlador/editar/editarImpFuncion.php',
+        data: $('#nuevo').serialize(),
+        success: function(data) {
+            if (data === 'ok') {
+                Swal.fire({
+                    icon: "success",
+                    title: "Impresora editada correctamente",
+                    showConfirmButton: false,
+                    timer: 3000, 
+                    allowOutsideClick: true,
+                    willClose: () => {
+                        window.location.href = '../../vista/index/indexImpresoras.php';
+                    }
+                });
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error al editar la impresora",
+                    text: data, // Display the error message returned by the server
+                    showConfirmButton: true
+                });
             }
-        });
-        $.ajax({
-            type: 'POST',
-            url: '../../controlador/editar/editarImpFuncion.php',
-            data: $('#nuevo').serialize(),
-            success: function(data) {
-            }
-        });
-    }
+        }
+    });
+}
 </script>
         </body>
 </html>

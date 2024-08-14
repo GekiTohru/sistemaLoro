@@ -48,6 +48,6 @@ function check_empty($value) {
 
   if ($stmt->execute()) {
     echo 'ok';
-  } else {
-    echo 'error';
-  }
+} else {
+    echo 'Error: ' . $stmt->errorInfo()[2];
+}

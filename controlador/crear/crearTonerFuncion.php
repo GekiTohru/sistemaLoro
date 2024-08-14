@@ -33,10 +33,10 @@ $color = check_empty($_POST['color']);
 
 $sql1 = "INSERT INTO toner (
     modelo,
-    color,
+    color
   ) VALUES (
     :modelo,
-    :color,
+    :color      
   )";
   
   $stmt = $conexion->prepare($sql1);
@@ -47,6 +47,6 @@ $sql1 = "INSERT INTO toner (
   
   if ($stmt->execute()) {
     echo 'ok';
-  } else {
-    echo 'error';
-  }
+} else {
+    echo 'Error: ' . $stmt->errorInfo()[2];
+}

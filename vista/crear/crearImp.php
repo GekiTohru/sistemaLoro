@@ -209,6 +209,35 @@ $(document).ready(function() {
             }
         });
     }
+
+    function crear() {
+            $.ajax({
+                type: 'POST',
+                url: '../../controlador/crear/crearImpFuncion.php',
+                data: $('#nuevo').serialize(),
+                success: function(data) {
+            if (data === 'ok') {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Impresora añadida correctamente",
+                        showConfirmButton: false,
+                        timer: 3000, 
+                        allowOutsideClick: true,
+                        willClose: () => {
+                            window.location.href = '../../vista/index/indexImpresoras.php';
+                        }
+                    });
+                }else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error al crear la impresora",
+                    text: data, // Display the error message returned by the server
+                    showConfirmButton: true
+                });
+            }
+        }
+    });
+} 
 </script>
         </body>
 </html>

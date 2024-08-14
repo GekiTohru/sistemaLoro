@@ -40,14 +40,23 @@ function check_empty($value, $field) {
   $sisver = $_POST['sisver'];
   $operadora = $_POST['operadora'];
   $sucursal = $_POST['sucursal'];
-  $accesorios = $_POST['accesorios'];
-  $accesorios_string = implode(',', array_map(function($value) {
-      return $value;
-  }, $accesorios));
-  $apps = $_POST['apps_conf'];
-  $apps_string = implode(',', array_map(function($value1) {
-      return $value1;
-  }, $apps));
+  $plan = $_POST['plan'];
+  if (isset($_POST['accesorios']) && is_array($_POST['accesorios'])) {
+      $accesorios = $_POST['accesorios'];
+      $accesorios_string = implode(',', array_map(function($value) {
+          return $value;
+      }, $accesorios));
+  } else {
+      $accesorios_string = 'sin accesorios'; // o cualquier otro valor predeterminado
+  }
+  if (isset($_POST['apps_conf']) && is_array($_POST['apps_conf'])) {
+    $apps = $_POST['apps_conf'];
+    $apps_string = implode(',', array_map(function($value1) {
+        return $value1;
+    }, $apps));
+} else {
+    $apps_string = 'sin aplicaciones'; // o cualquier otro valor predeterminado
+}
   $otra = $_POST['otra_app'];
   $imei1 = check_empty($_POST['imei1'], 'imei1');
   $imei2 = check_empty($_POST['imei2'], 'imei2');
@@ -78,8 +87,8 @@ function check_empty($value, $field) {
 
 
 
-  $sql1 = "INSERT INTO telefonos (fecha_recep, fecha_ult_mant, fecha_ult_rev, id_modelo, id_sisver, id_operadora, id_sucursal, accesorios, app_conf, otra_app, imei1, imei2, imei_adn, serial, mac_lan, mac_wifi, numero, cuenta_google, clave_google, correo_corporativo, clave_corporativo, anydesk, pin, cuenta_mi, clave_mi, precio, nota, almacenamiento_ocupado, consumo_datos, vidrio_hidrogel, forro, pantalla, camara, cargador, cable_usb, adaptador)
-  VALUES (:fecha_recep, :fecha_ult_mant, :fecha_ult_rev, :modelo, :sisver, :operadora, :sucursal, :accesorios_string, :apps_string, :otra_app, :imei1, :imei2, :imei_adn, :serial, :mac_lan, :mac_wifi, :numero, :cuenta_google, :clave_google, :correo_corporativo, :clave_corporativo, :anydesk, :pin, :cuenta_mi, :clave_mi, :precio, :nota, :almacenamiento, :consumo_datos, :vidrio_hidrogel, :forro, :pantalla, :camara, :cargador, :cable_usb, :adaptador)";
+  $sql1 = "INSERT INTO telefonos (fecha_recep, fecha_ult_mant, fecha_ult_rev, id_modelo, id_sisver, id_operadora, id_sucursal, id_plan, accesorios, app_conf, otra_app, imei1, imei2, imei_adn, serial, mac_lan, mac_wifi, numero, cuenta_google, clave_google, correo_corporativo, clave_corporativo, anydesk, pin, cuenta_mi, clave_mi, precio, nota, almacenamiento_ocupado, consumo_datos, vidrio_hidrogel, forro, pantalla, camara, cargador, cable_usb, adaptador)
+  VALUES (:fecha_recep, :fecha_ult_mant, :fecha_ult_rev, :modelo, :sisver, :operadora, :sucursal, :plan, :accesorios_string, :apps_string, :otra_app, :imei1, :imei2, :imei_adn, :serial, :mac_lan, :mac_wifi, :numero, :cuenta_google, :clave_google, :correo_corporativo, :clave_corporativo, :anydesk, :pin, :cuenta_mi, :clave_mi, :precio, :nota, :almacenamiento, :consumo_datos, :vidrio_hidrogel, :forro, :pantalla, :camara, :cargador, :cable_usb, :adaptador)";
 
 $stmt = $conexion->prepare($sql1);
 $stmt->bindParam(':fecha_recep', $fecha_recep);
@@ -89,6 +98,7 @@ $stmt->bindParam(':modelo', $modelo);
 $stmt->bindParam(':sisver', $sisver);
 $stmt->bindParam(':operadora', $operadora);
 $stmt->bindParam(':sucursal', $sucursal);
+$stmt->bindParam(':plan', $plan);
 $stmt->bindParam(':accesorios_string', $accesorios_string);
 $stmt->bindParam(':apps_string', $apps_string);
 $stmt->bindParam(':otra_app', $otra);
@@ -132,7 +142,7 @@ $stmt2->execute();
 }
 
 if ($stmt->rowCount() > 0) {
-echo '<script language="javascript">alert("Teléfono añadido correctamente"); window.location.href = "../../vista/index/indexTelefonos.php";</script>';
+    echo 'ok';
 } else {
-echo '<script language="javascript">alert("Error al añadir el telefono");</script>';
+    echo 'Error: ' . $stmt->errorInfo()[2];
 }

@@ -114,7 +114,7 @@ $row0 = $result[0];
                 </select>
                 </div>
 </div>
-                <input type="submit" value="Añadir nuevo usuario">
+                <input type="submit" value="Editar usuario">
             </form>
         </div>
         
@@ -127,24 +127,33 @@ $row0 = $result[0];
     });
 
     function editar() {
-        Swal.fire({
-            icon: "success",
-            title: "Usuario editado correctamente",
-            showConfirmButton: false,
-            timer: 3000, 
-            allowOutsideClick: true,
-            willClose: () => {
-                window.location.href = '../../vista/index/idxUsuarios.php';
+            $.ajax({
+                type: 'POST',
+                url: '../../controlador/editar/editarUsuarioFuncion.php',
+                data: $('#nuevo').serialize(),
+                success: function(data) {
+            if (data === 'ok') {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Usuario editado correctamente",
+                        showConfirmButton: false,
+                        timer: 3000, 
+                        allowOutsideClick: true,
+                        willClose: () => {
+                            window.location.href = '../../vista/index/idxUsuarios.php';
+                        }
+                    });
+                }else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error al editar el usuario",
+                    text: data, // Display the error message returned by the server
+                    showConfirmButton: true
+                });
             }
-        });
-        $.ajax({
-            type: 'POST',
-            url: '../../controlador/editar/editarUsuarioFuncion.php',
-            data: $('#nuevo').serialize(),
-            success: function(data) {
-            }
-        });
-    }
+        }
+    });
+}
 </script>
         </body>
 </html>

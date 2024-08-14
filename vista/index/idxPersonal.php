@@ -67,6 +67,12 @@ $telefonosPorPersonal[$idPersonal][] = $nombreTlf;
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link href="../../css/styles3.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css">
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
 </head>
 <header>
 <nav class="navbar navbar-expand-lg navbar-light bg-success">
@@ -133,7 +139,7 @@ $telefonosPorPersonal[$idPersonal][] = $nombreTlf;
                   echo '<td>'. $asignado. '</td>';
                   echo '<td>';
                   echo '<div style="display: flex;">';
-                echo '<div><a href="../editar/editarPersonal.php?id='. $fila['id']. '" class="users-table--edit" title="Editar"><svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="humbleicons hi-pencil"><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 7.5l3 3M4 20v-3.5L15.293 5.207a1 1 0 011.414 0l2.086 2.086a1 1 0 010 1.414L7.5 20H4z"/></svg></a></div>';
+                echo '<div><a href="../editar/editarPersonal.php?id='. $fila['id']. '" class="users-table--edit" title="Editar"><img width="30" height="30" src="../../img/edit.svg" alt="Icono SVG"></a></div>';
                 if ($_SESSION['permisos'] == 1) {
                     echo '<div><a href="#" class="users-table--edit" title="Eliminar" onclick="eliminarFuncion('.$fila['id'].')"><svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="humbleicons hi-trash"><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6l.934 13.071A1 1 0 007.93 20h8.138a1 1 0 00.997-.929L18 6m-6 5v4m8-9H4m4.5 0l.544-1.632A2 2 0 0110.941 3h2.117a2 2 0 011.898 1.368L15.5 6"/></svg></a></div>';
                 }
@@ -172,7 +178,26 @@ $(document).ready(function() {
             { "title": "Área", "defaultContent": "Sin área" },
             { "title": "Telefono asignado", "defaultContent": "Sin asignar" },
             { "title": "Acciones" }
-        ]
+        ],
+        "dom": 'Blfrtip',
+        "buttons": [
+    {
+        "extend": 'pdf',
+        "text": 'Imprimir PDF',
+        "title": 'Lista de Personal',
+        "exportOptions": {
+            "columns": ':not(:last-child)'
+        }
+    },
+    {
+        "extend": 'excel',
+        "text": 'Imprimir Excel',
+        "title": 'Lista de Personal',
+        "exportOptions": {
+            "columns": ':not(:last-child)'
+        }
+    }
+]
     });
         // Recuperar el valor del filtro del localStorage y aplicarlo
         var filterValue = sessionStorage.getItem('filterValue_personal');

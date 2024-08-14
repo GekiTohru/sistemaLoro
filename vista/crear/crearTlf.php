@@ -27,6 +27,7 @@ $sql6="SELECT * FROM area WHERE activo = 1";
 $sql7="SELECT * FROM tlf_sisver WHERE activo = 1";
 $sql8="SELECT * FROM operadora WHERE activo = 1";
 $sql9="SELECT * FROM sucursal WHERE activo = 1";
+$sql10="SELECT * FROM plan_tlf WHERE activo = 1";
 
 $stmt2 = $conexion->prepare($sql2);
 $stmt2->execute();
@@ -55,6 +56,10 @@ $result8 = $stmt8->fetchAll(PDO::FETCH_ASSOC);
 $stmt9 = $conexion->prepare($sql9);
 $stmt9->execute();
 $result9 = $stmt9->fetchAll(PDO::FETCH_ASSOC);
+
+$stmt10 = $conexion->prepare($sql10);
+$stmt10->execute();
+$result10 = $stmt10->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 <html lang="en">
@@ -136,9 +141,10 @@ $result9 = $stmt9->fetchAll(PDO::FETCH_ASSOC);
                 url: '../../controlador/crear/crearTlfFuncion.php',
                 data: $('#nuevo').serialize(),
                 success: function(data) {
+            if (data === 'ok') {
                     Swal.fire({
                         icon: "success",
-                        title: "Teléfono creado correctamente",
+                        title: "Teléfono añadido correctamente",
                         showConfirmButton: false,
                         timer: 3000, 
                         allowOutsideClick: true,
@@ -146,12 +152,17 @@ $result9 = $stmt9->fetchAll(PDO::FETCH_ASSOC);
                             window.location.href = '../../vista/index/indexTelefonos.php';
                         }
                     });
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', status, error);
-                }
-            });
+                }else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error al crear el teléfono",
+                    text: data, // Display the error message returned by the server
+                    showConfirmButton: true
+                });
+            }
         }
+    });
+}   
 
         function hslToRgb(h, s, l) {
             s /= 100;
@@ -304,42 +315,89 @@ $result9 = $stmt9->fetchAll(PDO::FETCH_ASSOC);
                 }
                 ?></select>
                 </div>
+                <div style="margin: 10px">
+                <label for="plan">Plan de datos</label>
+                <select name="plan" id="plan" style="width: 200px" data-placeholder="Seleccione el plan">
+                <option value="">Seleccione el plan</option>
+                <?php
+                foreach ($result10 as $row) {
+                    echo "<option value='{$row['id_plan']}'>{$row['nombre']}</option>";
+                }
+                ?></select>
                 </div>
-                <input type="checkbox" id="dummy" name="accesorios[]" required style="display:none">
+                </div>
                 <div>
-                <label class="nopoint" for="cabezal-cargador" style="width: 250px; height: 10px;">Seleccione los accesorios:</label><br>
-                <div class="accesorioscheck" id="accesorios">       
-                    <label><input type="checkbox" id="cabezal-cargador" name="accesorios[]" value="cabezal cargador"> Cabezal cargador</label>
-                    <label><input type="checkbox" id="adaptador1" name="accesorios[]" value="adaptador"> Adaptador</label>
-                    <label><input type="checkbox" id="cable-usb" name="accesorios[]" value="cable usb"> Cable USB</label>
-                    <label><input type="checkbox" id="forro1" name="accesorios[]" value="forro"> Forro</label>
-                    <label><input type="checkbox" id="vidrio-templado" name="accesorios[]" value="vidrio templado"> Vidrio templado</label>
-                    <label><input type="checkbox" id="hidrogel" name="accesorios[]" value="hidrogel"> Hidrogel</label>
-                    <label><input type="checkbox" id="estuche" name="accesorios[]" value="estuche"> Estuche</label>
-                </div>
+                <label class="nopoint" for="sin-accesorios" style="width: 250px; height: 10px;">Seleccione los accesorios:</label><br>
+                <div class="accesorioscheck" id="accesorios">     
+    <label><input type="checkbox" id="sin-accesorios" name="accesorios[]" value="sin accesorios" onclick="desmarcarAccesorios(this)" checked> Sin accesorios</label>
+    <label><input type="checkbox" id="cabezal-cargador" name="accesorios[]" value="cabezal cargador" onclick="desmarcarSinAccesorios(this)"> Cabezal cargador</label>
+    <label><input type="checkbox" id="adaptador1" name="accesorios[]" value="adaptador" onclick="desmarcarSinAccesorios(this)"> Adaptador</label>
+    <label><input type="checkbox" id="cable-usb" name="accesorios[]" value="cable usb" onclick="desmarcarSinAccesorios(this)"> Cable USB</label>
+    <label><input type="checkbox" id="forro1" name="accesorios[]" value="forro" onclick="desmarcarSinAccesorios(this)"> Forro</label>
+    <label><input type="checkbox" id="vidrio-templado" name="accesorios[]" value="vidrio templado" onclick="desmarcarSinAccesorios(this)"> Vidrio templado</label>
+    <label><input type="checkbox" id="hidrogel" name="accesorios[]" value="hidrogel" onclick="desmarcarSinAccesorios(this)"> Hidrogel</label>
+    <label><input type="checkbox" id="estuche" name="accesorios[]" value="estuche" onclick="desmarcarSinAccesorios(this)"> Estuche</label>
+</div>
+
+<script>
+  function desmarcarAccesorios(checkbox) {
+    if (checkbox.checked) {
+      var accesorios = document.getElementsByName('accesorios[]');
+      for (var i = 0; i < accesorios.length; i++) {
+        if (accesorios[i].id !== 'sin-accesorios') {
+          accesorios[i].checked = false;
+        }
+      }
+    }
+  }
+
+  function desmarcarSinAccesorios(checkbox) {
+    if (checkbox.checked) {
+      document.getElementById('sin-accesorios').checked = false;
+    }
+  }
+</script>
                 </div>
   <img id="bg_img" src="../../img/lorobandera.png" width="30%" height="30%" alt="">
 
-                <input type="checkbox" id="dummy1" name="apps_conf[]" required style="display:none">
                 <div>
                 <label class="nopoint" for="whatsapp" style="width: 300px; height: 10px;">Aplicaciones y configuración básica:</label><br>
                 <div class="accesorioscheck" id="apps_conf" style="display: flex; flex-wrap: wrap;">       
-                    <label><input type="checkbox" id="whatsapp" name="apps_conf[]" value="whatsapp">WhatsAapp</label>
-                    <label><input type="checkbox" id="gmail" name="apps_conf[]" value="gmail">Gmail</label>
-                    <label><input type="checkbox" id="adn" name="apps_conf[]" value="adn">ADN</label>
-                    <label><input type="checkbox" id="facebook" name="apps_conf[]" value="facebook">Facebook</label>
-                    <label><input type="checkbox" id="instagram" name="apps_conf[]" value="instagram">Instagram</label>
-                    <label><input type="checkbox" id="netflix" name="apps_conf[]" value="netflix">Netflix</label>
-                    <label><input type="checkbox" id="youtube" name="apps_conf[]" value="youtube">Youtube</label>
-                    <label><input type="checkbox" id="tiktok" name="apps_conf[]" value="tiktok">TikTok</label>
-                    <label><input type="checkbox" id="ubicacion" name="apps_conf[]" value="ubicacion">Ubicación</label>
-                    <label><input type="checkbox" id="tema_por_defecto" name="apps_conf[]" value="tema por defecto">Tema por defecto</label>
-                    <label><input type="checkbox" id="otra" name="apps_conf[]" value="otra">Otra</label>
+                    <label><input type="checkbox" id="sin-programas" name="apps_conf[]" value="sin programas" onclick="desmarcarProgramas(this)" checked> Sin aplicaciones</label>
+                    <label><input type="checkbox" id="whatsapp" name="apps_conf[]" value="whatsapp" onclick="desmarcarSinProgramas(this)">WhatsAapp</label>
+                    <label><input type="checkbox" id="gmail" name="apps_conf[]" value="gmail" onclick="desmarcarSinProgramas(this)">Gmail</label>
+                    <label><input type="checkbox" id="adn" name="apps_conf[]" value="adn" onclick="desmarcarSinProgramas(this)">ADN</label>
+                    <label><input type="checkbox" id="facebook" name="apps_conf[]" value="facebook" onclick="desmarcarSinProgramas(this)">Facebook</label>
+                    <label><input type="checkbox" id="instagram" name="apps_conf[]" value="instagram" onclick="desmarcarSinProgramas(this)">Instagram</label>
+                    <label><input type="checkbox" id="netflix" name="apps_conf[]" value="netflix" onclick="desmarcarSinProgramas(this)">Netflix</label>
+                    <label><input type="checkbox" id="youtube" name="apps_conf[]" value="youtube" onclick="desmarcarSinProgramas(this)">Youtube</label>
+                    <label><input type="checkbox" id="tiktok" name="apps_conf[]" value="tiktok" onclick="desmarcarSinProgramas(this)">TikTok</label>
+                    <label><input type="checkbox" id="ubicacion" name="apps_conf[]" value="ubicacion" onclick="desmarcarSinProgramas(this)">Ubicación</label>
+                    <label><input type="checkbox" id="tema_por_defecto" name="apps_conf[]" value="tema por defecto" onclick="desmarcarSinProgramas(this)">Tema por defecto</label>
+                    <label><input type="checkbox" id="otra" name="apps_conf[]" value="otra" onclick="desmarcarSinProgramas(this)">Otra</label>
                 </div>
                 <div id="otra_app_container" style="display: none; width: 80%">
                     <label for="otra_app">Especifique otras aplicaciones:</label>
                     <input type="text" id="otra_app" name="otra_app" value="">
                 </div>
+                <script>
+  function desmarcarProgramas(checkbox) {
+    if (checkbox.checked) {
+      var accesorios = document.getElementsByName('apps_conf[]');
+      for (var i = 0; i < accesorios.length; i++) {
+        if (accesorios[i].id !== 'sin-programas') {
+          accesorios[i].checked = false;
+        }
+      }
+    }
+  }
+
+  function desmarcarSinProgramas(checkbox) {
+    if (checkbox.checked) {
+      document.getElementById('sin-programas').checked = false;
+    }
+  }
+</script>
                 </div>
                 <script>
     // Escuchar el cambio de estado de la checkbox "otra"
@@ -389,7 +447,20 @@ $result9 = $stmt9->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="inputs">
                 <label for="numero">Número telefónico</label>
-                <input type="text" name="numero" id="numero" placeholder="Ingrese el número" value="">
+                <input type="text" name="numero" id="numero" placeholder="Ingrese el número" value="" pattern="[0-9]{4}-[0-9]{7}" title="Formato incorrecto. Debe ser xxxx-xxxxxxx">
+                <script>
+                const input = document.getElementById('numero');
+
+                input.addEventListener('input', () => {
+                    const valor = input.value;
+                    const regex = /^[0-9]{4}-[0-9]{7}$/;
+                    if (!regex.test(valor)) {
+                    input.setCustomValidity('Formato incorrecto. Debe ser xxxx-xxxxxxx');
+                    } else {
+                    input.setCustomValidity('');
+                    }
+                });
+                </script>
                 </div>
                 <div class="inputs">
                 <label for="cuenta_google">Cuenta google</label>
@@ -397,7 +468,7 @@ $result9 = $stmt9->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="inputs">
                 <label for="clave_google">Clave google</label>
-                <input type="text" name="clave_google" id="clave_google" placeholder="Ingrese la clave" value="">
+                <input type="text" name="clave_google" id="clave_google" placeholder="Ingrese la clave" value="@Loro1234">
                 </div>
                 <div class="inputs">
                 <label for="correo_corporativo">Correo corporativo</label>
@@ -413,7 +484,7 @@ $result9 = $stmt9->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="inputs">
                 <label for="pin">Pin de desbloqueo</label>
-                <input type="text" name="pin" id="pin" placeholder="Ingrese el pin" value="">
+                <input type="text" name="pin" id="pin" placeholder="Ingrese el pin" value="1234">
                 </div>
                 <div class="inputs">
                 <label for="cuenta_mi">Cuenta MI</label>
@@ -561,38 +632,10 @@ $result9 = $stmt9->fetchAll(PDO::FETCH_ASSOC);
                 </select>
                 </div>
                 </div>
-                <script>
-                const checkboxes = Array.from(document.querySelectorAll('input[type="checkbox"][name="accesorios[]"]'));
-                const dummy = document.getElementById('dummy');
-
-                checkboxes.forEach((checkbox) => {
-                    checkbox.addEventListener('change', () => {
-                    if (checkboxes.some((cb) => cb.checked)) {
-                        dummy.checked = true;
-                    } else {
-                        dummy.checked = false;
-                    }
-                    });
-                });
-                </script>
-                <script>
-                const checkboxes1 = Array.from(document.querySelectorAll('input[type="checkbox"][name="apps_conf[]"]'));
-                const dummy1 = document.getElementById('dummy1');
-
-                checkboxes1.forEach((checkbox) => {
-                    checkbox.addEventListener('change', () => {
-                    if (checkboxes1.some((cb) => cb.checked)) {
-                        dummy1.checked = true;
-                    } else {
-                        dummy1.checked = false;
-                    }
-                    });
-                });
-                </script>
 
 <script>
 $(document).ready(function() {
-    $('#modelo, #personal, #sisver, #operadora, #sucursal').select2({
+    $('#modelo, #personal, #sisver, #operadora, #sucursal, #plan').select2({
         minimumInputLength: 0,
         allowClear: true,
         debug: true,

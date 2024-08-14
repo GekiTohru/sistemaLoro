@@ -25,29 +25,23 @@ $sql = "SELECT
 t.*,
 t.id_telefono AS id,
 mm.nombre AS modelo,
-mm.ram AS ram,
-mm.rom AS rom,
-f.nombre AS fabricante,
 ISNULL(p.nombre, 'Sin asignar') AS asignado,
-ISNULL(cr.nombre, 'Sin cargo') AS cargo,
 ISNULL(a.nombre, 'Sin área') AS area,
-ISNULL(s.nombre, 'Sin sucursal') AS sucursal
+pf.nombre AS nombre_plan,
+pf.gb AS limite,
+pf.cuota AS cuota
 FROM 
 telefonos t
 INNER JOIN 
 modelo_marca mm ON t.id_modelo = mm.id_modelo
 LEFT JOIN 
-fabricante f ON mm.id_fabricante = f.id_fabricante
-LEFT JOIN 
 (SELECT * FROM tlf_asignado WHERE activo = 1) AS tlf_asignado_activo ON t.id_telefono = tlf_asignado_activo.id_telefono
 LEFT JOIN 
-    personal p ON tlf_asignado_activo.id_personal = p.id_personal AND p.activo = 1
-LEFT JOIN 
-cargo_ruta cr ON p.id_cargoruta = cr.id_cargoruta
+personal p ON tlf_asignado_activo.id_personal = p.id_personal AND p.activo = 1
 LEFT JOIN 
 area a ON p.id_area = a.id_area
 LEFT JOIN 
-sucursal s ON t.id_sucursal = s.id_sucursal
+plan_tlf pf ON t.id_plan = pf.id_plan
 WHERE 
 t.activo = 1
 ORDER BY 
@@ -154,29 +148,32 @@ foreach ($telefonos as $fila) {
                   // Concatenar los nombres de los usuariosConcatenar los nombres de los usuarios
                   $asignadoA = implode('/', $usuarios);
 
+                  // Eliminar unidades y convertir a int
+                  $valor_consumo = floatval(substr($fila['consumo_datos'], 0, strlen($fila['consumo_datos']) - 2));
+
+                  // Convertir unidad a MB si es necesario
+                  if (substr($fila['consumo_datos'], -2) == "GB") {
+                      $valor_consumo *= 1000;
+                  }
+
+                  // Convertir límite a MB
+                  $limite_mb = $fila['limite'] * 1000;
+
+                  // Calcular diferencia
+                  $diferencia = number_format($limite_mb - $valor_consumo, 2); // Formatea el resultado con 2 decimales
+
                   // Mostrar la fila de la tabla con los datos del teléfono y los nombres de los usuarios
                   echo '<tr>';
                   echo '<td>'. $fila['id']. '</td>';
                   echo '<td>'. $fila['modelo']. '</td>';
-                  echo '<td>'. $fila['cargo']. '</td>';
+                  echo '<td>'. $fila['area']. '</td>';
                   echo '<td>'. $asignadoA. '</td>';
                   echo '<td>'. $fila['numero']. '</td>';
-                  echo '<td>'. $fila['area']. '</td>';
-                  echo '<td>'. $fila['sucursal']. '</td>';
-                  echo '<td>'. $fila['ram']. '</td>';
-                  echo '<td>'. $fila['rom']. '</td>';
-                  echo '<td>'. $fila['app_conf']. '</td>';
-                  echo '<td>';
-                  echo '<div style="display: flex;">';
-                  echo '<div><a href="../editar/editarTlf.php?id='. $fila['id']. '" class="users-table--edit" title="Editar"><img width="30" height="30" src="../../img/edit.svg" alt="Icono SVG"></a></div>';
-                if ($_SESSION['permisos'] == 1) {
-                  echo '<div><a href="#" class="users-table--edit" title="Eliminar" onclick="eliminarFuncion('.$fila['id'].')"><svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="humbleicons hi-trash"><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6l.934 13.071A1 1 0 007.93 20h8.138a1 1 0 00.997-.929L18 6m-6 5v4m8-9H4m4.5 0l.544-1.632A2 2 0 0110.941 3h2.117a2 2 0 011.898 1.368L15.5 6"/></svg></a></div>';
-                }
-                echo '<div><a href="../../reporte/auditoriaPdf.php?id='. $fila['id']. '" class="users-table--edit" title="Reporte de auditoría"><svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="humbleicons hi-eye"><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M3 12c5.4-8 12.6-8 18 0-5.4 8-12.6 8-18 0z"/><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg></a></div>';
-                echo '<div><a href="idxRevTlfOne.php?id='. $fila['id']. '" class="users-table--edit" title="Consumo de datos"><svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 31.2002C16.35 31.2002 15 29.8502 15 28.2002C15 26.5502 16.35 25.2002 18 25.2002C19.65 25.2002 21 26.5502 21 28.2002C21 29.8502 19.65 31.2002 18 31.2002Z" fill="currentColor"/><path d="M23.5509 23.8504C23.2509 23.8504 22.9509 23.7004 22.6509 23.5504C20.1009 21.6004 16.0509 21.6004 13.5009 23.5504C12.9009 24.0004 11.8509 24.0004 11.4009 23.2504C10.9509 22.6504 10.9509 21.6004 11.7009 21.1504C13.3509 19.6504 15.6009 18.9004 18.0009 18.9004C20.4009 18.9004 22.6509 19.6504 24.4509 21.0004C25.0509 21.4504 25.2009 22.5004 24.7509 23.1004C24.3009 23.5504 24.0009 23.8504 23.5509 23.8504Z" fill="currentColor"/><path d="M28.2007 19.2002C27.9007 19.2002 27.4507 19.0502 27.1507 18.7502C24.6007 16.5002 21.3007 15.3002 17.8507 15.3002C14.4007 15.3002 11.2507 16.6502 8.70071 18.9002C8.10071 19.5002 7.20071 19.3502 6.60071 18.7502C6.00071 18.1502 6.15071 17.2502 6.75071 16.6502C9.75071 13.9502 13.8007 12.4502 18.0007 12.4502C22.2007 12.4502 26.2507 13.9502 29.2507 16.6502C29.8507 17.2502 29.8507 18.1502 29.4007 18.7502C29.1007 19.0502 28.6507 19.2002 28.2007 19.2002Z" fill="currentColor"/><path d="M3 14.85C2.55 14.85 2.25 14.7 1.95 14.4C1.35 13.8 1.35 12.9 1.95 12.3C6.3 8.25 12 6 18 6C24 6 29.7 8.25 34.05 12.15C34.65 12.75 34.65 13.65 34.05 14.25C33.45 14.85 32.55 14.85 31.95 14.25C28.2 10.95 23.25 9 18 9C12.75 9 7.8 10.95 4.05 14.4C3.75 14.7 3.3 14.85 3 14.85Z" fill="currentColor"/></svg></a></div>';
-                echo '<div><a href="../../reporte/constanciaTlf.php?id='. $fila['id']. '" class="users-table--edit" title="Constancia de entrega"><svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="humbleicons hi-print"><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M8 17H5a1 1 0 01-1-1v-5a2 2 0 012-2h12a2 2 0 012 2v5a1 1 0 01-1 1h-3M8 4h8v5H8V4zm0 11h8v4H8v-4z"/><circle xmlns="http://www.w3.org/2000/svg" cx="7" cy="12" r="1" fill="currentColor"/></svg></a></div>';
-                echo '</div>';
-                echo '</td>';
+                  echo '<td>'. $fila['consumo_datos']. '</td>';
+                  echo '<td>'. $fila['limite'].' '.'GB'. '</td>';
+                  echo '<td>'. $fila['nombre_plan']. '</td>';
+                  echo '<td>'. $fila['cuota']. '</td>';
+                  echo '<td>'. $diferencia.' '.'MB'.'</td>';
                 }
                ?>
         </table>
@@ -206,35 +203,90 @@ $(document).ready(function() {
         "columns": [
             { "title": "ID" },
             { "title": "Modelo" },
-            { "title": "Cargo", "defaultContent": "N/A" },
+            { "title": "Área", "defaultContent": "N/A" },
             { "title": "Asignado a", "defaultContent": "Sin asignar" },
             { "title": "Número" },
-            { "title": "Área", "defaultContent": "Sin área" },
-            { "title": "Sucursal", "defaultContent": "Sin sucursal" },
-            { "title": "RAM", "defaultContent": "N/A" },
-            { "title": "ROM", "defaultContent": "N/A" },
-            { "title": "Apps", "defaultContent": "Sin aplicaciones" },
-            { "title": "Acciones" }
+            { "title": "Consumo datos", "defaultContent": "N/A" },
+            { "title": "Limite datos" },
+            { "title": "Plan" },
+            { "title": "Cuota" },
+            { "title": "Diferencia" }
         ],
         "dom": 'Blfrtip',
         "buttons": [
     {
         "extend": 'pdf',
         "text": 'Imprimir PDF',
-        "title": 'Lista de Telefonos',
+        "title": 'Lista Usuarios que exceden el plan',
         "exportOptions": {
-          "columns": ':not(:last-child):not(:eq(9))'
+          "columns": ':not(:eq(1))'
 
-        }
+        },
     },
     {
         "extend": 'excel',
         "text": 'Imprimir Excel',
-        "title": 'Lista de Telefonos',
-        "exportOptions": {
-          "columns": ':not(:last-child):not(:eq(9))'
+        "title": 'Lista Usuarios que exceden el plan',
+        "customize": function(xlsx) {
+  // Accede a la hoja de Excel
+  var sheet = xlsx.xl.worksheets['sheet1.xml'];
+  
+  // Definir un nuevo estilo en la hoja de estilos (rojo de fondo con bordes)
+  var styles = xlsx.xl['styles.xml'];
 
-        }
+  // Agregar un nuevo fill (fondo rojo)
+  var newFillId = '<fill><patternFill patternType="solid"><fgColor rgb="FFFF0000"/><bgColor indexed="64"/></patternFill></fill>';
+  var lastFillIndex = $('fills fill', styles).length;
+  $('fills', styles).append(newFillId);
+
+  // Agregar un nuevo border (bordes por todos lados)
+  var newBorderId = '<border><left style="thin"/><right style="thin"/><top style="thin"/><bottom style="thin"/></border>';
+  var lastBorderIndex = $('borders border', styles).length;
+  $('borders', styles).append(newBorderId);
+
+  // Agregar un nuevo estilo de celda (xf) que use el nuevo fill y border
+  var newStyleId = '<xf numFmtId="0" fontId="0" fillId="' + lastFillIndex + '" borderId="' + lastBorderIndex + '" xfId="0" />';
+  var lastStyleIndex = $('cellXfs xf', styles).length;
+  $('cellXfs', styles).append(newStyleId);
+
+  // Array para almacenar las filas a eliminar
+  var rowsToDelete = [];
+
+  // Itera sobre las filas de la hoja
+  $('row', sheet).each(function(index) {
+    if (index >= 2) {
+      var cellJ = $(this).find('c[r^="J"]');
+      var value = parseFloat(cellJ.text().replace(/[a-zA-Z]+/, ''));
+
+      if (value < 0) {
+        // Aplica el nuevo estilo de fondo rojo con bordes a la celda J
+        cellJ.attr('s', lastStyleIndex);
+      } else {
+        // Agrega la fila al array de filas a eliminar
+        rowsToDelete.push(this);
+      }
+    }
+  });
+
+  // Eliminar las filas recolectadas en el array y ajustar la numeración de filas
+  $(rowsToDelete).each(function() {
+    $(this).remove();
+  });
+
+  // Recalcular la numeración de las filas
+  var rowNum = 1;
+  $('row', sheet).each(function() {
+    $(this).attr('r', rowNum);
+    $(this).find('c').each(function() {
+      var cellRef = $(this).attr('r');
+      var newRef = cellRef.replace(/\d+/, rowNum);
+      $(this).attr('r', newRef);
+    });
+    rowNum++;
+  });
+}
+
+
     }
 ]
     });
@@ -250,47 +302,6 @@ $(document).ready(function() {
         sessionStorage.setItem('filterValue_telefono', $(this).val());
     });
 });
-</script>
-
-<script>
-function eliminarFuncion(id) {
-  Swal.fire({
-    title: "¿Estás seguro?",
-    text: "No podrás revertir esto!",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    cancelButtonText: "Cancelar",
-    confirmButtonText: "Sí, eliminar!"
-  }).then((result) => {
-    if (result.isConfirmed) {
-      // Realizar la petición AJAX para eliminar el archivo
-      $.ajax({
-        type: "GET",
-        url: "../../controlador/eliminarFuncion.php",
-        data: {
-          tabla: "telefonos",
-          id_columna: "id_telefono",
-          id: id,
-          redirect: "../vista/index/indexTelefonos.php"
-        }
-      }).done(function() {
-        Swal.fire({
-          title: "Eliminado!",
-          text: "El archivo ha sido eliminado.",
-          icon: "success",
-          confirmButtonText: "OK",
-          allowOutsideClick: false
-        }).then((result) => {
-          if (result.isConfirmed) {
-            window.location.href = "../index/indexTelefonos.php";
-          }
-        });
-      });
-    }
-  });
-}
 </script>
 </body>
 </html>

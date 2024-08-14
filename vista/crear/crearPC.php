@@ -142,9 +142,10 @@ $row = $result3[0]; // equivalente a mysqli_fetch_array($query3)
                 url: '../../controlador/crear/crearPCFuncion.php',
                 data: $('#nuevo').serialize(),
                 success: function(data) {
+            if (data === 'ok') {
                     Swal.fire({
                         icon: "success",
-                        title: "PC creado correctamente",
+                        title: "PC añadida correctamente",
                         showConfirmButton: false,
                         timer: 3000, 
                         allowOutsideClick: true,
@@ -152,12 +153,17 @@ $row = $result3[0]; // equivalente a mysqli_fetch_array($query3)
                             window.location.href = '../../vista/index/indexPC.php';
                         }
                     });
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', status, error);
-                }
-            });
+                }else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error al crear la PC",
+                    text: data, // Display the error message returned by the server
+                    showConfirmButton: true
+                });
+            }
         }
+    });
+}
 
         function hslToRgb(h, s, l) {
             s /= 100;
@@ -242,7 +248,7 @@ $row = $result3[0]; // equivalente a mysqli_fetch_array($query3)
     <div class="users-table">
         <h2 style="text-align: center;">Añadir nueva PC</h2>
         <div class="users-form">
-            <form id="nuevo" onsubmit="return crear()" style="display: flex; flex-wrap: wrap">
+            <form id="nuevo" style="display: flex; flex-wrap: wrap">
                 <div style="display: flex; flex-wrap:wrap">
                 <div id="fechas" style="display: block; width: 300px">
                 <div style="margin: 10px">
@@ -361,37 +367,73 @@ $row = $result3[0]; // equivalente a mysqli_fetch_array($query3)
 </div>
 <img style id="bg_img" src="../../img/lorobandera.png" width="35%" height="50%" alt="">
                 <div>
-                    <input type="checkbox" id="dummy1" name="accesorios[]" required style="display:none">
                     <div>
-                        <label class="nopoint" for="cargador">Seleccione los accesorios:</label><br>
+                        <label class="nopoint" for="sin-accesorios">Seleccione los accesorios:</label><br>
                         <div class="accesorioscheck" id="accesorios" style="display: flex; flex-wrap: wrap;">       
-                            <label><input type="checkbox" id="cargador" name="accesorios[]" value="Cargador"> Cargador</label>
-                            <label><input type="checkbox" id="cable_mickey" name="accesorios[]" value="Cable mickey"> Cable tipo mickey</label>
-                            <label><input type="checkbox" id="guaya" name="accesorios[]" value="Guaya de seguridad"> Guaya de seguridad</label>
-                            <label><input type="checkbox" id="mouse" name="accesorios[]" value="Mouse"> Mouse</label>
-                            <label><input type="checkbox" id="estuche" name="accesorios[]" value="Estuche"> Estuche</label>
-                            <label><input type="checkbox" id="adaptador" name="accesorios[]" value="Adaptador red"> Adaptador red</label>
-                            <label><input type="checkbox" id="cubreteclado" name="accesorios[]" value="Cubreteclado"> Cubreteclado</label>
-                            <label><input type="checkbox" id="funda" name="accesorios[]" value="Funda"> Funda</label>
+                            <label><input type="checkbox" id="sin-accesorios" name="accesorios[]" value="sin accesorios" onclick="desmarcarAccesorios(this)" checked> Sin accesorios</label>      
+                            <label><input type="checkbox" id="cargador" name="accesorios[]" value="Cargador" onclick="desmarcarSinAccesorios(this)"> Cargador</label>
+                            <label><input type="checkbox" id="cable_mickey" name="accesorios[]" value="Cable mickey" onclick="desmarcarSinAccesorios(this)"> Cable tipo mickey</label>
+                            <label><input type="checkbox" id="guaya" name="accesorios[]" value="Guaya de seguridad" onclick="desmarcarSinAccesorios(this)"> Guaya de seguridad</label>
+                            <label><input type="checkbox" id="mouse" name="accesorios[]" value="Mouse" onclick="desmarcarSinAccesorios(this)"> Mouse</label>
+                            <label><input type="checkbox" id="estuche" name="accesorios[]" value="Estuche" onclick="desmarcarSinAccesorios(this)"> Estuche</label>
+                            <label><input type="checkbox" id="adaptador" name="accesorios[]" value="Adaptador red" onclick="desmarcarSinAccesorios(this)"> Adaptador red</label>
+                            <label><input type="checkbox" id="cubreteclado" name="accesorios[]" value="Cubreteclado" onclick="desmarcarSinAccesorios(this)"> Cubreteclado</label>
+                            <label><input type="checkbox" id="funda" name="accesorios[]" value="Funda" onclick="desmarcarSinAccesorios(this)"> Funda</label>
                         </div>
+                        <script>
+  function desmarcarAccesorios(checkbox) {
+    if (checkbox.checked) {
+      var accesorios = document.getElementsByName('accesorios[]');
+      for (var i = 0; i < accesorios.length; i++) {
+        if (accesorios[i].id !== 'sin-accesorios') {
+          accesorios[i].checked = false;
+        }
+      }
+    }
+  }
+
+  function desmarcarSinAccesorios(checkbox) {
+    if (checkbox.checked) {
+      document.getElementById('sin-accesorios').checked = false;
+    }
+  }
+</script>
                     </div>
-                    <input type="checkbox" id="dummy" name="programas[]" required style="display:none">
-                <label class="nopoint" for="anydesk1">Seleccione los programas:</label><br>
+                <label class="nopoint" for="sin-programas">Seleccione los programas:</label><br>
                 <div class="accesorioscheck" id="accesorios" style="display: flex; flex-wrap: wrap;">       
-                    <label><input type="checkbox" id="anydesk1" name="programas[]" value="AnyDesk"> AnyDesk</label>
-                    <label><input type="checkbox" id="avg_antivirus" name="programas[]" value="AVG Antivirus"> AVG Antivirus</label>
-                    <label><input type="checkbox" id="crystal_reports" name="programas[]" value="Crystal Reports"> Crystal Reports</label>
-                    <label><input type="checkbox" id="google_chrome" name="programas[]" value="Google Chrome"> Google Chrome</label>
-                    <label><input type="checkbox" id="microsoft_edge" name="programas[]" value="Microsoft Edge"> Microsoft Edge</label>
-                    <label><input type="checkbox" id="office" name="programas[]" value="Office"> Office</label>
-                    <label><input type="checkbox" id="winrar" name="programas[]" value="WinRAR"> WinRAR</label>
-                    <label><input type="checkbox" id="framework" name="programas[]" value="Framework"> Framework</label>
-                    <label><input type="checkbox" id="adn" name="programas[]" value="Sistema ADN"> Sistema ADN</label>
-                    <label><input type="checkbox" id="adobe_acrobat" name="programas[]" value="Adobe Acrobat"> Adobe Acrobat</label>
-                    <label><input type="checkbox" id="int_nomina" name="programas[]" value="INT Nómina"> INT Nómina</label>
-                    <label><input type="checkbox" id="int_administrativo" name="programas[]" value="INT Administrativo"> INT Administrativo</label>
-                    <label><input type="checkbox" id="whatsapp" name="programas[]" value="WhatsApp"> WhatsApp</label>
+                    <label><input type="checkbox" id="sin-programas" name="programas[]" value="sin programas" onclick="desmarcarProgramas(this)" checked> Sin programas</label>      
+                    <label><input type="checkbox" id="anydesk1" name="programas[]" value="AnyDesk" onclick="desmarcarSinProgramas(this)"> AnyDesk</label>
+                    <label><input type="checkbox" id="avg_antivirus" name="programas[]" value="AVG Antivirus" onclick="desmarcarSinProgramas(this)"> AVG Antivirus</label>
+                    <label><input type="checkbox" id="crystal_reports" name="programas[]" value="Crystal Reports" onclick="desmarcarSinProgramas(this)"> Crystal Reports</label>
+                    <label><input type="checkbox" id="google_chrome" name="programas[]" value="Google Chrome" onclick="desmarcarSinProgramas(this)"> Google Chrome</label>
+                    <label><input type="checkbox" id="microsoft_edge" name="programas[]" value="Microsoft Edge" onclick="desmarcarSinProgramas(this)"> Microsoft Edge</label>
+                    <label><input type="checkbox" id="office" name="programas[]" value="Office" onclick="desmarcarSinProgramas(this)"> Office</label>
+                    <label><input type="checkbox" id="winrar" name="programas[]" value="WinRAR" onclick="desmarcarSinProgramas(this)"> WinRAR</label>
+                    <label><input type="checkbox" id="framework" name="programas[]" value="Framework" onclick="desmarcarSinProgramas(this)"> Framework</label>
+                    <label><input type="checkbox" id="adn" name="programas[]" value="Sistema ADN" onclick="desmarcarSinProgramas(this)"> Sistema ADN</label>
+                    <label><input type="checkbox" id="adobe_acrobat" name="programas[]" value="Adobe Acrobat" onclick="desmarcarSinProgramas(this)"> Adobe Acrobat</label>
+                    <label><input type="checkbox" id="int_nomina" name="programas[]" value="INT Nómina" onclick="desmarcarSinProgramas(this)"> INT Nómina</label>
+                    <label><input type="checkbox" id="int_administrativo" name="programas[]" value="INT Administrativo" onclick="desmarcarSinProgramas(this)"> INT Administrativo</label>
+                    <label><input type="checkbox" id="whatsapp" name="programas[]" value="WhatsApp" onclick="desmarcarSinProgramas(this)"> WhatsApp</label>
                 </div>
+                <script>
+  function desmarcarProgramas(checkbox) {
+    if (checkbox.checked) {
+      var accesorios = document.getElementsByName('programas[]');
+      for (var i = 0; i < accesorios.length; i++) {
+        if (accesorios[i].id !== 'sin-programas') {
+          accesorios[i].checked = false;
+        }
+      }
+    }
+  }
+
+  function desmarcarSinProgramas(checkbox) {
+    if (checkbox.checked) {
+      document.getElementById('sin-programas').checked = false;
+    }
+  }
+</script>
                 </div>
                 </div>
                 <div id="entradas" style="display: flex; flex-wrap: wrap;">
@@ -614,34 +656,6 @@ $row = $result3[0]; // equivalente a mysqli_fetch_array($query3)
                 </select>
               
                 </div>
-                <script>
-                const checkboxes = Array.from(document.querySelectorAll('input[type="checkbox"][name="programas[]"]'));
-                const dummy = document.getElementById('dummy');
-
-                checkboxes.forEach((checkbox) => {
-                    checkbox.addEventListener('change', () => {
-                    if (checkboxes.some((cb) => cb.checked)) {
-                        dummy.checked = true;
-                    } else {
-                        dummy.checked = false;
-                    }
-                    });
-                });
-                </script>
-                <script>
-                const checkboxes1 = Array.from(document.querySelectorAll('input[type="checkbox"][name="accesorios[]"]'));
-                const dummy1 = document.getElementById('dummy1');
-
-                checkboxes1.forEach((checkbox) => {
-                    checkbox.addEventListener('change', () => {
-                    if (checkboxes1.some((cb) => cb.checked)) {
-                        dummy1.checked = true;
-                    } else {
-                        dummy1.checked = false;
-                    }
-                    });
-                });
-                </script>
                 <div class="notas" style="width: 100%">
                 <label for="editor">Observación</label>
                 <textarea style="width: 1000px; height: 200px" type="text" name="nota" id="editor" placeholder="" value=""></textarea>

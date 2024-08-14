@@ -185,6 +185,9 @@ foreach ($accesorios as $acc) {
         case 'Funda':
             $accesoriosText .= "• Funda\n";
             break;
+        case 'sin accesorios':
+            $accesoriosText .= "• Sin accesorios\n";
+            break;
     }
 }
 
@@ -239,6 +242,9 @@ foreach ($apps as $app) {
             break;
         case 'INT Administrativo':
             $applicationsHtml .= '<td>• INT Administrativo</td>';
+            break;
+        case 'sin programas':
+            $accesoriosText .= "• Sin programas\n";
             break;
     }
     

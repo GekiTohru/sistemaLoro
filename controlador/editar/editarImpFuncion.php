@@ -67,11 +67,11 @@ $stmt->bindParam(':id_imp', $id_imp);
 $stmt->execute();
 
 
-    // Consulta para desactivar el teléfono asignado
+    // Consulta para desactivar el tóner asignado
     $sql3 = "UPDATE toner_asignado SET activo=0 WHERE id_impresora=:id_imp";
     $stmt3 = $conexion->prepare($sql3);
     
-    // Consulta para insertar en tlf_asignado
+    // Consulta para insertar en tóner_asignado
     $sql2 = "INSERT INTO toner_asignado (id_impresora, id_toner) VALUES (:id_imp, :id_toner)";
     $stmt2 = $conexion->prepare($sql2);
 
@@ -116,9 +116,9 @@ $stmt->execute();
     
 
 
-    if ($ok) {
-        echo 'ok';
-    } else {
-        echo 'error';
-    }
+if ($stmt->execute()) {
+    echo 'ok';
+} else {
+    echo 'Error: ' . $stmt->errorInfo()[2];
+}
     

@@ -28,18 +28,18 @@ function check_empty($value) {
     }
   }
 
+  $id_fabricante = check_empty($_POST['id_fabricante']);
   $nombre = check_empty($_POST['nombre']);
   $equipo = check_empty($_POST['equipo']);
 
 
 
-$sql="INSERT INTO fabricante(nombre,equipo)
-VALUES('$nombre','$equipo')";
+$sql="UPDATE fabricante SET nombre = '$nombre', equipo = '$equipo' WHERE id_fabricante = '$id_fabricante'";
 $stmt = $conexion->prepare($sql);
 $stmt->execute();
-if ($stmt) {
+if ($stmt->execute()) {
     echo 'ok';
 } else {
-    echo 'error';
+    echo 'Error: ' . $stmt->errorInfo()[2];
 }
 

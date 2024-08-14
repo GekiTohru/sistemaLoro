@@ -40,8 +40,8 @@ function check_empty($value) {
   $stmt->bindParam(':teclado', $teclado);
   $stmt->bindParam(':id_tipo_equipo', $id_tipo_equipo);
   
-  if ($stmt->execute()) {
+if ($stmt->execute()) {
     echo 'ok';
 } else {
-    echo 'error';
+    echo 'Error: ' . $stmt->errorInfo()[2];
 }

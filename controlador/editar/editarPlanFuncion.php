@@ -17,35 +17,25 @@ $_SESSION["timeout"] = time() + (30 * 60); // 30 minutos
 include("C:/xampp/htdocs/sistemaLoro/controlador/conexion.php");
 $conexionObj = new Cconexion();
 
-// Llamar al método ConexionBD para obtener la conexión
 $conexion = $conexionObj->ConexionBD();
-function check_empty($value) {
-    if (empty($value) || is_null($value) || trim($value) === '') {
-            return "N/A";
-    } else {
-        return $value;
-    }
-  }
+$id_plan=$_POST['id_plan']; 
+$nombre = $_POST['nombre'];
+$gb = $_POST['gb'];
+$cuota = $_POST['cuota'];
 
-$id_toner = $_POST['id_toner'];
-$modelo = check_empty($_POST['modelo']);
-$color = check_empty($_POST['color']);
-
-
-
-$sql1 = "UPDATE toner SET
-  modelo = :modelo,
-  color = :color,
-WHERE id_toner = :id_toner";
+$sql1 = "UPDATE plan_tlf SET 
+  nombre = :nombre, 
+  gb = :gb, 
+  cuota = :cuota 
+WHERE id_plan = :id_plan";
 
 $stmt = $conexion->prepare($sql1);
 
-// Bind parameters
-$stmt->bindParam(':modelo', $modelo);
-$stmt->bindParam(':color', $color);
-$stmt->bindParam(':id_toner', $id_toner);
+$stmt->bindParam(':nombre', $nombre);
+$stmt->bindParam(':gb', $gb);
+$stmt->bindParam(':cuota', $cuota);
+$stmt->bindParam(':id_plan', $id_plan);
 
-// Ejecutar la consulta
 if ($stmt->execute()) {
     echo 'ok';
 } else {

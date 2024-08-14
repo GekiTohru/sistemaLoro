@@ -41,6 +41,7 @@ LEFT JOIN
     $sql7="SELECT * FROM tlf_sisver WHERE activo = 1";
     $sql8="SELECT * FROM operadora WHERE activo = 1";
     $sql9="SELECT * FROM sucursal WHERE activo = 1";
+    $sql10="SELECT * FROM plan_tlf WHERE activo = 1";
 
     $stmt = $conexion->prepare($sql);
     $stmt->execute();
@@ -77,12 +78,17 @@ LEFT JOIN
     $stmt9 = $conexion->prepare($sql9);
     $stmt9->execute();
     $result9 = $stmt9->fetchAll(PDO::FETCH_ASSOC);
+
+    $stmt10 = $conexion->prepare($sql10);
+    $stmt10->execute();
+    $result10 = $stmt10->fetchAll(PDO::FETCH_ASSOC);
     
     $row0 = $result[0];
 $id_modelo_seleccionado = $row0['id_modelo'];
 $id_sisver_seleccionado = $row0['id_sisver'];
 $id_operadora_seleccionado = $row0['id_operadora'];
 $id_sucursal_seleccionado = $row0['id_sucursal'];
+$id_plan_seleccionado = $row0['id_plan'];
 
 $almacenamiento_ocupado = $row0['almacenamiento_ocupado'];
 $consumo_datos = $row0['consumo_datos'];
@@ -191,6 +197,7 @@ $apps = explode(',', $row0['app_conf']);
                 url: '../../controlador/editar/editarTlfFuncion.php',
                 data: $('#nuevo').serialize(),
                 success: function(data) {
+            if (data === 'ok') {
                     Swal.fire({
                         icon: "success",
                         title: "Teléfono editado correctamente",
@@ -201,12 +208,17 @@ $apps = explode(',', $row0['app_conf']);
                             window.location.href = '../../vista/index/indexTelefonos.php';
                         }
                     });
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', status, error);
-                }
-            });
+                }else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error al editar el teléfono",
+                    text: data, // Display the error message returned by the server
+                    showConfirmButton: true
+                });
+            }
         }
+    });
+}
 
         function hslToRgb(h, s, l) {
             s /= 100;
@@ -362,40 +374,90 @@ $apps = explode(',', $row0['app_conf']);
                 }
                 ?></select>
                 </div>
+                <div style="margin: 10px">
+                <label for="plan">Plan de datos</label>
+                <select name="plan" id="plan" style="width: 200px" data-placeholder="Seleccione el plan">
+                <option value="">Seleccione el plan</option>
+                <?php
+                foreach ($result10 as $row) {
+                    $selected = ($row['id_plan'] == $id_plan_seleccionado)? 'selected' : '';
+                    echo "<option value='{$row['id_plan']}' $selected>{$row['nombre']}</option>";
+                }
+                ?></select>
+                </div>
                 </div>
                 <div>
-                <label class="nopoint" for="cabezal-cargador" style="width: 250px; height: 10px;">Seleccione los accesorios:</label><br>
-                <div class="accesorioscheck" id="accesorios">     
-                <label><input type="checkbox" id="cabezal-cargador" name="accesorios[]" value="cabezal cargador" <?= in_array('cabezal cargador', $accesorios) ? 'checked' : ''; ?>> Cabezal cargador</label>
-                <label><input type="checkbox" id="adaptador1" name="accesorios[]" value="adaptador" <?= in_array('adaptador', $accesorios) ? 'checked' : ''; ?>> Adaptador</label>
-                <label><input type="checkbox" id="cable-usb" name="accesorios[]" value="cable usb" <?= in_array('cable usb', $accesorios) ? 'checked' : ''; ?>> Cable USB</label>
-                <label><input type="checkbox" id="forro1" name="accesorios[]" value="forro" <?= in_array('forro', $accesorios) ? 'checked' : ''; ?>> Forro</label>
-                <label><input type="checkbox" id="vidrio_hidrogel-templado" name="accesorios[]" value="vidrio_hidrogel templado" <?= in_array('vidrio templado', $accesorios) ? 'checked' : ''; ?>> Vidrio templado</label>
-                <label><input type="checkbox" id="hidrogel" name="accesorios[]" value="hidrogel" <?= in_array('hidrogel', $accesorios) ? 'checked' : ''; ?>> Hidrogel</label>
-                <label><input type="checkbox" id="estuche" name="accesorios[]" value="estuche" <?= in_array('estuche', $accesorios) ? 'checked' : ''; ?>> Estuche</label>
-                </div>
-                </div>
+  <label class="nopoint" for="sin-accesorios" style="width: 250px; height: 10px;">Seleccione los accesorios:</label><br>
+  <div class="accesorioscheck" id="accesorios">     
+    <label><input type="checkbox" id="sin-accesorios" name="accesorios[]" value="sin accesorios" onclick="desmarcarAccesorios(this)" <?= in_array('sin accesorios', $accesorios) ? 'checked' : ''; ?>> Sin accesorios</label>
+    <label><input type="checkbox" id="cabezal-cargador" name="accesorios[]" value="cabezal cargador" onclick="desmarcarSinAccesorios(this)" <?= in_array('cabezal cargador', $accesorios) ? 'checked' : ''; ?>> Cabezal cargador</label>
+    <label><input type="checkbox" id="adaptador1" name="accesorios[]" value="adaptador" onclick="desmarcarSinAccesorios(this)" <?= in_array('adaptador', $accesorios) ? 'checked' : ''; ?>> Adaptador</label>
+    <label><input type="checkbox" id="cable-usb" name="accesorios[]" value="cable usb" onclick="desmarcarSinAccesorios(this)" <?= in_array('cable usb', $accesorios) ? 'checked' : ''; ?>> Cable USB</label>
+    <label><input type="checkbox" id="forro1" name="accesorios[]" value="forro" onclick="desmarcarSinAccesorios(this)" <?= in_array('forro', $accesorios) ? 'checked' : ''; ?>> Forro</label>
+    <label><input type="checkbox" id="vidrio-templado" name="accesorios[]" value="vidrio templado" onclick="desmarcarSinAccesorios(this)" <?= in_array('vidrio templado', $accesorios) ? 'checked' : ''; ?>> Vidrio templado</label>
+    <label><input type="checkbox" id="hidrogel" name="accesorios[]" value="hidrogel" onclick="desmarcarSinAccesorios(this)" <?= in_array('hidrogel', $accesorios) ? 'checked' : ''; ?>> Hidrogel</label>
+    <label><input type="checkbox" id="estuche" name="accesorios[]" value="estuche" onclick="desmarcarSinAccesorios(this)" <?= in_array('estuche', $accesorios) ? 'checked' : ''; ?>> Estuche</label>
+  </div>
+</div>
+
+<script>
+  function desmarcarAccesorios(checkbox) {
+    if (checkbox.checked) {
+      var accesorios = document.getElementsByName('accesorios[]');
+      for (var i = 0; i < accesorios.length; i++) {
+        if (accesorios[i].id !== 'sin-accesorios') {
+          accesorios[i].checked = false;
+        }
+      }
+    }
+  }
+
+  function desmarcarSinAccesorios(checkbox) {
+    if (checkbox.checked) {
+      document.getElementById('sin-accesorios').checked = false;
+    }
+  }
+</script>
   <img id="bg_img" src="../../img/lorobandera.png" width="30%" height="30%" alt="">
 
                 <div>
-                <label class="nopoint" for="whatsapp" style="width: 300px; height: 10px;">Aplicaciones y configuración básica:</label><br>
+                <label class="nopoint" for="sin-programas" style="width: 300px; height: 10px;">Aplicaciones y configuración básica:</label><br>
                 <div class="accesorioscheck" id="apps_conf" style=" display: flex; flex-wrap: wrap;">       
-                    <label><input type="checkbox" id="whatsapp" name="apps_conf[]" value="whatsapp" required <?= in_array('whatsapp', $apps) ? 'checked' : ''; ?>>WhatsAapp</label>
-                    <label><input type="checkbox" id="gmail" name="apps_conf[]" value="gmail" <?= in_array('gmail', $apps) ? 'checked' : ''; ?>>Gmail</label>
-                    <label><input type="checkbox" id="adn" name="apps_conf[]" value="adn" <?= in_array('adn', $apps) ? 'checked' : ''; ?>>ADN</label>
-                    <label><input type="checkbox" id="facebook" name="apps_conf[]" value="facebook" <?= in_array('facebook', $apps) ? 'checked' : ''; ?>>Facebook</label>
-                    <label><input type="checkbox" id="instagram" name="apps_conf[]" value="instagram" <?= in_array('instagram', $apps) ? 'checked' : ''; ?>>Instagram</label>
-                    <label><input type="checkbox" id="netflix" name="apps_conf[]" value="netflix" <?= in_array('netflix', $apps) ? 'checked' : ''; ?>>Netflix</label>
-                    <label><input type="checkbox" id="youtube" name="apps_conf[]" value="youtube" <?= in_array('youtube', $apps) ? 'checked' : ''; ?>>Youtube</label>
-                    <label><input type="checkbox" id="tiktok" name="apps_conf[]" value="tiktok" <?= in_array('tiktok', $apps) ? 'checked' : ''; ?>>TikTok</label>
-                    <label><input type="checkbox" id="ubicacion" name="apps_conf[]" value="ubicacion" <?= in_array('ubicacion', $apps) ? 'checked' : ''; ?>>Ubicación</label>
-                    <label><input type="checkbox" id="tema_por_defecto" name="apps_conf[]" value="tema por defecto" <?= in_array('tema por defecto', $apps) ? 'checked' : ''; ?>>Tema por defecto</label>
-                    <label><input type="checkbox" id="otra" name="apps_conf[]" value="otra" <?= in_array('otra', $apps) ? 'checked' : ''; ?>>Otra</label>
+                    <label><input type="checkbox" id="sin-programas" name="apps_conf[]" value="sin programas" onclick="desmarcarProgramas(this)" <?= in_array('sin programas', $apps) ? 'checked' : ''; ?>> Sin aplicaciones</label>
+                    <label><input type="checkbox" id="whatsapp" name="apps_conf[]" value="whatsapp" onclick="desmarcarSinProgramas(this)" <?= in_array('whatsapp', $apps) ? 'checked' : ''; ?>>WhatsAapp</label>
+                    <label><input type="checkbox" id="gmail" name="apps_conf[]" value="gmail" onclick="desmarcarSinProgramas(this)" <?= in_array('gmail', $apps) ? 'checked' : ''; ?>>Gmail</label>
+                    <label><input type="checkbox" id="adn" name="apps_conf[]" value="adn" onclick="desmarcarSinProgramas(this)" <?= in_array('adn', $apps) ? 'checked' : ''; ?>>ADN</label>
+                    <label><input type="checkbox" id="facebook" name="apps_conf[]" value="facebook" onclick="desmarcarSinProgramas(this)" <?= in_array('facebook', $apps) ? 'checked' : ''; ?>>Facebook</label>
+                    <label><input type="checkbox" id="instagram" name="apps_conf[]" value="instagram" onclick="desmarcarSinProgramas(this)" <?= in_array('instagram', $apps) ? 'checked' : ''; ?>>Instagram</label>
+                    <label><input type="checkbox" id="netflix" name="apps_conf[]" value="netflix" onclick="desmarcarSinProgramas(this)" <?= in_array('netflix', $apps) ? 'checked' : ''; ?>>Netflix</label>
+                    <label><input type="checkbox" id="youtube" name="apps_conf[]" value="youtube" onclick="desmarcarSinProgramas(this)" <?= in_array('youtube', $apps) ? 'checked' : ''; ?>>Youtube</label>
+                    <label><input type="checkbox" id="tiktok" name="apps_conf[]" value="tiktok" onclick="desmarcarSinProgramas(this)" <?= in_array('tiktok', $apps) ? 'checked' : ''; ?>>TikTok</label>
+                    <label><input type="checkbox" id="ubicacion" name="apps_conf[]" value="ubicacion" onclick="desmarcarSinProgramas(this)" <?= in_array('ubicacion', $apps) ? 'checked' : ''; ?>>Ubicación</label>
+                    <label><input type="checkbox" id="tema_por_defecto" name="apps_conf[]" value="tema por defecto" onclick="desmarcarSinProgramas(this)" <?= in_array('tema por defecto', $apps) ? 'checked' : ''; ?>>Tema por defecto</label>
+                    <label><input type="checkbox" id="otra" name="apps_conf[]" value="otra" onclick="desmarcarSinProgramas(this)" <?= in_array('otra', $apps) ? 'checked' : ''; ?>>Otra</label>
                 </div>
                 <div id="otra_app_container" style="display: none; width: 80%">
                     <label for="otra_app">Especifique otras aplicaciones:</label>
                     <input type="text" id="otra_app" name="otra_app" value="<?= $row0['otra_app']?>">
                 </div>
+                <script>
+  function desmarcarProgramas(checkbox) {
+    if (checkbox.checked) {
+      var accesorios = document.getElementsByName('apps_conf[]');
+      for (var i = 0; i < accesorios.length; i++) {
+        if (accesorios[i].id !== 'sin-programas') {
+          accesorios[i].checked = false;
+        }
+      }
+    }
+  }
+
+  function desmarcarSinProgramas(checkbox) {
+    if (checkbox.checked) {
+      document.getElementById('sin-programas').checked = false;
+    }
+  }
+</script>
                 </div>
                 <script>
     // Escuchar el cambio de estado de la checkbox "otra"
@@ -445,7 +507,22 @@ $apps = explode(',', $row0['app_conf']);
                 </div>
                 <div class="inputs">
                 <label for="numero">Número telefónico</label>
-                <input type="text" name="numero" id="numero" placeholder="Ingrese el número" value="<?= $row0['numero']?>">
+                <input type="text" name="numero" id="numero" placeholder="Ingrese el número" value="<?= $row0['numero']?>" pattern="[0-9]{4}-[0-9]{7}|N/A" title="Formato incorrecto. Debe ser xxxx-xxxxxxx o N/A">
+                <script>
+                const input = document.getElementById('numero');
+
+                input.addEventListener('input', () => {
+                  const valor = input.value;
+                  const regex = /^[0-9]{4}-[0-9]{7}$/;
+                  if (valor === 'N/A') {
+                    input.setCustomValidity('');
+                  } else if (!regex.test(valor)) {
+                    input.setCustomValidity('Formato incorrecto. Debe ser xxxx-xxxxxxx o N/A');
+                  } else {
+                    input.setCustomValidity('');
+                  }
+                  });
+                </script>
                 </div>
                 <div class="inputs">
                 <label for="cuenta_google">Cuenta google</label>
@@ -626,7 +703,7 @@ $apps = explode(',', $row0['app_conf']);
 
 <script>
 $(document).ready(function() {
-    $('#modelo, #personal, #sisver, #operadora, #sucursal').select2({
+    $('#modelo, #personal, #sisver, #operadora, #sucursal, #plan').select2({
         minimumInputLength: 0,
         allowClear: true,
         debug: true,
