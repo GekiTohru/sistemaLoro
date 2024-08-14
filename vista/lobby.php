@@ -39,6 +39,9 @@ $tlf = $result['num_registros'];
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../../package/dist/sweetalert2.all.js"></script>
+    <script src="../../package/dist/sweetalert2.all.min.js"></script>
     <link href="../css/buttons.css" rel="stylesheet">
     <link href="../css/styles2.css" rel="stylesheet">
     
@@ -80,6 +83,18 @@ $tlf = $result['num_registros'];
       <li class="nav-item">
       <a class="nav-link text-white" href="documentacion/doc.html">Documentación</a>
       </li>
+      <?php if ($_SESSION['permisos'] == 1) {
+    echo '<li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Mantenimiento
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <form id="respaldo">
+    <button type="submit" class="dropdown-item">Respaldar BD</button>
+</form>   
+          </div>
+        </li>';
+} ?>
       <li class="nav-item">
         <a class="nav-link text-white" href="../controlador/cerrarSesion.php">Salir</a>
       </li>
@@ -106,5 +121,50 @@ $tlf = $result['num_registros'];
     <!-- </div> -->
     </div>
   </div>
+  
+  <script>
+    $(document).ready(function() {
+        $('#respaldo').submit(function(event) {
+            event.preventDefault();  // Previene el comportamiento por defecto del formulario
+
+            $.ajax({
+                type: 'POST',
+                url: '../controlador/respaldoBD.php',
+                dataType: 'json',
+                success: function(data) {
+                    if (data.success) {
+                        Swal.fire({
+                            title: 'Backup realizado con éxito',
+                            icon: 'success',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            allowOutsideClick: true,
+                            willClose: () => {
+                                window.location.href = 'lobby.php';
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Error al realizar el backup',
+                            text: data.message,
+                            icon: 'error',
+                            showConfirmButton: true,
+                            allowOutsideClick: true
+                        });
+                    }
+                },
+                error: function() {
+                    Swal.fire({
+                        title: 'Error en la solicitud',
+                        text: 'No se pudo comunicar con el servidor.',
+                        icon: 'error',
+                        showConfirmButton: true,
+                        allowOutsideClick: true
+                    });
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>

@@ -35,7 +35,7 @@ if (isset($_SESSION['user'])) {
     </script>
 </head>
 <body>
-    <form id="login" onsubmit="return login()">
+    <form id="login">
         <label for="user">Usuario:</label>
         <input type="text" id="user" name="user" required><br><br>
         <label for="clave">Contraseña:</label>
