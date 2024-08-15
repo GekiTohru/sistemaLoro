@@ -447,17 +447,17 @@ $result10 = $stmt10->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="inputs">
                 <label for="numero">Número telefónico</label>
-                <input type="text" name="numero" id="numero" placeholder="Ingrese el número" value="" pattern="[0-9]{4}-[0-9]{7}" title="Formato incorrecto. Debe ser xxxx-xxxxxxx">
+                <input type="text" name="numero" id="numero" placeholder="Ingrese el número" value="" pattern="[0-9]{4}-[0-9]{7}">
                 <script>
-                const input = document.getElementById('numero');
+                const input4 = document.getElementById('numero');
 
-                input.addEventListener('input', () => {
-                    const valor = input.value;
-                    const regex = /^[0-9]{4}-[0-9]{7}$/;
-                    if (!regex.test(valor)) {
-                    input.setCustomValidity('Formato incorrecto. Debe ser xxxx-xxxxxxx');
+                input4.addEventListener('input', () => {
+                    const valor4 = input4.value;
+                    const regex4 = /^[0-9]{4}-[0-9]{7}$/;
+                    if (!regex4.test(valor4)) {
+                    input4.setCustomValidity('Formato incorrecto. Debe ser xxxx-xxxxxxx');
                     } else {
-                    input.setCustomValidity('');
+                    input4.setCustomValidity('');
                     }
                 });
                 </script>
@@ -496,19 +496,59 @@ $result10 = $stmt10->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="inputs">
                 <label for="precio">Precio</label>
-                <input type="text" name="precio" id="precio" placeholder="Ingrese el precio" value="">
+                <input type="text" name="precio" id="precio" placeholder="Ingrese el precio" value="" pattern="[0-9\.]+">
+                <script>
+                const input1 = document.getElementById('precio');
+
+                input1.addEventListener('input', () => {
+                  const valor1 = input1.value;
+                  const regex1 = /^[0-9\.]+$/;
+                  if (!regex1.test(valor1)) {
+                    input1.setCustomValidity('Solo se permiten números y puntos (.)');
+                  } else {
+                    input1.setCustomValidity('');
+                  }
+                });
+                </script>
+                
                 </div>
                 <div class="inputs" style="width: 600px">
                 <label for="almacenamiento-num" style="width: 200px">Almacenamiento ocupado</label>
-<input type="text" id="almacenamiento-num" style="width: 130px; margin-right: -3px" placeholder="Almacenamiento">
+<input type="text" id="almacenamiento-num" style="width: 130px; margin-right: -3px" placeholder="Almacenamiento" pattern="[0-9\.]+">
+                <script>
+                const input2 = document.getElementById('almacenamiento-num');
+
+                input2.addEventListener('input', () => {
+                  const valor2 = input2.value;
+                  const regex2 = /^[0-9\.]+$/;
+                  if (!regex2.test(valor2)) {
+                    input2.setCustomValidity('Solo se permiten números y puntos (.)');
+                  } else {
+                    input2.setCustomValidity('');
+                  }
+                });
+                </script>
 <select id="unidad" style="width: 80px">
   <option value="GB">GB</option>
   <option value="MB">MB</option>
 </select>
 </div>
 <div class="inputs" style="width: 600px">
-                <label for="consumo" style="width: 200px">Consumo de datos</label>
-<input type="text" id="consumo" style="width: 130px; margin-right: -3px" placeholder="Consumo">
+<label for="consumo" style="width: 200px">Consumo de datos</label>
+<input type="text" id="consumo" style="width: 130px; margin-right: -3px" placeholder="Consumo" pattern="[0-9\.]+">
+                <script>
+                const input3 = document.getElementById('consumo');
+
+                input3.addEventListener('input', () => {
+                  const valor3 = input3.value;
+                  const regex3 = /^[0-9\.]+$/;
+                  if (!regex3.test(valor3)) {
+                    input3.setCustomValidity('Solo se permiten números y puntos (.)');
+                  } else {
+                    input3.setCustomValidity('');
+                  }
+                });
+                </script>
 <select id="unidad1" style="width: 80px">
   <option value="GB">GB</option>
   <option value="MB">MB</option>

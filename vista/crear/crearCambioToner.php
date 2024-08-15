@@ -124,6 +124,13 @@ $row0 = $result2[0];
                 <label for="costo">Costo tóner</label>
                 <input type="text" name="costo" id="costo" placeholder="Ingrese el costo" value="">
                 </div>
+                <div class="inputs">
+                <label for="tipo_cambio" style="width: 200px">Tipo de cambio realizado</label>
+                <select name="tipo_cambio" id="tipo_cambio">
+                <option value="Recarga">Recarga</option>
+                <option value="Nuevo tóner">Nuevo tóner</option>
+                </select>
+                </div>
             </div>
             </div>
 

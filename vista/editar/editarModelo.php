@@ -150,14 +150,40 @@ list($numero_ram, $unidad_ram) = separarNumeroYUnidad($row0['ram']);
                 </div>
                 <div class="inputs" style="width: 600px">
     <label for="ram-num" style="width: 200px">RAM</label>
-    <input type="text" id="ram-num" style="width: 130px; margin-right: -3px" placeholder="RAM" value="<?= $numero_ram?>" required>
+    <input type="text" id="ram-num" style="width: 130px; margin-right: -3px" placeholder="RAM" value="<?= $numero_ram?>" required pattern="[0-9\.]+">
+                <script>
+                const input2 = document.getElementById('ram-num');
+
+                input2.addEventListener('input', () => {
+                  const valor2 = input2.value;
+                  const regex2 = /^[0-9\.]+$/;
+                  if (!regex2.test(valor2)) {
+                    input2.setCustomValidity('Solo se permiten números y puntos (.)');
+                  } else {
+                    input2.setCustomValidity('');
+                  }
+                });
+                </script>
     <select id="unidad" style="width: 80px">
     <option value="GB" <?= $unidad_ram == 'GB' ? 'selected' : '' ?>>GB</option>
     </select>
 </div>
 <div class="inputs" style="width: 600px">
     <label for="rom-num" style="width: 200px">ROM</label>
-    <input type="text" id="rom-num" style="width: 130px; margin-right: -3px" placeholder="ROM" value="<?= $numero_rom?>" required>
+    <input type="text" id="rom-num" style="width: 130px; margin-right: -3px" placeholder="ROM" value="<?= $numero_rom?>" required pattern="[0-9\.]+">
+                <script>
+                const input1 = document.getElementById('rom-num');
+
+                input1.addEventListener('input', () => {
+                  const valor1 = input1.value;
+                  const regex1 = /^[0-9\.]+$/;
+                  if (!regex1.test(valor1)) {
+                    input1.setCustomValidity('Solo se permiten números y puntos (.)');
+                  } else {
+                    input1.setCustomValidity('');
+                  }
+                });
+                </script>
     <select id="unidad1" style="width: 80px">
     <option value="GB" <?= $unidad_rom == 'GB' ? 'selected' : '' ?>>GB</option>
     <option value="TB" <?= $unidad_rom == 'TB' ? 'selected' : '' ?>>TB</option>
@@ -174,7 +200,7 @@ list($numero_ram, $unidad_ram) = separarNumeroYUnidad($row0['ram']);
   const updateRamHidden = () => {
     const valor = ramNum.value;
     const unidad = unidadSelect.value;
-    const ramCompleto = `${valor} ${unidad}`;
+    const ramCompleto = `${valor}${unidad}`;
     ramHidden.value = ramCompleto;
   };
 
@@ -190,7 +216,7 @@ list($numero_ram, $unidad_ram) = separarNumeroYUnidad($row0['ram']);
   const updateRomHidden = () => {
     const valor1 = romNum.value;
     const unidad1 = unidad1Select.value;
-    const romCompleto = `${valor1} ${unidad1}`;
+    const romCompleto = `${valor1}${unidad1}`;
     romHidden.value = romCompleto;
   };
 

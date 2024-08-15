@@ -507,19 +507,19 @@ $apps = explode(',', $row0['app_conf']);
                 </div>
                 <div class="inputs">
                 <label for="numero">Número telefónico</label>
-                <input type="text" name="numero" id="numero" placeholder="Ingrese el número" value="<?= $row0['numero']?>" pattern="[0-9]{4}-[0-9]{7}|N/A" title="Formato incorrecto. Debe ser xxxx-xxxxxxx o N/A">
+                <input type="text" name="numero" id="numero" placeholder="Ingrese el número" value="<?= $row0['numero']?>" pattern="[0-9]{4}-[0-9]{7}|N/A">
                 <script>
-                const input = document.getElementById('numero');
+                const input4 = document.getElementById('numero');
 
-                input.addEventListener('input', () => {
-                  const valor = input.value;
-                  const regex = /^[0-9]{4}-[0-9]{7}$/;
-                  if (valor === 'N/A') {
-                    input.setCustomValidity('');
-                  } else if (!regex.test(valor)) {
-                    input.setCustomValidity('Formato incorrecto. Debe ser xxxx-xxxxxxx o N/A');
+                input4.addEventListener('input', () => {
+                  const valor4 = input4.value;
+                  const regex4 = /^[0-9]{4}-[0-9]{7}$/;
+                  if (valor4 === 'N/A') {
+                    input4.setCustomValidity('');
+                  } else if (!regex4.test(valor4)) {
+                    input4.setCustomValidity('Formato incorrecto. Debe ser xxxx-xxxxxxx o N/A');
                   } else {
-                    input.setCustomValidity('');
+                    input4.setCustomValidity('');
                   }
                   });
                 </script>
@@ -558,11 +558,39 @@ $apps = explode(',', $row0['app_conf']);
                 </div>
                 <div class="inputs">
                 <label for="precio">Precio</label>
-                <input type="text" name="precio" id="precio" placeholder="Ingrese el precio" value="<?= $row0['precio']?>">
+                <input type="text" name="precio" id="precio" placeholder="Ingrese el precio" value="<?= $row0['precio']?>" pattern="(N/A|[0-9\.]+)">
+                <script>
+                const input1 = document.getElementById('precio');
+
+                input1.addEventListener('input', () => {
+                  const valor1 = input1.value;
+                  const regex1 = /^[0-9\.]+$/;
+                  if (valor1 === 'N/A') {
+                    input1.setCustomValidity('');
+                  } else if (!regex1.test(valor1)) {
+                    input1.setCustomValidity('Solo se permiten números y puntos (.) o N/A');
+                  } else {
+                    input1.setCustomValidity('');
+                  }
+                });
+                </script>
                 </div>
                 <div class="inputs" style="width: 600px">
     <label for="almacenamiento-num" style="width: 200px">Almacenamiento ocupado</label>
-    <input type="text" id="almacenamiento-num" style="width: 130px; margin-right: -3px" placeholder="Almacenamiento" required value="<?= $numero_almacenamiento ?>">
+    <input type="text" id="almacenamiento-num" style="width: 130px; margin-right: -3px" placeholder="Almacenamiento" required value="<?= $numero_almacenamiento ?>" pattern="[0-9\.]+">
+                <script>
+                const input2 = document.getElementById('almacenamiento-num');
+
+                input2.addEventListener('input', () => {
+                  const valor2 = input2.value;
+                  const regex2 = /^[0-9\.]+$/;
+                  if (!regex2.test(valor2)) {
+                    input2.setCustomValidity('Solo se permiten números y puntos (.)');
+                  } else {
+                    input2.setCustomValidity('');
+                  }
+                });
+                </script>
     <select id="unidad" style="width: 80px">
         <option value="GB" <?= $unidad_almacenamiento == 'GB' ? 'selected' : '' ?>>GB</option>
         <option value="MB" <?= $unidad_almacenamiento == 'MB' ? 'selected' : '' ?>>MB</option>
@@ -570,7 +598,20 @@ $apps = explode(',', $row0['app_conf']);
 </div>
 <div class="inputs" style="width: 600px">
     <label for="consumo" style="width: 200px">Consumo de datos</label>
-    <input type="text" id="consumo" style="width: 130px; margin-right: -3px" placeholder="Consumo" required value="<?= $numero_consumo ?>">
+    <input type="text" id="consumo" style="width: 130px; margin-right: -3px" placeholder="Consumo" required value="<?= $numero_consumo ?>" pattern="[0-9\.]+">
+                <script>
+                const input3 = document.getElementById('consumo');
+
+                input3.addEventListener('input', () => {
+                  const valor3 = input3.value;
+                  const regex3 = /^[0-9\.]+$/;
+                  if (!regex3.test(valor3)) {
+                    input3.setCustomValidity('Solo se permiten números y puntos (.)');
+                  } else {
+                    input3.setCustomValidity('');
+                  }
+                });
+                </script>
     <select id="unidad1" style="width: 80px">
         <option value="GB" <?= $unidad_consumo == 'GB' ? 'selected' : '' ?>>GB</option>
         <option value="MB" <?= $unidad_consumo == 'MB' ? 'selected' : '' ?>>MB</option>

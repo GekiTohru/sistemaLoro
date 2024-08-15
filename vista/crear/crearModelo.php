@@ -109,14 +109,40 @@ $result2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="inputs" style="width: 600px">
     <label for="ram-num" style="width: 200px">RAM</label>
-    <input type="text" id="ram-num" style="width: 130px; margin-right: -3px" placeholder="RAM" required>
+    <input type="text" id="ram-num" style="width: 130px; margin-right: -3px" placeholder="RAM" required pattern="[0-9\.]+">
+                <script>
+                const input = document.getElementById('ram-num');
+
+                input.addEventListener('input', () => {
+                  const valor = input.value;
+                  const regex = /^[0-9\.]+$/;
+                  if (!regex.test(valor)) {
+                    input.setCustomValidity('Solo se permiten números y puntos (.)');
+                  } else {
+                    input.setCustomValidity('');
+                  }
+                });
+                </script>
     <select id="unidad" style="width: 80px">
         <option value="GB">GB</option>
     </select>
 </div>
 <div class="inputs" style="width: 600px">
     <label for="rom-num" style="width: 200px">ROM</label>
-    <input type="text" id="rom-num" style="width: 130px; margin-right: -3px" placeholder="ROM" required>
+    <input type="text" id="rom-num" style="width: 130px; margin-right: -3px" placeholder="ROM" required pattern="[0-9\.]+">
+                <script>
+                const input1 = document.getElementById('rom-num');
+
+                input1.addEventListener('input', () => {
+                  const valor1 = input1.value;
+                  const regex1 = /^[0-9\.]+$/;
+                  if (!regex1.test(valor1)) {
+                    input1.setCustomValidity('Solo se permiten números y puntos (.)');
+                  } else {
+                    input1.setCustomValidity('');
+                  }
+                });
+                </script>
     <select id="unidad1" style="width: 80px">
         <option value="GB">GB</option>
         <option value="TB">TB</option>

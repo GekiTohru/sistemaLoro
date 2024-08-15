@@ -46,11 +46,13 @@
       <p>Adicionalmente, se puede apreciar en la zona superior de la pantalla la barra de navegación incluída en todas las pantallas. Esta facilita el movimiento a través de las mismas.</p>
       <img src="../../img/documentacion/sistema3.png" alt="lobby2">
       <ul>
-        <li><p>Salir: Cierra la sesión</p></li>
         <li><p>Inicio: Redirige al lobby</p></li>
         <li><p>Añadir: Redirige al <a href="#lobbyCrear">lobby para crear</a> nuevos elementos</p></li>
         <li><p>Ver y editar: Redirige al <a href="#lobbyVer">lobby para gestionar</a> los elementos existentes</p></li>
         <li><p>Gestionar: Este muestra una pequeña lista desplegable que sirve como acceso directo para gestionar los teléfonos, computadoras, impresoras y usuarios</p></li>
+        <li><p>Documentación: Redirige a la documentación</p></li>
+        <li><p>Mantenimiento (Solo disponible en el lobby): Muestra una lista desplegable con la opción de "Respaldar BD" para crear un respaldo o backup de la base de datos.</p></li>
+        <li><p>Salir: Cierra la sesión</p></li>
       </ul>
       <h2 id="lobbyCrear">Lobby de creación</h2>
       <p>Este lobby permite acceder a los distintos módulos para crear cada uno de los elementos existentes en el sistema (teléfonos, computadoras, personal, cargos, etc...).</p>
@@ -62,33 +64,34 @@
       <p>Este es uno de los módulos principales. Muestra la información relevante de cada uno de los teléfonos corporativos registrados en la base de datos</p>
       <img src="../../img/documentacion/sistema6.png" alt="tlf1">
       <ul>
-        <li><p>Requisición de accesorios: Muestra un reporte PDF sobre todos los accesorios que se encuentran en mal estado para solicitar la reparación o reposición de los mismos.</p></li>
-        <li><p>Show (5) entries: Es un botón desplegable que permite mostrar 5, 10, 25 o todos los registros a la vez.</p></li>
-        <li><p>Search: Es una barra de búsqueda para filtrar los elementos por nombre. No es sensible a mayúsculas, sí es sensible a tildes y permite filtrar con información de cualquiera de los campos.</p></li>
+        <li><p>Mostrar (10) entradas: Es un botón desplegable que permite mostrar 10, 25 o todos los registros a la vez.</p></li>
+        <li><p>Buscar: Es una barra de búsqueda para filtrar los elementos por nombre. No es sensible a mayúsculas, sí es sensible a tildes y permite filtrar con información de cualquiera de los campos.</p></li>
         <li><p>Título de columnas: Los títulos de las columnas (ID, Marca, Cargo, etc...) permiten ordenar de forma alfabética las columnas al hacer click sobre ellos.</p></li>
-        <li><p>Finalmente, los botones "Previous", "Next" y los números permiten desplazarse a través de las páginas según la cantidad de elementos que hayan en la tabla</p></li>
+        <li><p>Finalmente, los botones "Anterior", "Siguiente" y los números permiten desplazarse a través de las páginas según la cantidad de elementos que hayan en la tabla</p></li>
       </ul>
       <p>Adicionalmente, están estos íconos que permiten hacer las siguientes acciones:</p>
       <img src="../../img/documentacion/sistema7.png" alt="tlf2">
       <ul>
-        <li><p>Lápiz: Sirve para editar la información teléfono.</p></li>
+        <li><p>Portapapeles: Sirve para editar la información teléfono.</p></li>
         <li><p>Basura: Sirve para eliminar (deshabilitar) el teléfono. (Solo visible para usuarios con permisos administrativos)</p></li>
         <li><p>Ojo: Genera el reporte PDF de auditoría para cuando se le realiza una revisión.</p></li>
+        <li><p>Wifi: Redirige a otra pantalla en la que se muestra un registro de revisiones realizadas a ese equipo específico.</p></li>
+        <img src="../../img/documentacion/sistema7_1.png" alt="tlf2_1">
         <li><p>Impresora: Genera la constancia de entrega en caso de asignarle el teléfono a un nuevo usuario.</p></li>
       </ul>
       <h2 id="pc">Módulo de computadoras</h2>
       <p>Otro de los módulos principales. Muestra la información relevante de cada una de las computadoras corporativas registradas en la base de datos</p>
       <img src="../../img/documentacion/sistema8.png" alt="pc1">
       <ul>
-        <li><p>Show (5) entries: Es un botón desplegable que permite mostrar 5, 10, 25 o todos los registros a la vez.</p></li>
-        <li><p>Search: Es una barra de búsqueda para filtrar los elementos por nombre. No es sensible a mayúsculas, sí es sensible a tildes y permite filtrar con información de cualquiera de los campos.</p></li>
+        <li><p>Mostrar (10) entradas: Es un botón desplegable que permite mostrar 10, 25 o todos los registros a la vez.</p></li>
+        <li><p>Buscar: Es una barra de búsqueda para filtrar los elementos por nombre. No es sensible a mayúsculas, sí es sensible a tildes y permite filtrar con información de cualquiera de los campos.</p></li>
         <li><p>Título de columnas: Los títulos de las columnas (ID, Fabricante, Tipo, etc...) permiten ordenar de forma alfabética las columnas al hacer click sobre ellos.</p></li>
-        <li><p>Finalmente, los botones "Previous", "Next" y los números permiten desplazarse a través de las páginas según la cantidad de elementos que hayan en la tabla</p></li>
+        <li><p>Finalmente, los botones "Anterior", "Siguiente" y los números permiten desplazarse a través de las páginas según la cantidad de elementos que hayan en la tabla</p></li>
       </ul>
       <p>Hacer click en el símbolo de "+" al lado de la id despliega el resto de columnas que no caben en la pantalla, entre ellas se encuentran las acciones:</p>
       <img src="../../img/documentacion/sistema9.png" alt="pc2">
       <ul>
-        <li><p>Lápiz: Sirve para editar la información del equipo.</p></li>
+        <li><p>Portapapeles: Sirve para editar la información del equipo.</p></li>
         <li><p>Basura: Sirve para eliminar (deshabilitar) el equipo. (Solo visible para usuarios con permisos administrativos)</p></li>
         <li><p>Ojo: Genera el reporte PDF de auditoría para cuando se le realiza una revisión.</p></li>
         <li><p>Monitor: Genera una ficha técnica con los principales componentes del equipo, junto a su área y el cargo al que está asignado. Esta ficha se imprime y se pega en el equipo cuando se le realiza un mantenimiento.</p></li>
@@ -98,15 +101,15 @@
       <p>El último de los módulos principales. Muestra la información relevante de cada una de las impresoras registradas en la base de datos</p>
       <img src="../../img/documentacion/sistema10.png" alt="imp1">
       <ul>
-        <li><p>Show (5) entries: Es un botón desplegable que permite mostrar 5, 10, 25 o todos los registros a la vez.</p></li>
-        <li><p>Search: Es una barra de búsqueda para filtrar los elementos por nombre. No es sensible a mayúsculas, sí es sensible a tildes y permite filtrar con información de cualquiera de los campos.</p></li>
+        <li><p>Mostrar (10) entradas: Es un botón desplegable que permite mostrar 10, 25 o todos los registros a la vez.</p></li>
+        <li><p>Buscar: Es una barra de búsqueda para filtrar los elementos por nombre. No es sensible a mayúsculas, sí es sensible a tildes y permite filtrar con información de cualquiera de los campos.</p></li>
         <li><p>Título de columnas: Los títulos de las columnas (ID, Fabricante, Modelo, etc...) permiten ordenar de forma alfabética las columnas al hacer click sobre ellos.</p></li>
-        <li><p>Finalmente, los botones "Previous", "Next" y los números permiten desplazarse a través de las páginas según la cantidad de elementos que hayan en la tabla</p></li>
+        <li><p>Finalmente, los botones "Anterior", "Siguiente" y los números permiten desplazarse a través de las páginas según la cantidad de elementos que hayan en la tabla</p></li>
       </ul>
       <p>Adicionalmente, están estos íconos que permiten hacer las siguientes acciones:</p>
       <img src="../../img/documentacion/sistema11.png" alt="imp2">
       <ul>
-        <li><p>Lápiz: Sirve para editar la información de la impresora.</p></li>
+        <li><p>Portapapeles: Sirve para editar la información de la impresora.</p></li>
         <li><p>Llave inglesa: Sirve para registrar la información importante cuando se le realiza un mantenimiento a la impresora.</p></li>
         <li><p>Impresora: Genera un reporte PDF con todos los mantenimientos realizados a la impresora.</p></li>
         <li><p>Gotas: Sirve para registrar la información importante cuando se le realiza un cambio de tóner. (Solo visible para impresoras que usan tóner)</p></li>
@@ -118,15 +121,15 @@
       <img src="../../img/documentacion/sistema12.png" alt="general1">
       <img src="../../img/documentacion/sistema13.png" alt="general2">
       <ul>
-        <li><p>Show (5) entries: Es un botón desplegable que permite mostrar 5, 10, 25 o todos los registros a la vez.</p></li>
-        <li><p>Search: Es una barra de búsqueda para filtrar los elementos por nombre. No es sensible a mayúsculas, sí es sensible a tildes y permite filtrar con información de cualquiera de los campos.</p></li>
+        <li><p>Mostrar (10) entradas: Es un botón desplegable que permite mostrar 10, 25 o todos los registros a la vez.</p></li>
+        <li><p>Buscar: Es una barra de búsqueda para filtrar los elementos por nombre. No es sensible a mayúsculas, sí es sensible a tildes y permite filtrar con información de cualquiera de los campos.</p></li>
         <li><p>Título de columnas: Los títulos de las columnas (ID, Nombre, etc...) permiten ordenar de forma alfabética las columnas al hacer click sobre ellos.</p></li>
-        <li><p>Finalmente, los botones "Previous", "Next" y los números permiten desplazarse a través de las páginas según la cantidad de elementos que hayan en la tabla</p></li>
+        <li><p>Finalmente, los botones "Anterior", "Siguiente" y los números permiten desplazarse a través de las páginas según la cantidad de elementos que hayan en la tabla</p></li>
       </ul>
       <p>Adicionalmente, están estos íconos que permiten hacer las siguientes acciones:</p>
       <img src="../../img/documentacion/sistema14.png" alt="general3">
       <ul>
-        <li><p>Lápiz: Sirve para editar la información de un elemento.</p></li>
+        <li><p>Portapapeles: Sirve para editar la información de un elemento.</p></li>
         <li><p>Basura: Sirve para eliminar (deshabilitar) un elemento. (Solo visible para usuarios con permisos administrativos)</p></li>
       </ul>
       <h2 id="extra">Módulos adicionales</h2>
@@ -134,18 +137,19 @@
       <img src="../../img/documentacion/sistema15.png" alt="adicionales">
       <ul>
         <li><p>Filtrar desde-hasta: Como su nombre indica, sirven para seleccionar una fecha inicial y una fecha final para posteriormente filtrar el reporte de mantenimientos en base a esas fechas.</p></li>
-        <li><p>Generar: Genera un reporte PDF en el que se muestran todos los mantenimientos realizados a las computadoras, en base a los filtros seleccionados anteriormente. Si no se selecciona ninguna fecha, se mostrarán todos. Si se selecciona únicamente una fecha, se filtrará desde esa fecha hasta hoy, o en su defecto, desde el principio hasta la fecha seleccionada.</p></li>
+        <li><p>Generar PDF: Genera un reporte PDF en el que se muestran todos los mantenimientos realizados a las computadoras, en base a los filtros seleccionados anteriormente. Si no se selecciona ninguna fecha, se mostrarán todos. Si se selecciona únicamente una fecha, se filtrará desde esa fecha hasta hoy, o en su defecto, desde el principio hasta la fecha seleccionada.</p></li>
       </ul>
       <h2 id="creacion">Módulos de creación</h2>
       <p>Cada tabla de la base de datos cuenta con su propio módulo de creación. Todos tienen similitudes entre sí, así que usaré el módulo de creación de teléfonos como ejemplo para explicarlos.</p>
       <p>En el primer segmento, se aprecian 3 tipos de entradas: fecha, selección única y selección múltiple.</p>
       <img src="../../img/documentacion/sistema16.png" alt="creacion1">
+      <img src="../../img/documentacion/sistema16_1.png" alt="creacion1_1">
       <ul>
       <li><p>Fechas: Estas pueden ser ingresadas manualmente o hacer click en el ícono del calendario para seleccionarlas.</p>
         <img src="../../img/documentacion/sistema17.png" alt="creacion2"></li>
       <li><p>Selección única: Muestran una lista de elementos existentes en la base de datos del tipo seleccionado. Cuemta con una barra de búsqueda para filtrar el nombre y facilitar la búsqueda. (Estos cámpos no pueden quedar vacíos)</p>
         <img src="../../img/documentacion/sistema18.png" alt="creacion3"></li>
-      <li><p>Selección múltiple: Permiten seleccionar más de un elemento según sea necesario (en este caso, accesorios y aplicaciones). Es obligatorio seleccionar al menos una opción. Adicionalmente, si en el apartado de aplicaciones y configuración básica se selecciona la opción "Otra" se abre un nuevo campo para ingresar las aplicaciones adicionales.</p>
+      <li><p>Selección múltiple: Permiten seleccionar más de un elemento según sea necesario (en este caso, accesorios y aplicaciones). Por defecto, se selecciona la casilla "Sin aplicaciones" y "Sin accesorios" en caso de no contar con estos, y si ninguna casilla es seleccionada, también se guardará como tal. Adicionalmente, si en el apartado de aplicaciones y configuración básica se selecciona la opción "Otra" se abre un nuevo campo para ingresar las aplicaciones adicionales.</p>
         <img src="../../img/documentacion/sistema19.png" alt="creacion4"></li>
       </ul>
       <p>En el segundo segmento, se aprecia solo un tipo de entrada de texto simple.</p>
@@ -162,7 +166,8 @@
         <li><p>Asignado adicional?: Si se selecciona esta casilla, permite añadir un usuario extra al teléfono en caso de estar asignado a más de una persona.</p></li>
       </ul>
       <img src="../../img/documentacion/sistema22.png" alt="edicion1">
-      <p>Este es el único segmento con cambios significativos, el resto se rigen por la misma lógica. Cabe recalcar que en este módulo, las entradas de "Almacenamiento ocupado", "Consumo de datos" y la casilla de la aplicación "WhatsApp" son obligatorias, además de que debe tener mínimo un accesorio seleccionado.</p>
+      <p>Este es el único segmento con cambios significativos, el resto se rigen por la misma lógica. Al final de la página, se encuentra el botón para actualizar junto a una casilla que dice "Se realizó una revisión?" la cuál está marcada por defecto y al seleccionarla, se guarda un registro del consumo de datos que tenía el usuario al momento de la revisión.</p>
+      <img src="../../img/documentacion/sistema22_1.png" alt="edicion1_1">
       <p>Continuando con el módulo de computadoras, solo vale la pena destacar el último segmento, en el que se puede visualizar una casilla de "Se realizó mantenimiento?" que como su nombre indica, debe ser seleccionada si se le realizó algún tipo de mantenimiento al equipo para guardar el registro.</p>
       <img src="../../img/documentacion/sistema23.png" alt="edicion2">
       <p>Por último, en el módulo de impresoras, se puede visualizar una casilla de "Tóner adicional?" bajo la selección de tóner, la cuál se rige bajo la misma lógica que la de los asignados en los teléfonos. Debe ser seleccionada si se le quiere añadir un tóner adicional.</p>

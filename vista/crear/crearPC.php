@@ -459,7 +459,20 @@ $row = $result3[0]; // equivalente a mysqli_fetch_array($query3)
 </div>
 <div class="inputs">
     <label for="costo">Costo</label>
-    <input type="text" name="costo" id="costo" placeholder="Ingrese el costo" value="">
+    <input type="text" name="costo" id="costo" placeholder="Ingrese el costo" value="" pattern="[0-9\.]+">
+                <script>
+                const input1 = document.getElementById('costo');
+
+                input1.addEventListener('input', () => {
+                  const valor1 = input1.value;
+                  const regex1 = /^[0-9\.]+$/;
+                  if (!regex1.test(valor1)) {
+                    input1.setCustomValidity('Solo se permiten números y puntos (.)');
+                  } else {
+                    input1.setCustomValidity('');
+                  }
+                });
+                </script>
 </div>
 <div class="inputs">
     <label for="clave_win">Clave de Windows</label>
@@ -504,7 +517,20 @@ $row = $result3[0]; // equivalente a mysqli_fetch_array($query3)
 </div>
                 <div class="inputs" style="width: 100%">
                 <label for="rom-num" style="width: 200px">Almacenamiento</label>
-<input type="text" id="rom-num" style="width: 130px; margin-right: -3px" placeholder="Almacenamiento">
+<input type="text" id="rom-num" style="width: 130px; margin-right: -3px" placeholder="Almacenamiento" pattern="[0-9\.]+">
+<script>
+                const input3 = document.getElementById('rom-num');
+
+                input3.addEventListener('input', () => {
+                  const valor3 = input3.value;
+                  const regex3 = /^[0-9\.]+$/;
+                  if (!regex3.test(valor3)) {
+                    input3.setCustomValidity('Solo se permiten números y puntos (.)');
+                  } else {
+                    input3.setCustomValidity('');
+                  }
+                });
+                </script>
 <select id="unidad" style="width: 80px">
   <option value="GB">GB</option>
   <option value="TB">TB</option>
@@ -512,7 +538,20 @@ $row = $result3[0]; // equivalente a mysqli_fetch_array($query3)
 </div>
 <div class="inputs" style="width: 100%">
 <label for="ram-num" style="width: 200px">RAM</label>
-    <input type="text" id="ram-num" style="width: 130px; margin-right: -3px" placeholder="RAM" required>
+    <input type="text" id="ram-num" style="width: 130px; margin-right: -3px" placeholder="RAM" pattern="[0-9\.]+">
+    <script>
+                const input2 = document.getElementById('ram-num');
+
+                input2.addEventListener('input', () => {
+                  const valor2 = input2.value;
+                  const regex2 = /^[0-9\.]+$/;
+                  if (!regex2.test(valor2)) {
+                    input2.setCustomValidity('Solo se permiten números y puntos (.)');
+                  } else {
+                    input2.setCustomValidity('');
+                  }
+                });
+                </script>
     <select id="unidad1" style="width: 80px">
         <option value="GB">GB</option>
 </select>

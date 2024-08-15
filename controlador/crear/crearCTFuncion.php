@@ -32,19 +32,22 @@ $fecha= check_empty($_POST['fecha']);
 $contador = check_empty($_POST['contador']);
 $costo = check_empty($_POST['costo']);
 $toner = check_empty($_POST['toner']);
+$cambio = check_empty($_POST['tipo_cambio']);
 
 $sql1 = "INSERT INTO cambio_toner(
     id_impresora,
     id_toner,
     fecha,
     contador,
-    costo
+    costo,
+    tipo_cambio
   ) VALUES (
     :id_impresora,
     :id_toner,
     :fecha,
     :contador,
-    :costo
+    :costo,
+    :cambio
   )";
   
   $stmt = $conexion->prepare($sql1);
@@ -54,6 +57,7 @@ $sql1 = "INSERT INTO cambio_toner(
   $stmt->bindParam(':fecha', $fecha);
   $stmt->bindParam(':contador', $contador);
   $stmt->bindParam(':costo', $costo);
+  $stmt->bindParam(':cambio', $cambio);
   
   
   if ($stmt->execute()) {

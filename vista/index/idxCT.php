@@ -21,7 +21,7 @@ $conexionObj = new Cconexion();
 // Llamar al método ConexionBD para obtener la conexión
 $conexion = $conexionObj->ConexionBD();
 
-$sql = "SELECT cambio_toner.id_cambiotoner AS id, cambio_toner.fecha AS fecha, cambio_toner.contador AS contador, cambio_toner.costo AS costo, toner.modelo AS toner, toner.color AS color, impresoras.modelo AS imp, fabricante.nombre AS marca 
+$sql = "SELECT cambio_toner.id_cambiotoner AS id, cambio_toner.fecha AS fecha, cambio_toner.tipo_cambio AS cambio, cambio_toner.contador AS contador, cambio_toner.costo AS costo, toner.modelo AS toner, toner.color AS color, impresoras.modelo AS imp, fabricante.nombre AS marca 
 FROM cambio_toner
 INNER JOIN toner ON cambio_toner.id_toner = toner.id_toner
 INNER JOIN impresoras ON cambio_toner.id_impresora = impresoras.id_impresora
@@ -109,6 +109,7 @@ $imp = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   echo '<td>'. $fila['toner'] .' '. $fila['color']. '</td>';
                   echo '<td>'. $fila['contador']. '</td>';
                   echo '<td>'. $fila['costo'].'$'. '</td>';
+                  echo '<td>'. $fila['cambio']. '</td>';
                   echo '<td>'. $fila['fecha']. '</td>';
                   echo '<td>';
                   if ($_SESSION['permisos'] == 1) {
@@ -149,6 +150,7 @@ $(document).ready(function() {
             { "title": "Tóner" },
             { "title": "Contador" },
             { "title": "Costo" },
+            { "title": "Tipo de cambio" },
             { "title": "Fecha" },
             { "title": "Acciones" }
         ]
